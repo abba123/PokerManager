@@ -18,6 +18,4 @@ func main() {
 	t.Card = append(t.Card, poker.Card{Num: 2,Suit: "c"})
 	t.Card = append(t.Card, poker.Card{Num: 2,Suit: "c"})
 
-	poker.GetRank(p,t)
-
 }
