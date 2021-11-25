@@ -1,0 +1,175 @@
+package poker
+
+import (
+	"testing"
+)
+
+func TestStraightFlush(t *testing.T) {
+
+	player := Player{}
+	table := Table{}
+
+	player.Card = []Card{{Num: 1, Suit: "c"}, {Num: 9, Suit: "s"}}
+	table.Card = []Card{{Num: 10, Suit: "c"}, {Num: 11, Suit: "c"}, {Num: 12, Suit: "c"}, {Num: 13, Suit: "c"}, {Num: 3, Suit: "c"}}
+
+	rank, _ := GetRank(player, table)
+
+	if rank == "Straight flush" {
+		t.Log("Straight flush PASS")
+	} else {
+		t.Error("Straight flush FAIL")
+	}
+}
+
+func TestFourKind(t *testing.T) {
+
+	player := Player{}
+	table := Table{}
+
+	player.Card = []Card{{Num: 1, Suit: "c"}, {Num: 1, Suit: "s"}}
+	table.Card = []Card{{Num: 1, Suit: "h"}, {Num: 1, Suit: "d"}, {Num: 12, Suit: "c"}, {Num: 13, Suit: "c"}, {Num: 3, Suit: "c"}}
+
+	rank, _ := GetRank(player, table)
+
+	if rank == "Four of a kind" {
+		t.Log("Four of a kind PASS")
+	} else {
+		t.Error("Four of a kind FAIL")
+	}
+}
+
+func TestFullHouse(t *testing.T) {
+
+	player := Player{}
+	table := Table{}
+
+	player.Card = []Card{{Num: 1, Suit: "c"}, {Num: 1, Suit: "s"}}
+	table.Card = []Card{{Num: 1, Suit: "h"}, {Num: 12, Suit: "d"}, {Num: 12, Suit: "c"}, {Num: 13, Suit: "c"}, {Num: 3, Suit: "c"}}
+
+	rank, _ := GetRank(player, table)
+
+	if rank == "Full house" {
+		t.Log("Full house PASS")
+	} else {
+		t.Error("Full house FAIL")
+	}
+}
+
+func TestFlush(t *testing.T) {
+
+	player := Player{}
+	table := Table{}
+
+	player.Card = []Card{{Num: 1, Suit: "c"}, {Num: 1, Suit: "s"}}
+	table.Card = []Card{{Num: 2, Suit: "c"}, {Num: 12, Suit: "d"}, {Num: 12, Suit: "c"}, {Num: 13, Suit: "c"}, {Num: 3, Suit: "c"}}
+
+	rank, _ := GetRank(player, table)
+
+	if rank == "Flush" {
+		t.Log("Flush PASS")
+	} else {
+		t.Error("Flush FAIL")
+	}
+}
+
+func TestStraight(t *testing.T) {
+
+	player := Player{}
+	table := Table{}
+
+	player.Card = []Card{{Num: 1, Suit: "c"}, {Num: 1, Suit: "s"}}
+	table.Card = []Card{{Num: 11, Suit: "c"}, {Num: 10, Suit: "d"}, {Num: 12, Suit: "c"}, {Num: 13, Suit: "d"}, {Num: 3, Suit: "c"}}
+
+	rank, _ := GetRank(player, table)
+
+	if rank == "Straight" {
+		t.Log("Straight PASS")
+	} else {
+		t.Error("Straight FAIL")
+	}
+}
+
+func TestThreeKind(t *testing.T) {
+
+	player := Player{}
+	table := Table{}
+
+	player.Card = []Card{{Num: 1, Suit: "c"}, {Num: 1, Suit: "s"}}
+	table.Card = []Card{{Num: 1, Suit: "d"}, {Num: 10, Suit: "d"}, {Num: 12, Suit: "c"}, {Num: 11, Suit: "d"}, {Num: 3, Suit: "c"}}
+
+	rank, _ := GetRank(player, table)
+
+	if rank == "Three of a kind" {
+		t.Log("Three of a kind PASS")
+	} else {
+		t.Error("Three of a kind FAIL")
+	}
+}
+
+func TestTwoPairs(t *testing.T) {
+
+	player := Player{}
+	table := Table{}
+
+	player.Card = []Card{{Num: 1, Suit: "c"}, {Num: 1, Suit: "s"}}
+	table.Card = []Card{{Num: 10, Suit: "s"}, {Num: 10, Suit: "d"}, {Num: 12, Suit: "c"}, {Num: 11, Suit: "d"}, {Num: 3, Suit: "c"}}
+
+	rank, _ := GetRank(player, table)
+
+	if rank == "Two pairs" {
+		t.Log("Two pairs PASS")
+	} else {
+		t.Error("Two pairs FAIL")
+	}
+}
+
+func TestPair(t *testing.T) {
+
+	player := Player{}
+	table := Table{}
+
+	player.Card = []Card{{Num: 5, Suit: "c"}, {Num: 1, Suit: "s"}}
+	table.Card = []Card{{Num: 10, Suit: "s"}, {Num: 10, Suit: "d"}, {Num: 12, Suit: "c"}, {Num: 11, Suit: "d"}, {Num: 3, Suit: "c"}}
+
+	rank, _ := GetRank(player, table)
+
+	if rank == "Pair" {
+		t.Log("Pair PASS")
+	} else {
+		t.Error("Pair FAIL")
+	}
+}
+
+func TestHighCard1(t *testing.T) {
+
+	player := Player{}
+	table := Table{}
+
+	player.Card = []Card{{Num: 5, Suit: "c"}, {Num: 1, Suit: "s"}}
+	table.Card = []Card{{Num: 10, Suit: "s"}, {Num: 4, Suit: "d"}, {Num: 12, Suit: "c"}, {Num: 11, Suit: "d"}, {Num: 3, Suit: "c"}}
+
+	rank, _ := GetRank(player, table)
+
+	if rank == "High card" {
+		t.Log("High card PASS")
+	} else {
+		t.Error("High card FAIL")
+	}
+}
+
+func TestHighCard2(t *testing.T) {
+
+	player := Player{}
+	table := Table{}
+
+	player.Card = []Card{{Num: 1, Suit: "c"}, {Num: 5, Suit: "s"}}
+	table.Card = []Card{{Num: 10, Suit: "s"}, {Num: 4, Suit: "d"}, {Num: 12, Suit: "c"}, {Num: 11, Suit: "d"}, {Num: 3, Suit: "c"}}
+
+	rank, _ := GetRank(player, table)
+
+	if rank == "High card" {
+		t.Log("High card PASS")
+	} else {
+		t.Error("High card FAIL")
+	}
+}
