@@ -1,7 +1,7 @@
 package main
 
 import (
-	//"fmt"
+	"fmt"
 	"poker/poker"
 )
 
@@ -9,13 +9,15 @@ func main() {
 	p := poker.Player{}
 	t := poker.Table{}
 
-	p.Card = append(p.Card, poker.Card{Num: 1,Suit: "s"})
-	p.Card = append(p.Card, poker.Card{Num: 2,Suit: "h"})
+	p.Card = append(p.Card, poker.Card{Num: 1, Suit: "c"})
+	p.Card = append(p.Card, poker.Card{Num: 9, Suit: "s"})
 
-	t.Card = append(t.Card, poker.Card{Num: 2,Suit: "s"})
-	t.Card = append(t.Card, poker.Card{Num: 2,Suit: "h"})
-	t.Card = append(t.Card, poker.Card{Num: 2,Suit: "d"})
-	t.Card = append(t.Card, poker.Card{Num: 2,Suit: "c"})
-	t.Card = append(t.Card, poker.Card{Num: 2,Suit: "c"})
+	t.Card = append(t.Card, poker.Card{Num: 10, Suit: "c"})
+	t.Card = append(t.Card, poker.Card{Num: 11, Suit: "c"})
+	t.Card = append(t.Card, poker.Card{Num: 12, Suit: "c"})
+	t.Card = append(t.Card, poker.Card{Num: 13, Suit: "c"})
+	t.Card = append(t.Card, poker.Card{Num: 3, Suit: "c"})
 
+	rank, _ := poker.GetRank(p, t)
+	fmt.Println(rank)
 }
