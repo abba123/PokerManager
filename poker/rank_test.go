@@ -128,8 +128,8 @@ func TestPair(t *testing.T) {
 	player := Player{}
 	table := Table{}
 
-	player.Card = []Card{{Num: 5, Suit: "c"}, {Num: 1, Suit: "s"}}
-	table.Card = []Card{{Num: 10, Suit: "s"}, {Num: 10, Suit: "d"}, {Num: 12, Suit: "c"}, {Num: 11, Suit: "d"}, {Num: 3, Suit: "c"}}
+	player.Card = []Card{{Num: 9, Suit: "c"}, {Num: 1, Suit: "s"}}
+	table.Card = []Card{{Num: 13, Suit: "c"}, {Num: 6, Suit: "s"}, {Num: 4, Suit: "c"}, {Num: 8, Suit: "s"}, {Num: 8, Suit: "c"}}
 
 	rank, _ := GetRank(player, table)
 

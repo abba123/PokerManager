@@ -7,14 +7,14 @@ import (
 
 /*
 {
-	Straight flush		8000
-	Four of a kind		7000
-	Full house			6000
-	Flush				5000
-	Straight			4000
-	Three of a kind		3000
-	Two pairs			2000
-	Pair				1000
+	Straight flush		80000
+	Four of a kind		70000
+	Full house			60000
+	Flush				50000
+	Straight			40000
+	Three of a kind		30000
+	Two pairs			20000
+	Pair				10000
 	High card			0
 }
 */
@@ -28,6 +28,7 @@ func GetRank(player Player, table Table) (string, int) {
 	var maxPairValue int
 	var secondPairCount int
 	var secondPairValue int
+	var thirdPairValue int
 	var suitCount int
 	var suitValue int
 	var straightSuitCount int
@@ -37,46 +38,44 @@ func GetRank(player Player, table Table) (string, int) {
 	card = append(card, table.Card...)
 	sort.Slice(card, func(i, j int) bool { return card[i].Num < card[j].Num })
 	straightCard := card
-	for _, c := range card {
+	for i, c := range card {
 		if c.Num == 1 {
-			c.Num = 14
+			card[i].Num = 14
 			straightCard = append(straightCard, Card{Num: 14, Suit: c.Suit})
 		}
 	}
 
-	fmt.Println(card)
-
 	suitCount, suitValue = getSuits(card)
-	maxPairValue, maxPairCount, secondPairValue, secondPairCount = getPair(card)
+	maxPairValue, maxPairCount, secondPairValue, secondPairCount, thirdPairValue, _ = getPair(card)
 	straight, straightValue = ifStraight(straightCard)
 	straightSuitCount, straightSuitValue = getSuits(straightValue)
 	if straight && straightSuitCount >= 5 {
 		return "Straight flush", 8000 + straightSuitValue
 	} else if suitCount >= 5 {
 
-		return "Flush", 5000 + suitValue*10
+		return "Flush", 50000 + suitValue*100
 	} else if straight {
 
-		return "Straight", 4000 + straightValue[len(straightValue)-1].Num
+		return "Straight", 40000 + straightValue[len(straightValue)-1].Num
 	} else {
 		if maxPairCount == 4 {
 
-			return "Four of a kind", 7000
+			return "Four of a kind", 70000
 		} else if maxPairCount == 3 {
 			if secondPairCount == 2 {
 
-				return "Full house", 6000 + maxPairValue*10 + secondPairValue
+				return "Full house", 60000 + maxPairValue*100 + secondPairValue
 			} else {
 
-				return "Three of a kind", 3000 + maxPairValue*10
+				return "Three of a kind", 30000 + maxPairValue*100 + secondPairValue
 			}
 		} else if maxPairCount == 2 {
 			if secondPairCount == 2 {
 
-				return "Two pairs", 2000 + maxPairValue*10 + secondPairValue
+				return "Two pairs", 20000 + maxPairValue*100+ secondPairValue*10 + thirdPairValue
 			} else {
 
-				return "Pair", 1000 + maxPairValue*10 + secondPairValue
+				return "Pair", 10000 + maxPairValue*100 + secondPairValue
 			}
 		}
 	}
@@ -93,16 +92,23 @@ func getSuits(card []Card) (int, int) {
 		suits[c.Suit] += 1
 		if maxSuitCount < suits[c.Suit] {
 			maxSuitCount = suits[c.Suit]
-			if maxValue < c.Num {
-				maxValue = c.Num
-			}
+		}
+	}
+	count := 0
+
+	fmt.Println(card)
+	for i:=len(card)-1; i>=0; i-- {
+		if maxSuitCount == suits[card[i].Suit] && count < maxSuitCount{
+			maxValue += card[i].Num
+			maxValue *= 10
+			count += 1
 		}
 	}
 
 	return maxSuitCount, maxValue
 }
 
-func getPair(card []Card) (int, int, int, int) {
+func getPair(card []Card) (int, int, int, int, int, int) {
 	nums := map[int]int{}
 
 	type pair struct {
@@ -121,7 +127,11 @@ func getPair(card []Card) (int, int, int, int) {
 	sort.SliceStable(pairs, func(i, j int) bool { return pairs[i].num > pairs[j].num })
 	sort.SliceStable(pairs, func(i, j int) bool { return pairs[i].count > pairs[j].count })
 
-	return pairs[0].num, pairs[0].count, pairs[1].num, pairs[1].count
+	if len(pairs) < 3{
+		return pairs[0].num, pairs[0].count, pairs[1].num, pairs[1].count, 0, 0
+	}else{
+		return pairs[0].num, pairs[0].count, pairs[1].num, pairs[1].count, pairs[2].num, pairs[2].count
+	}
 }
 
 func ifStraight(card []Card) (bool, []Card) {
@@ -160,8 +170,8 @@ func getHandRank(player Player) int {
 	card := player.Card
 
 	if card[0].Num > card[1].Num {
-		return card[0].Num*10 + card[1].Num
+		return card[0].Num*100 + card[1].Num
 	} else {
-		return card[1].Num*10 + card[0].Num
+		return card[1].Num*100 + card[0].Num
 	}
 }
