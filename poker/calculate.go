@@ -6,17 +6,17 @@ import (
 	"time"
 )
 
-func GetWinRate(p1 Player, p2 Player) float32 {
+func GetWinRate(p1 Player, p2 Player, times int) float32 {
 
 	win1 := 0
 	win2 := 0
 
-	for i := 0; i < 100; i++ {
+	for i := 0; i < times; i++ {
 		GetWin(p1, p2, &win1, &win2, i)
 	}
 	fmt.Println(win1)
 	fmt.Println(win2)
-	return float32(win1) / float32(100)
+	return float32(win1) / float32(times)
 }
 
 func GetWin(p1 Player, p2 Player, win1 *int, win2 *int, secNum int) {
@@ -29,7 +29,9 @@ func GetWin(p1 Player, p2 Player, win1 *int, win2 *int, secNum int) {
 
 	table := Table{}
 	for i := 0; i < 5; i++ {
-		table.Card = append(table.Card, generateCard(cardSet, secNum))
+		card := Card{}
+		card, cardSet = generateCard(cardSet, secNum+i) 
+		table.Card = append(table.Card, card)
 	}
 
 	rank1, value1 := GetRank(p1, table)
@@ -48,45 +50,37 @@ func GetWin(p1 Player, p2 Player, win1 *int, win2 *int, secNum int) {
 	}
 }
 
-func initCardSet() map[string][]int {
-	cardSet := make(map[string][]int)
+func initCardSet() []Card {
+	cardSet := make([]Card, 0)
 
-	cardSet["s"] = []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}
-	cardSet["h"] = []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}
-	cardSet["d"] = []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}
-	cardSet["c"] = []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}
+	for _, suit := range []string{"s", "h", "d", "c"} {
+		for _, num := range []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13} {
+			cardSet = append(cardSet, Card{Suit: suit, Num: num})
+		}
+	}
 
 	return cardSet
 }
 
-func removeCard(cardSet map[string][]int, card Card) {
-	for i, n := range cardSet[card.Suit] {
-		if n == card.Num {
-			cardSet[card.Suit] = append(cardSet[card.Suit][:i], cardSet[card.Suit][i+1:]...)
-			break
+func removeCard(cardSet []Card, card Card) []Card {
+	newCardSet := []Card{}
+	for _, c := range cardSet {
+		if c.Suit != card.Suit || c.Num != card.Num {
+			newCardSet = append(newCardSet, Card{Suit: c.Suit, Num: c.Num})
 		}
 	}
+	return newCardSet
 }
 
-func generateCard(cardSet map[string][]int, secNum int) Card {
+func generateCard(cardSet []Card, secNum int) (Card,[]Card) {
 	rand.Seed(time.Now().UnixNano() + int64(secNum))
-	index := rand.Intn(len(cardSet["s"]) + len(cardSet["h"]) + len(cardSet["d"]) + len(cardSet["c"]))
+	index := rand.Intn(len(cardSet))
+
 	card := Card{}
-	if index < len(cardSet["s"]) {
-		card.Suit = "s"
-		card.Num = cardSet["s"][index]
-	} else if index -= len(cardSet["s"]); index < len(cardSet["h"]) {
-		card.Suit = "h"
-		card.Num = cardSet["h"][index]
-	} else if index -= len(cardSet["h"]); index < len(cardSet["d"]) {
-		card.Suit = "d"
-		card.Num = cardSet["d"][index]
-	} else if index -= len(cardSet["d"]); index < len(cardSet["c"]) {
-		card.Suit = "c"
-		card.Num = cardSet["c"][index]
-	}
+	card.Num = (cardSet)[index].Num
+	card.Suit = (cardSet)[index].Suit
 
-	removeCard(cardSet, card)
+	cardSet = removeCard(cardSet, card)
 
-	return card
+	return card, cardSet
 }
