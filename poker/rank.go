@@ -37,7 +37,7 @@ func GetRank(player Player, table Table) (int, []Card) {
 		}
 	}
 
-	sort.Slice(card, func(i, j int) bool { return card[i].Num > card[j].Num })
+	sort.SliceStable(card, func(i, j int) bool { return card[i].Num > card[j].Num })
 
 	suitCard = getSuits(card)
 	maxPairCount, secondPairCount, pairValue = getPair(card)

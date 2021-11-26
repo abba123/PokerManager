@@ -3,29 +3,38 @@ package poker
 import (
 	"fmt"
 	"math/rand"
+	"sort"
 	"time"
 )
 
-func GetWinRate(p1 Player, p2 Player, times int) float32 {
+func GetWinRate(player []Player, times int) {
 
-	win1 := 0
-	win2 := 0
+	result := map[string]int{}
+	total := 0
 
 	for i := 0; i < times; i++ {
-		GetWin(p1, p2, &win1, &win2, i)
+		winner := GetWinner(player, i)
+		for _,w := range winner{
+			result[w.Name] += 1
+			total += 1
+		}
 	}
-	fmt.Println(win1)
-	fmt.Println(win2)
-	return float32(win1) / float32(times)
+
+	fmt.Println(result)
+
+	for i := range player {
+		fmt.Println(player[i].Name, float32(result[player[i].Name])/float32(total))
+	}
+
 }
 
-func GetWin(p1 Player, p2 Player, win1 *int, win2 *int, secNum int) {
+func GetWinner(player []Player, secNum int) []Player {
 	cardSet := initCardSet()
 
-	cardSet = removeCard(cardSet, p1.Card[0])
-	cardSet = removeCard(cardSet, p1.Card[1])
-	cardSet = removeCard(cardSet, p2.Card[0])
-	cardSet = removeCard(cardSet, p2.Card[1])
+	for _, p := range player {
+		cardSet = removeCard(cardSet, p.Card[0])
+		cardSet = removeCard(cardSet, p.Card[1])
+	}
 
 	table := Table{}
 	for i := 0; i < 5; i++ {
@@ -34,29 +43,29 @@ func GetWin(p1 Player, p2 Player, win1 *int, win2 *int, secNum int) {
 		table.Card = append(table.Card, card)
 	}
 
-	rank1, value1 := GetRank(p1, table)
-	rank2, value2 := GetRank(p2, table)
-/*
-	fmt.Println(table)
-	fmt.Println(p1.Card)
-	fmt.Println(p2.Card)
-	fmt.Println(rank1, value1)
-	fmt.Println(rank2, value2)
-*/
+	for i := range player {
+		player[i].Rank, player[i].RankValue = GetRank(player[i], table)
+	}
 
-	if rank1 > rank2{
-		*win1 += 1
-	}else if rank2 > rank1{
-		*win2 += 1
-	}else{
-		if !Same(value1, value2){
-			if Bigger(value1, value2){
-				*win1 += 1
-			}else{
-				*win2 += 1
-			}
+
+	sort.SliceStable(player, func(i, j int) bool {
+		return Bigger(player[i].RankValue, player[j].RankValue)
+	})
+
+	sort.SliceStable(player, func(i, j int) bool {
+		return player[i].Rank > player[j].Rank
+	})
+
+	for i:=1; i<len(player) ;i++{
+		if player[i].Rank == player[i-1].Rank && Same(player[i].RankValue, player[i-1].RankValue){
+			continue
+		}else{
+			player = player[:i]
+			break;
 		}
 	}
+
+	return player
 }
 
 func initCardSet() []Card {
