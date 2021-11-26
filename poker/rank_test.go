@@ -14,7 +14,7 @@ func TestStraightFlush(t *testing.T) {
 
 	rank, _ := GetRank(player, table)
 
-	if rank == "Straight flush" {
+	if rank == 8 {
 		t.Log("Straight flush PASS")
 	} else {
 		t.Error("Straight flush FAIL")
@@ -31,7 +31,7 @@ func TestFourKind(t *testing.T) {
 
 	rank, _ := GetRank(player, table)
 
-	if rank == "Four of a kind" {
+	if rank == 7 {
 		t.Log("Four of a kind PASS")
 	} else {
 		t.Error("Four of a kind FAIL")
@@ -48,7 +48,7 @@ func TestFullHouse(t *testing.T) {
 
 	rank, _ := GetRank(player, table)
 
-	if rank == "Full house" {
+	if rank == 6 {
 		t.Log("Full house PASS")
 	} else {
 		t.Error("Full house FAIL")
@@ -65,7 +65,7 @@ func TestFlush(t *testing.T) {
 
 	rank, _ := GetRank(player, table)
 
-	if rank == "Flush" {
+	if rank == 5 {
 		t.Log("Flush PASS")
 	} else {
 		t.Error("Flush FAIL")
@@ -77,15 +77,15 @@ func TestStraight(t *testing.T) {
 	player := Player{}
 	table := Table{}
 
-	player.Card = []Card{{Num: 1, Suit: "c"}, {Num: 1, Suit: "s"}}
+	player.Card = []Card{{Num: 1, Suit: "c"}, {Num: 9, Suit: "s"}}
 	table.Card = []Card{{Num: 11, Suit: "c"}, {Num: 10, Suit: "d"}, {Num: 12, Suit: "c"}, {Num: 13, Suit: "d"}, {Num: 3, Suit: "c"}}
 
 	rank, _ := GetRank(player, table)
 
-	if rank == "Straight" {
+	if rank == 4 {
 		t.Log("Straight PASS")
 	} else {
-		t.Error("Straight FAIL")
+		t.Error("Straight FAIL", rank)
 	}
 }
 
@@ -99,7 +99,7 @@ func TestThreeKind(t *testing.T) {
 
 	rank, _ := GetRank(player, table)
 
-	if rank == "Three of a kind" {
+	if rank == 3 {
 		t.Log("Three of a kind PASS")
 	} else {
 		t.Error("Three of a kind FAIL")
@@ -116,7 +116,7 @@ func TestTwoPairs(t *testing.T) {
 
 	rank, _ := GetRank(player, table)
 
-	if rank == "Two pairs" {
+	if rank == 2 {
 		t.Log("Two pairs PASS")
 	} else {
 		t.Error("Two pairs FAIL")
@@ -133,7 +133,7 @@ func TestPair(t *testing.T) {
 
 	rank, _ := GetRank(player, table)
 
-	if rank == "Pair" {
+	if rank == 1 {
 		t.Log("Pair PASS")
 	} else {
 		t.Error("Pair FAIL")
@@ -150,7 +150,7 @@ func TestHighCard1(t *testing.T) {
 
 	rank, _ := GetRank(player, table)
 
-	if rank == "High card" {
+	if rank == 0 {
 		t.Log("High card PASS")
 	} else {
 		t.Error("High card FAIL")
@@ -167,7 +167,7 @@ func TestHighCard2(t *testing.T) {
 
 	rank, _ := GetRank(player, table)
 
-	if rank == "High card" {
+	if rank == 0 {
 		t.Log("High card PASS")
 	} else {
 		t.Error("High card FAIL")

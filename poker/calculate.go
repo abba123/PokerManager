@@ -22,31 +22,40 @@ func GetWinRate(p1 Player, p2 Player, times int) float32 {
 func GetWin(p1 Player, p2 Player, win1 *int, win2 *int, secNum int) {
 	cardSet := initCardSet()
 
-	removeCard(cardSet, p1.Card[0])
-	removeCard(cardSet, p1.Card[1])
-	removeCard(cardSet, p2.Card[0])
-	removeCard(cardSet, p2.Card[1])
+	cardSet = removeCard(cardSet, p1.Card[0])
+	cardSet = removeCard(cardSet, p1.Card[1])
+	cardSet = removeCard(cardSet, p2.Card[0])
+	cardSet = removeCard(cardSet, p2.Card[1])
 
 	table := Table{}
 	for i := 0; i < 5; i++ {
 		card := Card{}
-		card, cardSet = generateCard(cardSet, secNum+i) 
+		card, cardSet = generateCard(cardSet, secNum+i)
 		table.Card = append(table.Card, card)
 	}
 
 	rank1, value1 := GetRank(p1, table)
 	rank2, value2 := GetRank(p2, table)
+/*
+	fmt.Println(table)
+	fmt.Println(p1.Card)
+	fmt.Println(p2.Card)
+	fmt.Println(rank1, value1)
+	fmt.Println(rank2, value2)
+*/
 
-	if value1 > value2 {
+	if rank1 > rank2{
 		*win1 += 1
-	} else if value2 > value1 {
+	}else if rank2 > rank1{
 		*win2 += 1
-	} else {
-		fmt.Println(table)
-		fmt.Println(p1.Card)
-		fmt.Println(p2.Card)
-		fmt.Println(rank1, value1)
-		fmt.Println(rank2, value2)
+	}else{
+		if !Same(value1, value2){
+			if Bigger(value1, value2){
+				*win1 += 1
+			}else{
+				*win2 += 1
+			}
+		}
 	}
 }
 
@@ -72,7 +81,7 @@ func removeCard(cardSet []Card, card Card) []Card {
 	return newCardSet
 }
 
-func generateCard(cardSet []Card, secNum int) (Card,[]Card) {
+func generateCard(cardSet []Card, secNum int) (Card, []Card) {
 	rand.Seed(time.Now().UnixNano() + int64(secNum))
 	index := rand.Intn(len(cardSet))
 
