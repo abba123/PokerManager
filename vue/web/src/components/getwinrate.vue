@@ -96,7 +96,7 @@
 import axios from "axios";
 
 export default {
-  name: 'HelloWorld',
+  name: 'getwinrate',
   data () {
     return {
       counter : 1,
@@ -147,7 +147,6 @@ export default {
   },
   methods:{
     getWinRate: function(){
-      console.log("123");
       axios
         .get('http://127.0.0.1', {
           params: {

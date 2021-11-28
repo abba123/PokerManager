@@ -10,6 +10,6 @@ func RunServer() {
 	router := gin.Default()
 	router.Use(cors.Default())
 	router.GET("/", get)
-
+	router.POST("/", post)
 	router.Run(":80")
 }
