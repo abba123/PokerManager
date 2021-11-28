@@ -1,15 +1,14 @@
 package poker
 
 import (
-	"fmt"
 	"math/rand"
 	"sort"
 	"time"
 )
 
-func GetWinRate(player []Player, times int) map[string]int{
+func GetWinRate(player []Player, times int) map[string]float32{
 
-	result := map[string]int{}
+	result := map[string]float32{}
 	total := 0
 
 	for i := 0; i < times; i++ {
@@ -20,8 +19,8 @@ func GetWinRate(player []Player, times int) map[string]int{
 		}
 	}
 
-	for i := range player {
-		fmt.Println(player[i].Name, float32(result[player[i].Name])/float32(total))
+	for k,v := range result{
+		result[k] = v/float32(total)
 	}
 
 	return result

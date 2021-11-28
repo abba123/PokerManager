@@ -1,12 +1,13 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <button>Calculate the winrate</button>
+      <button v-on:click="getWinRate">Calculate Win Rate</button>
       <table class="table">
         <thead>
           <th></th>
           <th colspan="2" >Card1</th>
           <th colspan="2" >Crad2</th>
+          <th colspan="2" >Winrate</th>
         </thead>
         <tr>
           <td rowspan="2">Player1</td>
@@ -37,6 +38,9 @@
                 {{ suit }}
               </option>
             </select>
+          </td>
+          <td id="result" colspan="2">
+            {{winRate1}}
           </td>
         </tr>
         <tr>
@@ -73,21 +77,29 @@
               </option>
             </select>
           </td>
+          <td id="result" colspan="2">
+            {{winRate2}}
+          </td>
         </tr>
         <tr>
           <td colspan="2"><img v-bind:src="player2Card1"></td>
           <td colspan="2"><img v-bind:src="player2Card2"></td>
         </tr>
       </table>
+      <td>{{result}}</td>
       
   </div>
 </template>
 
 <script>
+
+import axios from "axios";
+
 export default {
   name: 'HelloWorld',
   data () {
     return {
+      counter : 1,
       msg: 'Welcome to PokerManager',
       suits: ["s","h","d","c"],
       nums:["1","2","3","4","5","6","7","8","9","10","11","12","13"],
@@ -103,6 +115,8 @@ export default {
       player1Card2: "",
       player2Card1: "",
       player2Card2: "",
+      winRate1: 0,
+      winRate2: 0,
     }
   },
   watch:{
@@ -130,6 +144,30 @@ export default {
     player2Card2Suit: function(){
       this.player2Card2 = "../../static/images/"+this.player2Card2Num+this.player2Card2Suit+".png"
     }
+  },
+  methods:{
+    getWinRate: function(){
+      console.log("123");
+      axios
+        .get('http://127.0.0.1', {
+          params: {
+            name1: "player1",
+            name2: "player2",
+            p1Card1Num: this.player1Card1Num,
+            p1Card1Suit: this.player1Card1Suit,
+            p1Card2Num: this.player1Card2Num,
+            p1Card2Suit: this.player1Card2Suit,
+            p2Card1Num: this.player2Card1Num,
+            p2Card1Suit: this.player2Card1Suit,
+            p2Card2Num: this.player2Card2Num,
+            p2Card2Suit: this.player2Card2Suit,
+          }
+        })
+        .then( (response) => {
+          this.winRate1 = response.data.player1
+          this.winRate2 = response.data.player2
+        })
+    }
   }
 }
 </script>
@@ -142,7 +180,7 @@ h1{
 
 table{
     table-layout : fixed;
-    width: 300px;
+    width: 500px;
     margin:auto;
     margin-top: 30px;
 }
