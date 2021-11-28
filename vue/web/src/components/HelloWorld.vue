@@ -90,7 +90,7 @@ export default {
     return {
       msg: 'Welcome to PokerManager',
       suits: ["s","h","d","c"],
-      nums:["A","K","Q","J","T","9","8","7","6","5","4","3","2"],
+      nums:["1","2","3","4","5","6","7","8","9","10","11","12","13"],
       player1Card1Num:"",
       player1Card1Suit:"",
       player1Card2Num:"",

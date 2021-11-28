@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-func GetWinRate(player []Player, times int) {
+func GetWinRate(player []Player, times int) map[string]int{
 
 	result := map[string]int{}
 	total := 0
@@ -24,6 +24,7 @@ func GetWinRate(player []Player, times int) {
 		fmt.Println(player[i].Name, float32(result[player[i].Name])/float32(total))
 	}
 
+	return result
 }
 
 func GetWinner(player []Player, secNum int) []Player {
