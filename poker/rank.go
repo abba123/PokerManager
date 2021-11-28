@@ -124,7 +124,7 @@ func getPair(card []Card) (int,int,[]Card) {
 		for j := 0 ;j<pairs[i].count; j++{
 			result = append(result, Card{Num: pairs[i].num, Suit: "s"})
 			if len(result) == 5{
-				break
+				return pairs[0].count, pairs[1].count, result
 			}
 		}
 	}
@@ -175,6 +175,8 @@ func Bigger(card1 []Card, card2 []Card)bool{
 	for i:=0; i<5 ; i++ {
 		if card1[i].Num > card2[i].Num{
 			return true
+		}else if card1[i].Num < card2[i].Num{
+			return false
 		}
 	}
 	return false

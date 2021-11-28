@@ -17,10 +17,10 @@ func main() {
 	p2.Card = []poker.Card{{Num: 5, Suit: "c"}, {Num: 6, Suit: "s"}}
 	p3.Card = []poker.Card{{Num: 4, Suit: "c"}, {Num: 3, Suit: "c"}}
 
-	t.Player = append(t.Player, p2)
 	t.Player = append(t.Player, p1)
+	t.Player = append(t.Player, p2)
 	t.Player = append(t.Player, p3)
 
-	poker.GetWinRate(t.Player, 1000)
+	poker.GetWinRate(t.Player, 10000)
 
 }

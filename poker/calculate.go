@@ -20,8 +20,6 @@ func GetWinRate(player []Player, times int) {
 		}
 	}
 
-	fmt.Println(result)
-
 	for i := range player {
 		fmt.Println(player[i].Name, float32(result[player[i].Name])/float32(total))
 	}
@@ -55,17 +53,19 @@ func GetWinner(player []Player, secNum int) []Player {
 	sort.SliceStable(player, func(i, j int) bool {
 		return player[i].Rank > player[j].Rank
 	})
+	
+	newPlayer := []Player{}
 
 	for i:=1; i<len(player) ;i++{
 		if player[i].Rank == player[i-1].Rank && Same(player[i].RankValue, player[i-1].RankValue){
 			continue
 		}else{
-			player = player[:i]
+			newPlayer = player[:i]
 			break;
 		}
 	}
 
-	return player
+	return newPlayer
 }
 
 func initCardSet() []Card {
