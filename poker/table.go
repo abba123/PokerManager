@@ -1,6 +1,7 @@
 package poker
 
-type Table struct{
+type Table struct {
+	Time   string
 	Player []Player
-	Card []Card
+	Card   []Card
 }

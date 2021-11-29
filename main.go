@@ -2,9 +2,11 @@ package main
 
 import (
 	//"fmt"
-	"poker/apis"
+
+	"poker/poker"
 )
 
 func main() {
-	api.RunServer()
+	//api.RunServer()
+	poker.Parse()
 }
