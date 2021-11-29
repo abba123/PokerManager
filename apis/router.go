@@ -6,10 +6,11 @@ import (
 	//"poker/poker"
 )
 
-func RunServer() {
+func RunRestServer() {
 	router := gin.Default()
 	router.Use(cors.Default())
-	router.GET("/", get)
+	router.GET("/getwinrate/", getWinRate)
+	router.GET("/", getHand)
 	router.POST("/", post)
 	router.Run(":80")
 }

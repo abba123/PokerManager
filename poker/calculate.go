@@ -6,21 +6,21 @@ import (
 	"time"
 )
 
-func GetWinRate(player []Player, times int) map[string]float32{
+func GetWinRate(player []Player, times int) map[string]float32 {
 
 	result := map[string]float32{}
 	total := 0
 
 	for i := 0; i < times; i++ {
 		winner := GetWinner(player, i)
-		for _,w := range winner{
+		for _, w := range winner {
 			result[w.Name] += 1
 			total += 1
 		}
 	}
 
-	for k,v := range result{
-		result[k] = v/float32(total)
+	for k, v := range result {
+		result[k] = v / float32(total)
 	}
 
 	return result
@@ -45,7 +45,6 @@ func GetWinner(player []Player, secNum int) []Player {
 		player[i].Rank, player[i].RankValue = GetRank(player[i], table)
 	}
 
-
 	sort.SliceStable(player, func(i, j int) bool {
 		return Bigger(player[i].RankValue, player[j].RankValue)
 	})
@@ -53,15 +52,15 @@ func GetWinner(player []Player, secNum int) []Player {
 	sort.SliceStable(player, func(i, j int) bool {
 		return player[i].Rank > player[j].Rank
 	})
-	
+
 	newPlayer := []Player{}
 
-	for i:=1; i<len(player) ;i++{
-		if player[i].Rank == player[i-1].Rank && Same(player[i].RankValue, player[i-1].RankValue){
+	for i := 1; i < len(player); i++ {
+		if player[i].Rank == player[i-1].Rank && Same(player[i].RankValue, player[i-1].RankValue) {
 			continue
-		}else{
+		} else {
 			newPlayer = player[:i]
-			break;
+			break
 		}
 	}
 

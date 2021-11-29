@@ -148,7 +148,7 @@ export default {
   methods:{
     getWinRate: function(){
       axios
-        .get('http://127.0.0.1', {
+        .get('http://127.0.0.1/getwinrate/', {
           params: {
             name1: "player1",
             name2: "player2",

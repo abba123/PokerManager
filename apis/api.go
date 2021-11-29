@@ -5,11 +5,12 @@ import (
 	"net/http"
 	"poker/poker"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
-func get(c *gin.Context) {
+func getWinRate(c *gin.Context) {
 	t := poker.Table{}
 
 	p1 := poker.Player{Name: c.Query("name1")}
@@ -33,6 +34,23 @@ func get(c *gin.Context) {
 	result := poker.GetWinRate(t.Player, 10000)
 
 	c.JSON(http.StatusOK, result)
+}
+
+func getHand(c *gin.Context) {
+	const layout = "2006-Jan-02"
+	t := poker.Table{}
+	t.Time, _ = time.Parse(layout, "2014-Feb-04")
+	t.HeroGain = 0.1
+
+	p1 := poker.Player{Name: c.Query("name1")}
+	p1.Card[0].Num, _ = strconv.Atoi(c.Query("p1Card1Num"))
+	p1.Card[0].Suit = c.Query("p1Card1Suit")
+	p1.Card[1].Num, _ = strconv.Atoi(c.Query("p1Card2Num"))
+	p1.Card[1].Suit = c.Query("p1Card2Suit")
+
+	t.Player = append(t.Player, p1)
+
+	c.JSON(http.StatusOK, t)
 }
 
 func post(c *gin.Context) {

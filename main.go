@@ -1,10 +1,8 @@
 package main
 
-import (
-	//"fmt"
-	"poker/apis"
-)
+import api "poker/apis"
 
 func main() {
-	api.RunServer()
+	//api.RunRestServer()
+	api.RunGrpcSetvet()
 }
