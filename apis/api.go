@@ -1,7 +1,6 @@
 package api
 
 import (
-	"io/ioutil"
 	"net/http"
 	"poker/poker"
 	"strconv"
@@ -36,7 +35,6 @@ func getWinRate(c *gin.Context) {
 }
 
 func getHand(c *gin.Context) {
-	const layout = "2006-Jan-02"
 	t := poker.Table{}
 	t.Time = "2014-Feb-04"
 
@@ -52,6 +50,7 @@ func getHand(c *gin.Context) {
 }
 
 func post(c *gin.Context) {
-	body, _ := ioutil.ReadAll(c.Request.Body)
-	println(string(body))
+	table := poker.Parse(c)
+
+	c.JSON(http.StatusOK, table)
 }

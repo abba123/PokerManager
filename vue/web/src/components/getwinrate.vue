@@ -44,8 +44,8 @@
           </td>
         </tr>
         <tr>
-          <td colspan="2"><img v-bind:src="player1Card1"></td>
-          <td colspan="2"><img v-bind:src="player1Card2"></td>
+          <td colspan="2"><img v-bind:src="'../../static/images/'+player1Card1Num+player1Card1Suit+'.png'"></td>
+          <td colspan="2"><img v-bind:src="'../../static/images/'+player1Card2Num+player1Card2Suit+'.png'"></td>
         </tr>
         <tr>
           <td rowspan="2">Player2</td>
@@ -82,8 +82,8 @@
           </td>
         </tr>
         <tr>
-          <td colspan="2"><img v-bind:src="player2Card1"></td>
-          <td colspan="2"><img v-bind:src="player2Card2"></td>
+          <td colspan="2"><img v-bind:src="'../../static/images/'+player2Card1Num+player2Card1Suit+'.png'"></td>
+          <td colspan="2"><img v-bind:src="'../../static/images/'+player2Card2Num+player2Card2Suit+'.png'"></td>
         </tr>
       </table>
       <td>{{result}}</td>
@@ -117,32 +117,6 @@ export default {
       player2Card2: "",
       winRate1: 0,
       winRate2: 0,
-    }
-  },
-  watch:{
-    player1Card1Num: function(){
-      this.player1Card1 = "../../static/images/"+this.player1Card1Num+this.player1Card1Suit+".png"
-    },
-    player1Card1Suit: function(){
-      this.player1Card1 = "../../static/images/"+this.player1Card1Num+this.player1Card1Suit+".png"
-    },
-    player1Card2Num: function(){
-      this.player1Card2 = "../../static/images/"+this.player1Card2Num+this.player1Card2Suit+".png"
-    },
-    player1Card2Suit: function(){
-      this.player1Card2 = "../../static/images/"+this.player1Card2Num+this.player1Card2Suit+".png"
-    },
-    player2Card1Num: function(){
-      this.player2Card1 = "../../static/images/"+this.player2Card1Num+this.player2Card1Suit+".png"
-    },
-    player2Card1Suit: function(){
-      this.player2Card1 = "../../static/images/"+this.player2Card1Num+this.player2Card1Suit+".png"
-    },
-    player2Card2Num: function(){
-      this.player2Card2 = "../../static/images/"+this.player2Card2Num+this.player2Card2Suit+".png"
-    },
-    player2Card2Suit: function(){
-      this.player2Card2 = "../../static/images/"+this.player2Card2Num+this.player2Card2Suit+".png"
     }
   },
   methods:{

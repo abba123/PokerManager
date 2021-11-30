@@ -1,17 +1,17 @@
 package main
 
-import (
-	//"fmt"
 
-	"fmt"
-	"poker/poker"
+import(
+	"poker/apis"
 )
 
 func main() {
-	//api.RunServer()
+	api.RunRestServer()
 	//api.RunGrpcSetvet()
-	tables := poker.Parse()
-	for _, t := range tables {
-		fmt.Println(t)
-	}
+	/*
+		tables := poker.Parse()
+		for _, t := range tables {
+			fmt.Println(t)
+		}
+	*/
 }

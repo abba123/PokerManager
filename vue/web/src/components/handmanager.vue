@@ -3,9 +3,38 @@
     <h1>{{ msg }}</h1>
     <input type="file" @change="fileChange">
     <button @click="upload">upload</button>
-    <h1>{{formData}}</h1>
+    <table >
+      <tr>
+        <td>Time</td>
+        <td>Player</td>
+        <td>Seat</td>
+        <td>Gain</td>
+        <td>Card</td>
+        <td>Preflop</td>
+        <td>Flop</td>
+        <td>Turn</td>
+        <td>River</td>
+      </tr>
+      <tr v-for="t in table">
+        <td>{{t.Time}}</td>
+        <td>{{t.Player[0].Name}}</td>
+        <td>{{t.Player[0].Seat}}</td>
+        <td>{{t.Player[0].Gain}}</td>
+        <img v-bind:src= "imgsrc + t.Player[0].Card[0].Num + t.Player[0].Card[0].Suit + '.png'">
+        <img v-bind:src= "imgsrc + t.Player[0].Card[1].Num + t.Player[0].Card[1].Suit + '.png'">
+        <!--td>{{t.Player[0].Card[0].Num + t.Player[0].Card[0].Suit +" "+ t.Player[0].Card[1].Num + t.Player[0].Card[1].Suit}}</td-->
+        <td>{{t.Player[0].Action.Preflop}}</td>
+        <td>{{t.Player[0].Action.Flop}}</td>
+        <td>{{t.Player[0].Action.Turn}}</td>
+        <td>{{t.Player[0].Action.River}}</td>
+      </tr>
+    </table>
   </div>
 </template>
+
+//{ "Time": "2021/11/23", "Player": [ { "Name": "Hero", "Seat": "BB", "Gain": 0.22999999999999998, "Action": { "Preflop": [ "calls" ], "Flop": [ "calls" ], "Turn": [ "checks" ], "River": [ "checks" ] }, "Card": [ { "Num": 8, "Suit": "h" }, { "Num": 12, "Suit": "h" } ], "Rank": 0, "RankValue": null } ], "Card": [ { "Num": 1, "Suit": "d" }, { "Num": 12, "Suit": "s" }, { "Num": 2, "Suit": "d" }, { "Num": 3, "Suit": "d" }, { "Num": 1, "Suit": "d" } ] }
+
+
 
 <script>
 
@@ -17,15 +46,20 @@ export default {
     return {
       msg: 'Welcome to PokerManager',
       formData: new FormData(),
+      table: [],
+      imgsrc :"../../static/images/"
     }
   },
   methods:{
     fileChange(e){
       this.formData.append('file', e.target.files[0])
-      this.msg = this.formData.get('file')
+      
     },
     upload() {
         axios.post('http://127.0.0.1', this.formData)
+          .then( (response) => {
+            this.table = response.data
+          })
     }
   }
 }
@@ -35,5 +69,13 @@ export default {
 <style scoped>
 h1{
   font-weight: normal;
+}
+table{
+    table-layout : fixed;
+    margin:auto;
+    margin-top: 30px;
+}
+img{
+  width: 30px;
 }
 </style>

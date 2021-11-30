@@ -6,10 +6,12 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/gin-gonic/gin"
 )
 
-func Parse() []Table {
-	dataByte, err := ioutil.ReadFile("./MyHmDatabase.2021-11-24-01-39-29.GGP.Hand1-1428.txt")
+func Parse(c *gin.Context) []Table {
+	dataByte, err := ioutil.ReadAll(c.Request.Body)
 
 	// err 沒有錯誤的話會回傳 nil
 	if err != nil {
