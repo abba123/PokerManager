@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func Parse() {
+func Parse() []Table {
 	dataByte, err := ioutil.ReadFile("./MyHmDatabase.2021-11-24-01-39-29.GGP.Hand1-1428.txt")
 
 	// err 沒有錯誤的話會回傳 nil
@@ -20,42 +20,45 @@ func Parse() {
 
 	dataString := string(dataByte)            // 從 byte slice 轉成 string
 	data := strings.Split(dataString, "\r\n") // 從 string 轉成 string slice
-	line := 0
 
+	tables := []Table{}
+	for line := 0; line < len(data); line++ {
+		if strings.Contains(data[line], "Poker Hand") {
+			tables = append(tables, ParseTable(data, &line))
+		}
+	}
+
+	return tables
+}
+
+func ParseTable(data []string, line *int) Table {
 	table := Table{}
 	table.Player = append(table.Player, Player{Name: "Hero"})
 
-	ParseBasic(data, &line, &table)
+	ParseBasic(data, line, &table)
 
-	ParsePreFlop(data, &line, &table)
-	fmt.Println("pre ", table)
-	if CheckEnd(data, &line, &table) {
-		ParseShowdown(data, &line, &table)
-		fmt.Println("showdown ", table)
-		return
+	ParsePreFlop(data, line, &table)
+	if CheckEnd(data, line, &table) {
+		ParseShowdown(data, line, &table)
+		return table
 	}
 
-	ParseFlop(data, &line, &table)
-	fmt.Println("flop ", table)
-	if CheckEnd(data, &line, &table) {
-		ParseShowdown(data, &line, &table)
-		fmt.Println("showdown ", table)
-		return
+	ParseFlop(data, line, &table)
+	if CheckEnd(data, line, &table) {
+		ParseShowdown(data, line, &table)
+		return table
 	}
 
-	ParseTurn(data, &line, &table)
-	fmt.Println("turn ", table)
-	if CheckEnd(data, &line, &table) {
-		ParseShowdown(data, &line, &table)
-		fmt.Println("showdown ", table)
-		return
+	ParseTurn(data, line, &table)
+	if CheckEnd(data, line, &table) {
+		ParseShowdown(data, line, &table)
+		return table
 	}
 
-	ParseRiver(data, &line, &table)
-	fmt.Println("river ", table)
+	ParseRiver(data, line, &table)
+	ParseShowdown(data, line, &table)
 
-	ParseShowdown(data, &line, &table)
-	fmt.Println("showdown ", table)
+	return table
 }
 
 func CheckEnd(data []string, line *int, table *Table) bool {
@@ -175,7 +178,7 @@ func GetPay(data []string, line *int, nextState string) (float64, []string) {
 				str := strings.Split(data[*line], " ")
 				tmp, _ := strconv.ParseFloat(str[2][2:6], 64)
 				pay += tmp
-			}else{
+			} else {
 				if act != "shows" {
 					action = append(action, act)
 				}

@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"poker/poker"
 	"strconv"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -39,8 +38,7 @@ func getWinRate(c *gin.Context) {
 func getHand(c *gin.Context) {
 	const layout = "2006-Jan-02"
 	t := poker.Table{}
-	t.Time, _ = time.Parse(layout, "2014-Feb-04")
-	t.HeroGain = 0.1
+	t.Time = "2014-Feb-04"
 
 	p1 := poker.Player{Name: c.Query("name1")}
 	p1.Card[0].Num, _ = strconv.Atoi(c.Query("p1Card1Num"))
