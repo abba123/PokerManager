@@ -49,8 +49,9 @@ func getHand(c *gin.Context) {
 	c.JSON(http.StatusOK, t)
 }
 
-func post(c *gin.Context) {
+func putHand(c *gin.Context) {
 	table := poker.Parse(c)
-
+	go InsertDB(table)
 	c.JSON(http.StatusOK, table)
+
 }

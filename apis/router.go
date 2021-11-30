@@ -11,6 +11,6 @@ func RunRestServer() {
 	router.Use(cors.Default())
 	router.GET("/getwinrate/", getWinRate)
 	router.GET("/", getHand)
-	router.POST("/", post)
+	router.PUT("/", putHand)
 	router.Run(":80")
 }

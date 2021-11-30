@@ -56,7 +56,7 @@ export default {
       
     },
     upload() {
-        axios.post('http://127.0.0.1', this.formData)
+        axios.put('http://127.0.0.1', this.formData)
           .then( (response) => {
             this.table = response.data
           })

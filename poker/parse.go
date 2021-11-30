@@ -150,6 +150,9 @@ func ParsePreFlop(data []string, line *int, table *Table) {
 
 func ParseBasic(data []string, line *int, table *Table) {
 	(*table).Time = strings.Split(data[*line], " ")[9]
+	id := strings.Split(data[*line], " ")[2]
+	(*table).ID,_ = strconv.Atoi(id[3:len(id)-1])
+
 	for ; !strings.Contains(data[*line], "Hero"); *line++ {
 	}
 
