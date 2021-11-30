@@ -23,6 +23,7 @@ func RunGrpcSetvet() {
 	}
 
 	grpcServer := grpc.NewServer()
+	
 	pb.RegisterGetWinRateServiceServer(grpcServer, &Server{})
 
 	if err := grpcServer.Serve(lis); err != nil {
