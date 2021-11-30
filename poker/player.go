@@ -2,10 +2,14 @@ package poker
 
 type Player struct {
 	Name string
-	Preflop int
-	Flop int
-	Turn int
-	River int
+	Seat string
+	Gain float64
+	Action struct{
+		Preflop []string
+		Flop []string
+		Turn []string
+		River []string
+	}
 	Card []Card
 	Rank int
 	RankValue []Card

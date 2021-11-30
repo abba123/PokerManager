@@ -39,36 +39,35 @@ func GetRank(player Player, table Table) (int, []Card) {
 
 	sort.SliceStable(card, func(i, j int) bool { return card[i].Num > card[j].Num })
 
-	suitCard = getSuits(card)
 	maxPairCount, secondPairCount, pairValue = getPair(card)
 	straightValue = ifStraight(card)
 	suitCard = getSuits(card)
 	if len(suitCard) >= 5 {
 		suitStraight := ifStraight(suitCard)
-		if(len(suitStraight) >= 5){
-			return 8,suitStraight
-		}else{
-			return 5,suitCard[:5]
+		if len(suitStraight) >= 5 {
+			return 8, suitStraight
+		} else {
+			return 5, suitCard[:5]
 		}
 	} else if len(straightValue) == 5 {
-		return 4,straightValue
+		return 4, straightValue
 	} else {
 		if maxPairCount == 4 {
-			return 7,pairValue
+			return 7, pairValue
 		} else if maxPairCount == 3 {
 			if secondPairCount == 2 {
-				return 6,pairValue
+				return 6, pairValue
 			} else {
 
-				return 3,pairValue
+				return 3, pairValue
 			}
 		} else if maxPairCount == 2 {
 			if secondPairCount == 2 {
 
-				return 2,pairValue
+				return 2, pairValue
 			} else {
 
-				return 1,pairValue
+				return 1, pairValue
 			}
 		}
 	}
@@ -90,8 +89,8 @@ func getSuits(card []Card) []Card {
 		}
 	}
 
-	for i:=len(card)-1; i>=0 ; i--{
-		if(card[i].Suit == maxValue){
+	for i := len(card) - 1; i >= 0; i-- {
+		if card[i].Suit == maxValue {
 			result = append(result, card[i])
 		}
 	}
@@ -99,7 +98,7 @@ func getSuits(card []Card) []Card {
 	return result
 }
 
-func getPair(card []Card) (int,int,[]Card) {
+func getPair(card []Card) (int, int, []Card) {
 	nums := map[int]int{}
 
 	type pair struct {
@@ -120,10 +119,10 @@ func getPair(card []Card) (int,int,[]Card) {
 
 	result := []Card{}
 
-	for i:=0; i<len(pairs); i++{
-		for j := 0 ;j<pairs[i].count; j++{
+	for i := 0; i < len(pairs); i++ {
+		for j := 0; j < pairs[i].count; j++ {
 			result = append(result, Card{Num: pairs[i].num, Suit: "s"})
-			if len(result) == 5{
+			if len(result) == 5 {
 				return pairs[0].count, pairs[1].count, result
 			}
 		}
@@ -132,7 +131,7 @@ func getPair(card []Card) (int,int,[]Card) {
 	return pairs[0].count, pairs[1].count, result
 }
 
-func ifStraight(card []Card) []Card{
+func ifStraight(card []Card) []Card {
 
 	for _, c := range card {
 		if c.Num == 14 {
@@ -144,7 +143,7 @@ func ifStraight(card []Card) []Card{
 	value = append(value, card[0])
 	count := 1
 	for i := 1; i < len(card); i++ {
-		
+
 		if card[i].Num == card[i-1].Num {
 			continue
 		} else if card[i].Num == card[i-1].Num-1 {
@@ -162,20 +161,20 @@ func ifStraight(card []Card) []Card{
 	return []Card{}
 }
 
-func Same(card1 []Card, card2 []Card)bool{
-	for i:=0; i<5 ; i++ {
-		if card1[i].Num != card2[i].Num{
+func Same(card1 []Card, card2 []Card) bool {
+	for i := 0; i < 5; i++ {
+		if card1[i].Num != card2[i].Num {
 			return false
 		}
 	}
 	return true
 }
 
-func Bigger(card1 []Card, card2 []Card)bool{
-	for i:=0; i<5 ; i++ {
-		if card1[i].Num > card2[i].Num{
+func Bigger(card1 []Card, card2 []Card) bool {
+	for i := 0; i < 5; i++ {
+		if card1[i].Num > card2[i].Num {
 			return true
-		}else if card1[i].Num < card2[i].Num{
+		} else if card1[i].Num < card2[i].Num {
 			return false
 		}
 	}

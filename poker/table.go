@@ -1,12 +1,7 @@
 package poker
 
-import (
-	"time"
-)
-
-type Table struct{
-	Time time.Time
-	HeroGain float32
+type Table struct {
+	Time   string
 	Player []Player
-	Card []Card
+	Card   []Card
 }
