@@ -9,12 +9,12 @@ Vue.config.productionTip = false
 import axios from 'axios';
 
 Vue.prototype.$http = axios;
-
+Vue.prototype.$http.defaults.headers.common['Authorization'] = "456456"
 
 /* eslint-disable no-new */
 new Vue({
   
-  el: '#app',
+  el: '#app', 
   router,
   components: { App },
   template: '<App/>',

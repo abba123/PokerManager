@@ -14,7 +14,7 @@ import (
 
 type Server struct{}
 
-func RunGrpcSetvet() {
+func RunGrpcSetver() {
 	fmt.Println("starting gRPC server...")
 
 	lis, err := net.Listen("tcp", "127.0.0.1:80")

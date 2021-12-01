@@ -13,8 +13,8 @@ func RunRestServer() {
 	router.POST("/", login)
 
 	router.GET("/getwinrate/", middlewaree, getWinRate)
-	router.GET("/", middlewaree, getHand)
-	router.PUT("/", middlewaree, putHand)
+	router.GET("/hand/", getHand)
+	router.PUT("/hand/", middlewaree, putHand)
 
 	router.Run(":80")
 }

@@ -6,11 +6,12 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
-func Parse(c *gin.Context) []Table {
+func Parsefile(c *gin.Context) []Table {
 	dataByte, err := ioutil.ReadAll(c.Request.Body)
 
 	// err 沒有錯誤的話會回傳 nil
@@ -149,9 +150,12 @@ func ParsePreFlop(data []string, line *int, table *Table) {
 }
 
 func ParseBasic(data []string, line *int, table *Table) {
-	(*table).Time = strings.Split(data[*line], " ")[9]
+	timestr := strings.Split(data[*line], " ")[9]
+	timestr = strings.ReplaceAll(timestr, "/", "-")
+	(*table).Time, _ = time.Parse("2006-01-02", timestr)
+
 	id := strings.Split(data[*line], " ")[2]
-	(*table).ID,_ = strconv.Atoi(id[3:len(id)-1])
+	(*table).ID, _ = strconv.Atoi(id[3 : len(id)-1])
 
 	for ; !strings.Contains(data[*line], "Hero"); *line++ {
 	}

@@ -1,14 +1,13 @@
 package main
 
-
-import(
-	"poker/apis"
+import (
+	api "poker/apis"
 )
 
 func main() {
 
-	//api.RunGrpcSetvet()
-
+	//api.RunGrpcSetver()
+	api.Token = map[string]string{}
 	api.RunRestServer()
 
 }

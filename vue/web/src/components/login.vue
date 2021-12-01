@@ -1,9 +1,9 @@
 <template>
   <div class="hello">
     <form>
-      帳號:<input type="text" v-model="username" />
+      帳號:<input type="text" v-model="username"/>
       <br>
-      密碼:<input type="password" v-model="password" />
+      密碼:<input type="password" v-model="password"/>
       <br>
       <button class="btn" @click="submit">確認</button>
     </form>
@@ -19,8 +19,8 @@ export default {
   data () {
     return {
       msg: 'Welcome to PokerManager',
-      username:"456",
-      password:"",
+      username:"test",
+      password:"test",
     }
   },
   methods:{

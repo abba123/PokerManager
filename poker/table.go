@@ -1,8 +1,10 @@
 package poker
 
+import "time"
+
 type Table struct {
 	ID     int
-	Time   string
+	Time   time.Time
 	Player []Player
 	Card   []Card
 }

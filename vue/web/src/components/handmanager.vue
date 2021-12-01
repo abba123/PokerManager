@@ -3,6 +3,15 @@
     <h1>{{ msg }}</h1>
     <input type="file" @change="fileChange">
     <button @click="upload">upload</button>
+    <form >
+      比數:
+      <select v-model="num">
+              <option>1</option>
+              <option>10</option>
+              <option>100</option>
+      </select>
+      <button class="btn" @click="gethand">搜尋</button>
+    </form>
     <table >
       <tr>
         <td>Time</td>
@@ -41,7 +50,8 @@ export default {
       msg: 'Welcome to PokerManager',
       formData: new FormData(),
       table: [],
-      imgsrc :"../../static/images/"
+      imgsrc :"../../static/images/",
+      num:1
     }
   },
   methods:{
@@ -50,9 +60,21 @@ export default {
       
     },
     upload() {
-        this.$http.put('http://127.0.0.1', this.formData)
+        this.$http.put('http://127.0.0.1/hand/', this.formData)
           .then( (response) => {
             this.table = response.data
+          })
+    },
+
+    gethand(){
+      this.$http.get('http://127.0.0.1/hand/', {
+        params: {
+            num: this.num,
+          }
+      })
+        .then((response) => {
+            this.table = response.data
+            console.log(this.table)
           })
     }
   }

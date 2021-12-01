@@ -119,7 +119,7 @@ export default {
   methods:{
     getWinRate: function(){
       this.$http
-        .get('http://127.0.0.1/getwinrate/', {
+        .get('http://127.0.0.1:80/getwinrate/', {
           params: {
             name1: "player1",
             name2: "player2",
