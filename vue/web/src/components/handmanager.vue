@@ -32,13 +32,7 @@
   </div>
 </template>
 
-//{ "Time": "2021/11/23", "Player": [ { "Name": "Hero", "Seat": "BB", "Gain": 0.22999999999999998, "Action": { "Preflop": [ "calls" ], "Flop": [ "calls" ], "Turn": [ "checks" ], "River": [ "checks" ] }, "Card": [ { "Num": 8, "Suit": "h" }, { "Num": 12, "Suit": "h" } ], "Rank": 0, "RankValue": null } ], "Card": [ { "Num": 1, "Suit": "d" }, { "Num": 12, "Suit": "s" }, { "Num": 2, "Suit": "d" }, { "Num": 3, "Suit": "d" }, { "Num": 1, "Suit": "d" } ] }
-
-
-
 <script>
-
-import axios from "axios";
 
 export default {
   name: 'handmanager',
@@ -56,7 +50,7 @@ export default {
       
     },
     upload() {
-        axios.put('http://127.0.0.1', this.formData)
+        this.$http.put('http://127.0.0.1', this.formData)
           .then( (response) => {
             this.table = response.data
           })

@@ -1,13 +1,23 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
+    <aside>
+      <router-link to = "/">{{msg}}</router-link>
+      <router-link to = "getwinrate">WinRate</router-link>
+      <router-link to = "handmanager">handmanager</router-link>
+    </aside>
     <router-view/>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data () {
+    return {
+      msg: 'Welcome to PokerManager',
+    }
+  },
 }
 </script>
 

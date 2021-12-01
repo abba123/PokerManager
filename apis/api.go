@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 	"poker/poker"
 	"strconv"
@@ -8,7 +9,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var Token []string
+
 func getWinRate(c *gin.Context) {
+	fmt.Println(Token)
+
 	t := poker.Table{}
 
 	p1 := poker.Player{Name: c.Query("name1")}
@@ -54,4 +59,17 @@ func putHand(c *gin.Context) {
 	go InsertDB(table)
 	c.JSON(http.StatusOK, table)
 
+}
+
+func login(c *gin.Context) {
+	if c.Query("Authorization") == "" {
+		Token = append(Token, "123456")
+	}
+	c.JSON(http.StatusOK, Token)
+}
+
+func middlewaree(c *gin.Context){
+	if len(Token) == 0{
+		c.AbortWithStatus(http.StatusForbidden)
+	}
 }

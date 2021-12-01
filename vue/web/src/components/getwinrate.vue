@@ -86,14 +86,11 @@
           <td colspan="2"><img v-bind:src="'../../static/images/'+player2Card2Num+player2Card2Suit+'.png'"></td>
         </tr>
       </table>
-      <td>{{result}}</td>
       
   </div>
 </template>
 
 <script>
-
-import axios from "axios";
 
 export default {
   name: 'getwinrate',
@@ -121,7 +118,7 @@ export default {
   },
   methods:{
     getWinRate: function(){
-      axios
+      this.$http
         .get('http://127.0.0.1/getwinrate/', {
           params: {
             name1: "player1",

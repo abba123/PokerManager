@@ -8,9 +8,23 @@ import (
 
 func RunRestServer() {
 	router := gin.Default()
-	router.Use(cors.Default())
-	router.GET("/getwinrate/", getWinRate)
-	router.GET("/", getHand)
-	router.PUT("/", putHand)
+
+	router.Use(cors.New(CorsConfig()))
+	router.POST("/", login)
+
+	router.GET("/getwinrate/", middlewaree, getWinRate)
+	router.GET("/", middlewaree, getHand)
+	router.PUT("/", middlewaree, putHand)
+
 	router.Run(":80")
+}
+
+// 定義 cors-config
+func CorsConfig() cors.Config {
+	corsConf := cors.DefaultConfig()
+	corsConf.AllowAllOrigins = true
+	corsConf.AllowMethods = []string{"GET", "POST", "DELETE", "OPTIONS", "PUT"}
+	corsConf.AllowHeaders = []string{"Authorization", "Content-Type", "Upgrade", "Origin",
+		"Connection", "Accept-Encoding", "Accept-Language", "Host", "Access-Control-Request-Method", "Access-Control-Request-Headers"}
+	return corsConf
 }
