@@ -11,9 +11,11 @@ func RunRestServer() {
 
 	router.Use(cors.New(CorsConfig()))
 	router.POST("/", login)
+	router.PUT("/", register)
+	router.DELETE("/", middlewaree,logout)
 
 	router.GET("/getwinrate/", middlewaree, getWinRate)
-	router.GET("/hand/", getHand)
+	router.GET("/hand/", middlewaree, getHand)
 	router.PUT("/hand/", middlewaree, putHand)
 
 	router.Run(":80")

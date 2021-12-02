@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var Token map[string]string
+var Token map[string]bool
 
 func getWinRate(c *gin.Context) {
 
@@ -41,7 +41,7 @@ func getWinRate(c *gin.Context) {
 func getHand(c *gin.Context) {
 	num, _ := strconv.Atoi(c.Query("num"))
 
-	result := SearchHandDB(num)
+	result := getHandDB(num)
 
 	tables := []poker.Table{}
 
@@ -113,18 +113,38 @@ func putHand(c *gin.Context) {
 
 }
 
+
 func login(c *gin.Context) {
-	if c.Query("username") == "test" && c.Query("password") == "test" {
-		Token[c.Query("username")] = "123456"
+	var request user
+	c.BindJSON(&request)
+	user := GetUserDB(request.Username)
+	if user.Password == request.Password {
+		Token["123456"] = true
 		c.JSON(http.StatusOK, "123456")
 	} else {
 		c.AbortWithStatus(http.StatusForbidden)
 	}
 }
 
-func middlewaree(c *gin.Context) {
+func register(c *gin.Context){
+	var request user
+	c.BindJSON(&request)
+	InsertUserDB(request.Username, request.Password)
+}
 
-	if _, ok := Token[c.Query("username")]; !ok {
+func logout(c *gin.Context) {
+	token := c.Request.Header.Get("Authorization")
+	delete(Token, token)
+	c.JSON(http.StatusOK, nil)
+}
+
+func middlewaree(c *gin.Context) {
+	token := c.Request.Header.Get("Authorization")
+	if token == "" {
+		c.AbortWithStatus(http.StatusForbidden)
+	}
+
+	if _, ok := Token[token]; !ok {
 		c.AbortWithStatus(http.StatusForbidden)
 	}
 

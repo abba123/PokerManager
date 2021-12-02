@@ -7,7 +7,7 @@ import (
 func main() {
 
 	//api.RunGrpcSetver()
-	api.Token = map[string]string{}
+	api.Token = map[string]bool{}
 	api.RunRestServer()
 
 }

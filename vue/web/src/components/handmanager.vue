@@ -1,14 +1,32 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
     <input type="file" @change="fileChange">
     <button @click="upload">upload</button>
     <form >
-      比數:
+      筆數:
       <select v-model="num">
               <option>1</option>
               <option>10</option>
               <option>100</option>
+      </select>
+      Win/Lose:
+      <select v-model="gain">
+              <option>all</option>
+              <option>>1.0</option>
+              <option>>0.5</option>
+              <option>>0.0</option>
+              <option>>-0.5</option>
+              <option>>-1.0</option>
+      </select>
+      位置:
+      <select v-model="position">
+              <option>all</option>
+              <option>HJ</option>
+              <option>LJ</option>
+              <option>CO</option>
+              <option>BTN</option>
+              <option>SB</option>
+              <option>BB</option>
       </select>
       <button class="btn" @click="gethand">搜尋</button>
     </form>
@@ -51,7 +69,9 @@ export default {
       formData: new FormData(),
       table: [],
       imgsrc :"../../static/images/",
-      num:1
+      num:1,
+      gain:"all",
+      position:"all",
     }
   },
   methods:{
@@ -70,6 +90,8 @@ export default {
       this.$http.get('http://127.0.0.1/hand/', {
         params: {
             num: this.num,
+            gain: this.gain,
+            position: this.position
           }
       })
         .then((response) => {
@@ -93,5 +115,8 @@ table{
 }
 img{
   width: 30px;
+}
+form, input{
+  margin-top: 20px;
 }
 </style>

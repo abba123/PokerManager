@@ -1,10 +1,11 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
+    <h1>{{msg}}</h1>
     <aside>
-      <router-link to = "/">{{msg}}</router-link>
+      <router-link to = "/">Home</router-link>
       <router-link to = "getwinrate">WinRate</router-link>
-      <router-link to = "handmanager">handmanager</router-link>
+      <router-link to = "handmanager">Handmanager</router-link>
     </aside>
     <router-view/>
   </div>

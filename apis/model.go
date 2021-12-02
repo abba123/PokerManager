@@ -55,6 +55,22 @@ func InitDB() *gorm.DB {
 	return db
 }
 
+func InsertUserDB(username string, password string){
+	db := InitDB()
+
+	user := user{Username: username, Password: password}
+	db.Clauses(clause.OnConflict{DoNothing: true}).Create(&user)
+}
+
+func GetUserDB(username string) user{
+	db := InitDB()
+
+	user := user{}
+	db.First(&user, username)
+
+	return user
+}
+
 func InsertHandDB(tables []poker.Table) {
 	db := InitDB()
 
@@ -98,7 +114,7 @@ func InsertHandDB(tables []poker.Table) {
 
 }
 
-func SearchHandDB(num int) []game {
+func getHandDB(num int) []game {
 
 	games := []game{}
 
