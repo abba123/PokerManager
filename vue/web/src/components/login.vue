@@ -72,7 +72,4 @@ table{
     margin:auto;
     margin-top: 30px;
 }
-img{
-  width: 30px;
-}
 </style>

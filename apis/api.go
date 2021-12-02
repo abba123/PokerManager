@@ -39,9 +39,8 @@ func getWinRate(c *gin.Context) {
 }
 
 func getHand(c *gin.Context) {
-	num, _ := strconv.Atoi(c.Query("num"))
 
-	result := getHandDB(num)
+	result := getHandDB(c.Query("num"), c.Query("gain"), c.Query("seat"))
 
 	tables := []poker.Table{}
 
@@ -113,7 +112,6 @@ func putHand(c *gin.Context) {
 
 }
 
-
 func login(c *gin.Context) {
 	var request user
 	c.BindJSON(&request)
@@ -126,7 +124,7 @@ func login(c *gin.Context) {
 	}
 }
 
-func register(c *gin.Context){
+func register(c *gin.Context) {
 	var request user
 	c.BindJSON(&request)
 	InsertUserDB(request.Username, request.Password)

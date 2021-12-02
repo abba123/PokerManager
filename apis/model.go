@@ -66,7 +66,7 @@ func GetUserDB(username string) user{
 	db := InitDB()
 
 	user := user{}
-	db.First(&user, username)
+	db.First(&user, "username = ?", username)
 
 	return user
 }
@@ -114,13 +114,25 @@ func InsertHandDB(tables []poker.Table) {
 
 }
 
-func getHandDB(num int) []game {
+func getHandDB(num string, gain string, seat string) []game {
 
 	games := []game{}
 
 	db := InitDB()
 
-	db.Limit(num).Find(&games)
+	n,_ := strconv.Atoi(num)
+	db = db.Order("time").Limit(n)
+	if gain != "all"{
+		g,_ := strconv.ParseFloat(gain[1:],64)
+		db.Where("gain >= ?", g)
+	}
+	fmt.Println(seat)
+	if seat != "all"{
+		fmt.Println(seat)
+		db.Where("seat = ?", seat)
+	}
+
+	db.Find(&games)
 
 	return games
 }

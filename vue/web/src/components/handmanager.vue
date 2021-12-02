@@ -19,7 +19,7 @@
               <option>>-1.0</option>
       </select>
       位置:
-      <select v-model="position">
+      <select v-model="seat">
               <option>all</option>
               <option>HJ</option>
               <option>LJ</option>
@@ -71,7 +71,7 @@ export default {
       imgsrc :"../../static/images/",
       num:1,
       gain:"all",
-      position:"all",
+      seat:"all",
     }
   },
   methods:{
@@ -91,7 +91,7 @@ export default {
         params: {
             num: this.num,
             gain: this.gain,
-            position: this.position
+            seat: this.seat
           }
       })
         .then((response) => {
