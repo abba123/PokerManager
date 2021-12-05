@@ -41,7 +41,7 @@ func InitDB() *gorm.DB {
 
 	//連接MySQL
 
-	db, err := gorm.Open(mysql.Open("abba123:abba123@tcp(127.0.0.1:3306)/pokerdb?parseTime=true"), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open("abba123:abbaABBA123@tcp(database-1.crj366caarmq.us-east-2.rds.amazonaws.com:3306)/pokerdb?parseTime=true"), &gorm.Config{})
 	if err != nil {
 		fmt.Println("connection to mysql failed:", err)
 		return db
