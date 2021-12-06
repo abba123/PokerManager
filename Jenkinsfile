@@ -23,6 +23,12 @@ pipeline {
                 sh "go build -o output"
               }
             }
+            stage('build vue'){
+              dir('/home/ec2-user/Poker/PokerManager/vue/web'){
+                sh "npm install"
+                sh "npm run build"
+              }
+            }
             stage('run ansible'){
               dir('/home/ec2-user'){
                 ansiblePlaybook(playbook: '/home/ec2-user/playbook.yml')
