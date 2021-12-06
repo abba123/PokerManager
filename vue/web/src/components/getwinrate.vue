@@ -1,6 +1,5 @@
 <template>
   <div class="hello">
-      12456789
       <button v-on:click="getWinRate">Calculate Win Rate</button>
       <table class="table">
         <thead>
