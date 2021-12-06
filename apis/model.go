@@ -42,8 +42,8 @@ func InitDB() *gorm.DB {
 
 	//連接MySQL
 
-	//IP := "database-1.crj366caarmq.us-east-2.rds.amazonaws.com"
-	IP := "127.0.0.1"
+	IP := "database-1.crj366caarmq.us-east-2.rds.amazonaws.com"
+	//IP := "127.0.0.1"
 
 	db, err := gorm.Open(mysql.Open("abba123:abbaABBA123@tcp("+IP+":3306)/pokerdb?parseTime=true"), &gorm.Config{})
 	if err != nil {
