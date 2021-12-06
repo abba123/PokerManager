@@ -82,7 +82,8 @@ export default {
     upload() {
         this.$http.put('http://'+this.$root.backIP+'/hand/', this.formData)
           .then( (response) => {
-            this.table = response.data
+            this.num = 10
+            this.gethand()
           })
     },
 

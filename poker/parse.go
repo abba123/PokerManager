@@ -30,7 +30,7 @@ func Parsefile(c *gin.Context) []Table {
 			tables = append(tables, ParseTable(data, &line))
 		}
 	}
-
+	println(tables)
 	return tables
 }
 

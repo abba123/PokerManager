@@ -2,6 +2,7 @@ package api
 
 import (
 	"net/http"
+	"poker/apis/token"
 	"poker/poker"
 	"strconv"
 	"strings"
@@ -9,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var Token map[string]bool
+var Tokens map[string]bool
 
 func getWinRate(c *gin.Context) {
 
@@ -117,8 +118,9 @@ func login(c *gin.Context) {
 	c.BindJSON(&request)
 	user := GetUserDB(request.Username)
 	if user.Password == request.Password {
-		Token["123456"] = true
-		c.JSON(http.StatusOK, "123456")
+		tk := token.GenerateToken(user.Username)
+		Tokens[tk] = true
+		c.JSON(http.StatusOK, tk)
 	} else {
 		c.AbortWithStatus(http.StatusForbidden)
 	}
@@ -132,17 +134,19 @@ func register(c *gin.Context) {
 
 func logout(c *gin.Context) {
 	token := c.Request.Header.Get("Authorization")
-	delete(Token, token)
+	delete(Tokens, token)
 	c.JSON(http.StatusOK, nil)
 }
 
 func middlewaree(c *gin.Context) {
-	token := c.Request.Header.Get("Authorization")
-	if token == "" {
+	tk := c.Request.Header.Get("Authorization")
+	claim, err := token.ValidToken(tk)
+
+	if _, ok := Tokens[tk]; !ok {
 		c.AbortWithStatus(http.StatusForbidden)
 	}
 
-	if _, ok := Token[token]; !ok {
+	if err != nil || claim.Username != claim.StandardClaims.Subject {
 		c.AbortWithStatus(http.StatusForbidden)
 	}
 
