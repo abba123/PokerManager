@@ -1,6 +1,5 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
       <button v-on:click="getWinRate">Calculate Win Rate</button>
       <table class="table">
         <thead>
