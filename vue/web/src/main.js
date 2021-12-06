@@ -20,7 +20,9 @@ new Vue({
   template: '<App/>',
   data(){
     return {
-      token: ""
+      token: "",
+      backIP: "3.133.150.55",
+      //backIP: "127.0.0.1",
     }
   }
 })

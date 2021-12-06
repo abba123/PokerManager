@@ -80,14 +80,14 @@ export default {
       
     },
     upload() {
-        this.$http.put('http://3.133.150.55/hand/', this.formData)
+        this.$http.put('http://'+this.$root.backIP+'/hand/', this.formData)
           .then( (response) => {
             this.table = response.data
           })
     },
 
     gethand(){
-      this.$http.get('http://3.133.150.55/hand/', {
+      this.$http.get('http://'+this.$root.backIP+'/hand/', {
         params: {
             num: this.num,
             gain: this.gain,
