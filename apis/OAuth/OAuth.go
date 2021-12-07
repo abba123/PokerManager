@@ -12,6 +12,7 @@ const clientID string = "519659208785-fdr3eog5vs6krnqfbeigev8matphkl85.apps.goog
 const clientSecert string = "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"
 
 //const redirectUrl string = "127.0.0.1/oauth/login/"
+
 const redirectUrl string = "3.133.150.55/oauth/login/"
 
 // oauthClient shows how to use an OAuth client ID to authenticate as an end-user.

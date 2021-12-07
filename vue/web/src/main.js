@@ -4,13 +4,14 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import BootstrapVue from 'bootstrap-vue';
+import MetaInfo from 'vue-meta-info'
 import axios from 'axios';
 
 
 Vue.config.productionTip = false
 
 Vue.use(BootstrapVue);
-
+Vue.use(MetaInfo)
 Vue.prototype.$http = axios;
 Vue.prototype.$http.defaults.headers.common['Authorization'] = ""
 

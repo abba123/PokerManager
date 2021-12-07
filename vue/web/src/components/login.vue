@@ -64,7 +64,12 @@ export default {
     },
     googleLogin(){
       this.$http
-        .get('http://'+this.$root.backIP+'/oauth/access')
+        .get('http://'+this.$root.backIP+'/oauth/access/')
+        .then( (response) => {
+          if (response.data){
+            console.log(response.data)
+          }
+        })
     }
   }
 }

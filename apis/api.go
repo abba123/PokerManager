@@ -156,7 +156,8 @@ func middlewaree(c *gin.Context) {
 func googleOAuthAccess(c *gin.Context) {
 	url := OAuth.GetOAuthUrl()
 	fmt.Println(url)
-	c.Redirect(http.StatusFound, url)
+	//c.Redirect(http.StatusSeeOther,url)
+	c.JSON(http.StatusSeeOther, gin.H{"url": url})
 }
 
 func googleOAuthLogin(c *gin.Context) {
