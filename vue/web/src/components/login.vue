@@ -1,17 +1,22 @@
 <template>
-  <div class="hello">
-    <form v-if="!this.$root.token">
-      帳號:<input type="text" v-model="username"/>
-      <br>
-      密碼:<input type="password" v-model="password"/>
-      <br>
-      <button class="btn" @click="login">登入</button>
-      <button class="btn" @click="register">註冊</button>
-    </form>
+  <div class="hello" size="10px">
+    <b-form v-if="!this.$root.token" style="width:30%; margin-left: 450px;">
+      <b-form-group v-if="!this.$root.token" label="username">
+        <b-form-input v-model="username" required></b-form-input>
+      </b-form-group>
+
+      <b-form-group v-if="!this.$root.token" label="password">
+        <b-form-input v-model="password" required></b-form-input>
+      </b-form-group>
+    
+      <b-button variant="primary" class="btn" @click="login">登入</b-button>
+      <b-button variant="primary" class="btn" @click="register">註冊</b-button>
+    </b-form>
     <div v-if="this.$root.token">
-      登入成功
-      <button class="btn" @click="logout">登出</button>
+      <b-button variant="danger" class="btn" @click="logout">登出</b-button>
     </div>
+
+
   </div>
 </template>
 
@@ -64,12 +69,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1{
-  font-weight: normal;
-}
-table{
-    table-layout : fixed;
-    margin:auto;
-    margin-top: 30px;
-}
 </style>

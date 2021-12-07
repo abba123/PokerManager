@@ -3,13 +3,20 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import BootstrapVue from 'bootstrap-vue';
+import axios from 'axios';
+
 
 Vue.config.productionTip = false
 
-import axios from 'axios';
+Vue.use(BootstrapVue);
 
 Vue.prototype.$http = axios;
 Vue.prototype.$http.defaults.headers.common['Authorization'] = ""
+
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+
 
 /* eslint-disable no-new */
 new Vue({
@@ -21,8 +28,8 @@ new Vue({
   data(){
     return {
       token: "",
-      backIP: "3.133.150.55",
-      //backIP: "127.0.0.1",
+      //backIP: "3.133.150.55",
+      backIP: "127.0.0.1",
     }
   }
 })
