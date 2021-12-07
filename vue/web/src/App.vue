@@ -18,13 +18,7 @@ export default {
     return {
       msg: 'Welcome to PokerManager!!!!!!!!!??????',
     }
-  },
-  metaInfo: {
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'google-site-verification', content: '3kSBrI8vs9SEJ8nPH9KEUX-o53ffxs7TIwR4YPdkZ5I' },
-    ]
-  },
+  }
 }
 </script>
 

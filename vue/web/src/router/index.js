@@ -10,7 +10,9 @@ const router  =  new Router({
     {
       path: '/',
       name: 'login',
-      component: login
+      component: login,
+      meta: {
+        title: 'Entrance'}
     },
     {
       path: '/handmanager',

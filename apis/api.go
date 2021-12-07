@@ -1,9 +1,8 @@
 package api
 
 import (
-	"fmt"
 	"net/http"
-	"poker/apis/OAuth"
+
 	"poker/apis/token"
 	"poker/poker"
 	"strconv"
@@ -150,17 +149,5 @@ func middlewaree(c *gin.Context) {
 	if err != nil || claim.Username != claim.StandardClaims.Subject {
 		c.AbortWithStatus(http.StatusForbidden)
 	}
-
-}
-
-func googleOAuthAccess(c *gin.Context) {
-	url := OAuth.GetOAuthUrl()
-	fmt.Println(url)
-	//c.Redirect(http.StatusSeeOther,url)
-	c.JSON(http.StatusSeeOther, gin.H{"url": url})
-}
-
-func googleOAuthLogin(c *gin.Context) {
-	//code := c.Query("code")
 
 }

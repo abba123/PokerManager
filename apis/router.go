@@ -19,9 +19,6 @@ func RunRestServer() {
 	router.GET("/hand/", middlewaree, getHand)
 	router.PUT("/hand/", middlewaree, putHand)
 
-	router.GET("/oauth/access/", googleOAuthAccess)
-	router.GET("/oauth/login/", googleOAuthLogin)
-
 	router.Run(":80")
 }
 
