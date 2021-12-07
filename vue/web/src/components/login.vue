@@ -15,8 +15,7 @@
     <div v-if="this.$root.token">
       <b-button variant="danger" class="btn" @click="logout">登出</b-button>
     </div>
-
-
+    <b-button  class="btn" @click="googleLogin">Google login</b-button>
   </div>
 </template>
 
@@ -62,6 +61,10 @@ export default {
         
         this.$root.token = ""
         this.$http.defaults.headers.common['Authorization'] = this.$root.token
+    },
+    googleLogin(){
+      this.$http
+        .get('http://'+this.$root.backIP+'/oauth/access')
     }
   }
 }

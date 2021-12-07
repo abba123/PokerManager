@@ -10,7 +10,9 @@ import (
 
 const clientID string = "519659208785-fdr3eog5vs6krnqfbeigev8matphkl85.apps.googleusercontent.com"
 const clientSecert string = "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"
-const redirectUrl string = "127.0.0.1//ouath/login/"
+
+//const redirectUrl string = "127.0.0.1/oauth/login/"
+const redirectUrl string = "3.133.150.55/oauth/login/"
 
 // oauthClient shows how to use an OAuth client ID to authenticate as an end-user.
 func GetOAuthUrl() string {
@@ -23,8 +25,8 @@ func GetOAuthUrl() string {
 	return fmt.Sprintf(url, clientID, response_type, scope, redirectUrl)
 }
 
-func GetOAuthToken(code string) string {
-	token, err := accessToken(code)
+func GetOAuthToken(code string) {
+	//token, err := accessToken(code)
 
 }
 
@@ -47,7 +49,8 @@ func accessToken(code string) (string, error) {
 		return token, err
 	}
 
-	token = gjson.GetBytes(b, "access_token").String()
+	fmt.Println(b)
+	//token = gjson.GetBytes(b, "access_token").String()
 
 	return token, nil
 }

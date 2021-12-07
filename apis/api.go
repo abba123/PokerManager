@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 	"poker/apis/OAuth"
 	"poker/apis/token"
@@ -152,31 +153,13 @@ func middlewaree(c *gin.Context) {
 
 }
 
-func googleOAuthAccess(c *gin.Context){
+func googleOAuthAccess(c *gin.Context) {
 	url := OAuth.GetOAuthUrl()
-	c.JSON(http.StatusOK, gin.H{"url": url)
+	fmt.Println(url)
+	c.Redirect(http.StatusFound, url)
 }
 
-func googleOAuthLogin(c *gin.Context){
-	code := c.Query("code")
+func googleOAuthLogin(c *gin.Context) {
+	//code := c.Query("code")
 
-	token, err := accessToken(code)
-	if err != nil {
-		log.WithFields(log.Fields{
-			"err": err,
-		}).Debug("accessToken error")
-		c.Redirect(http.StatusFound, "/")
-		return
-	}
-
-	id, name, err := getGoogleUserInfo(token)
-	if err != nil {
-		log.WithFields(log.Fields{
-			"err": err,
-		}).Debug("getGoogleUserInfo error")
-		c.Redirect(http.StatusFound, "/")
-		return
-	}
-
-	log.Infof("id: %v, name: %v", id, name)
 }
