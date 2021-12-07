@@ -1,6 +1,6 @@
 <template>
   <div class="hello" size="10px">
-    <b-form v-if="!this.$root.token" style="width:30%; margin-left: 450px;">
+    <b-form v-if="!this.$root.token" style="width:30%; margin: auto;">
       <b-form-group v-if="!this.$root.token" label="username">
         <b-form-input v-model="username" required></b-form-input>
       </b-form-group>

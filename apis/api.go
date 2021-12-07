@@ -2,6 +2,7 @@ package api
 
 import (
 	"net/http"
+	"poker/apis/OAuth"
 	"poker/apis/token"
 	"poker/poker"
 	"strconv"
@@ -110,7 +111,6 @@ func putHand(c *gin.Context) {
 	table := poker.Parsefile(c)
 	go InsertHandDB(table)
 	c.JSON(http.StatusOK, table)
-
 }
 
 func login(c *gin.Context) {
@@ -150,4 +150,33 @@ func middlewaree(c *gin.Context) {
 		c.AbortWithStatus(http.StatusForbidden)
 	}
 
+}
+
+func googleOAuthAccess(c *gin.Context){
+	url := OAuth.GetOAuthUrl()
+	c.JSON(http.StatusOK, gin.H{"url": url)
+}
+
+func googleOAuthLogin(c *gin.Context){
+	code := c.Query("code")
+
+	token, err := accessToken(code)
+	if err != nil {
+		log.WithFields(log.Fields{
+			"err": err,
+		}).Debug("accessToken error")
+		c.Redirect(http.StatusFound, "/")
+		return
+	}
+
+	id, name, err := getGoogleUserInfo(token)
+	if err != nil {
+		log.WithFields(log.Fields{
+			"err": err,
+		}).Debug("getGoogleUserInfo error")
+		c.Redirect(http.StatusFound, "/")
+		return
+	}
+
+	log.Infof("id: %v, name: %v", id, name)
 }
