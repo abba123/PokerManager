@@ -16,7 +16,7 @@ export default {
   name: 'App',
   data () {
     return {
-      msg: 'Welcome to PokerManager123',
+      msg: 'Welcome to PokerManager!!!!!!!!!??????',
     }
   },
 }
