@@ -1,8 +1,10 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 
+	oauth "poker/apis/OAuth"
 	"poker/apis/token"
 	"poker/poker"
 	"strconv"
@@ -150,4 +152,16 @@ func middlewaree(c *gin.Context) {
 		c.AbortWithStatus(http.StatusForbidden)
 	}
 
+}
+
+func oauthGetCode(c *gin.Context) {
+	url := oauth.GenerateURL()
+	fmt.Println(url)
+	c.JSON(http.StatusOK, url)
+}
+
+func oauthGetToken(c *gin.Context) {
+	code := c.Request.Header.Get("code")
+
+	fmt.Println(code)
 }

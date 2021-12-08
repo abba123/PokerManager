@@ -14,10 +14,13 @@ func RunRestServer() {
 	router.PUT("/", register)
 	router.DELETE("/", middlewaree, logout)
 
-	router.GET("/getwinrate/", middlewaree, getWinRate)
+	router.GET("/getwinrate", middlewaree, getWinRate)
 
-	router.GET("/hand/", middlewaree, getHand)
-	router.PUT("/hand/", middlewaree, putHand)
+	router.GET("/hand", middlewaree, getHand)
+	router.PUT("/hand", middlewaree, putHand)
+
+	router.GET("/oauth/access", oauthGetCode)
+	router.GET("/oauth/login", oauthGetToken)
 
 	router.Run(":80")
 }
@@ -28,6 +31,7 @@ func CorsConfig() cors.Config {
 	corsConf.AllowAllOrigins = true
 	corsConf.AllowMethods = []string{"GET", "POST", "DELETE", "OPTIONS", "PUT"}
 	corsConf.AllowHeaders = []string{"Authorization", "Content-Type", "Upgrade", "Origin",
-		"Connection", "Accept-Encoding", "Accept-Language", "Host", "Access-Control-Request-Method", "Access-Control-Request-Headers"}
+		"Connection", "Accept-Encoding", "Accept-Language", "Host", "Access-Control-Request-Method", "Access-Control-Request-Headers", "X-Requested-With"}
+
 	return corsConf
 }

@@ -29,8 +29,8 @@ new Vue({
   data(){
     return {
       token: "",
-      backIP: "3.133.150.55",
-      //backIP: "127.0.0.1",
+      //backIP: "3.133.150.55",
+      backIP: "127.0.0.1",
     }
   }
 })
