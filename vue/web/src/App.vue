@@ -1,14 +1,18 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{msg}}</h1>
-    <b-aside>
-      <router-link to = "/">Home</router-link>
-      <router-link to = "getwinrate">WinRate</router-link>
-      <router-link to = "handmanager">Handmanager</router-link>
-    </b-aside>
-    <router-view/>
-  </div>
+  <b-card title="Card Title" no-body id="app">
+    <b-card-header header-tag="nav">
+      <b-nav card-header tabs>
+        <!-- <b-nav-item>'s with child routes. Note the trailing slash on the first <b-nav-item> -->
+        <b-nav-item to="/" exact exact-active-class="active">Home</b-nav-item>
+        <b-nav-item to="/getwinrate" exact exact-active-class="active">getwinrate</b-nav-item>
+        <b-nav-item to="/handmanager" exact exact-active-class="active">handmanager</b-nav-item>
+      </b-nav>
+    </b-card-header>
+
+    <b-card-body>
+      <router-view></router-view>
+    </b-card-body>
+  </b-card>
 </template>
 
 <script>
@@ -16,7 +20,7 @@ export default {
   name: 'App',
   data () {
     return {
-      msg: 'Welcome to PokerManager!!!!!!!!!??????',
+      msg: 'Welcome to PokerManager',
     }
   }
 }

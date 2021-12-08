@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-      <button v-on:click="getWinRate">Calculate Win Rate</button>
+      <b-button v-on:click="getWinRate">Calculate Win Rate</b-button>
       <table class="table">
         <thead>
           <th></th>
@@ -149,7 +149,7 @@ h1{
 
 table{
     table-layout : fixed;
-    width: 500px;
+    width: 550px;
     margin:auto;
     margin-top: 30px;
 }

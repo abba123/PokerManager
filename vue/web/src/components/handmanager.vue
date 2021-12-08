@@ -1,8 +1,8 @@
 <template>
   <div class="hello">
     <input type="file" @change="fileChange">
-    <button @click="upload">upload</button>
-    <form >
+    <b-button @click="upload">upload</b-button>
+    <b-form>
       筆數:
       <select v-model="num">
               <option>1</option>
@@ -28,8 +28,8 @@
               <option>SB</option>
               <option>BB</option>
       </select>
-      <button class="btn" @click="gethand">搜尋</button>
-    </form>
+      <b-button class="btn" @click="gethand">搜尋</b-button>
+    </b-form>
     <table >
       <tr>
         <td>Time</td>
