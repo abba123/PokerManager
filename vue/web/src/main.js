@@ -7,17 +7,14 @@ import BootstrapVue from 'bootstrap-vue';
 
 import axios from 'axios';
 
-
 Vue.config.productionTip = false
 
 Vue.use(BootstrapVue);
-
 Vue.prototype.$http = axios;
-Vue.prototype.$http.defaults.headers.common['Authorization'] = ""
+Vue.prototype.$http.defaults.headers.common['Authorization'] = "";
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
-
 
 /* eslint-disable no-new */
 new Vue({

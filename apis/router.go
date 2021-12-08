@@ -21,6 +21,7 @@ func RunRestServer() {
 
 	router.GET("/oauth/access", oauthGetCode)
 	router.GET("/oauth/login", oauthGetToken)
+	router.GET("/oauth/check", oauthCheckToken)
 
 	router.Run(":80")
 }

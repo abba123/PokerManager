@@ -155,13 +155,27 @@ func middlewaree(c *gin.Context) {
 }
 
 func oauthGetCode(c *gin.Context) {
-	url := oauth.GenerateURL()
-	fmt.Println(url)
+	fmt.Println("get code")
+	url := oauth.GenerateCodeURL()
 	c.JSON(http.StatusOK, url)
 }
 
 func oauthGetToken(c *gin.Context) {
-	code := c.Request.Header.Get("code")
+	fmt.Println("get token")
+	code := c.Query("code")
+	token := oauth.GenerateTokenURL(code)
+	Tokens[token] = true
 
-	fmt.Println(code)
+	go func() {
+		oauth.OAuthChan <- token
+		fmt.Println("finish token")
+	}()
+}
+
+func oauthCheckToken(c *gin.Context) {
+	go func() {
+		result := <-oauth.OAuthChan
+		fmt.Println("get check")
+		fmt.Println(result)
+	}()
 }

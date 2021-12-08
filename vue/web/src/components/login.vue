@@ -64,9 +64,19 @@ export default {
     },
     oAuth(){
       this.$http
-        .get('https://github.com/login/oauth/authorize?client_id=2cab12bd0bcae1f150d0&scope=user:email&redirect_uri=http://127.0.0.1/oauth/login')
-        
-    }
+        .get('http://'+this.$root.backIP+'/oauth/access')
+        .then( (response) => {
+           console.log(this.$http.defaults.headers.common)
+           this.$http.get(response.data)
+           //window.open(response.data)
+        })
+      this.$http
+        .get('http://'+this.$root.backIP+'/oauth/check')
+        .then( (response) => {
+          this.$root.token = response.data
+          this.$http.defaults.headers.common['Authorization'] = this.$root.token
+        })
+    },
   }
 }
 </script>
