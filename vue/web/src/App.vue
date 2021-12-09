@@ -6,6 +6,7 @@
         <b-nav-item to="/" exact exact-active-class="active">Home</b-nav-item>
         <b-nav-item to="/getwinrate" exact exact-active-class="active">getwinrate</b-nav-item>
         <b-nav-item to="/handmanager" exact exact-active-class="active">handmanager</b-nav-item>
+        <b-nav-item to="/analysis" exact exact-active-class="active">analysis</b-nav-item>
       </b-nav>
     </b-card-header>
 

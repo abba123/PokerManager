@@ -7,11 +7,14 @@ import BootstrapVue from 'bootstrap-vue';
 
 import axios from 'axios';
 
+import VCharts from 'v-charts'
+Vue.use(VCharts)
+
 Vue.config.productionTip = false
 
 Vue.use(BootstrapVue);
 Vue.prototype.$http = axios;
-Vue.prototype.$http.defaults.headers.common['Authorization'] = "";
+Vue.prototype.$http.defaults.headers.common['Authorization'] = "123";
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
@@ -25,7 +28,7 @@ new Vue({
   template: '<App/>',
   data(){
     return {
-      token: "",
+      token: "123",
       backIP: "3.133.150.55",
       //backIP: "127.0.0.1",
     }
