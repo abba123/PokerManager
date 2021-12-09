@@ -166,16 +166,17 @@ func oauthGetToken(c *gin.Context) {
 	token := oauth.GenerateTokenURL(code)
 	Tokens[token] = true
 
-	go func() {
-		oauth.OAuthChan <- token
-		fmt.Println("finish token")
-	}()
+	oauth.OAuthChan <- token
+	fmt.Println("finish token")
+
 }
 
 func oauthCheckToken(c *gin.Context) {
-	go func() {
+	if len(oauth.OAuthChan) > 0 {
 		result := <-oauth.OAuthChan
 		fmt.Println("get check")
 		fmt.Println(result)
-	}()
+		c.JSON(http.StatusOK, result)
+		fmt.Println("finish check")
+	}
 }

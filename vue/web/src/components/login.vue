@@ -8,14 +8,13 @@
       <b-form-group v-if="!this.$root.token" label="password">
         <b-form-input v-model="password" required></b-form-input>
       </b-form-group>
-    
+      <b-button class="btn" @click="oAuth">github</b-button>
       <b-button variant="primary" class="btn" @click="login">登入</b-button>
       <b-button variant="primary" class="btn" @click="register">註冊</b-button>
     </b-form>
     <div v-if="this.$root.token">
       <b-button variant="danger" class="btn" @click="logout">登出</b-button>
     </div>
-    <b-button variant="danger" class="btn" @click="oAuth">github</b-button>
   </div>
 </template>
 
@@ -30,6 +29,7 @@ export default {
       msg: 'Welcome to PokerManager',
       username:"test",
       password:"test",
+      timer: '',
     }
   },
   methods:{
@@ -66,17 +66,23 @@ export default {
       this.$http
         .get('http://'+this.$root.backIP+'/oauth/access')
         .then( (response) => {
-           console.log(this.$http.defaults.headers.common)
-           this.$http.get(response.data)
-           //window.open(response.data)
+           //console.log(this.$http.defaults.headers.common)
+           //this.$http.get(response.data)
+           window.open(response.data)
+           this.timer = setInterval(this.checkOAuth, 5000);
         })
+    },
+    checkOAuth(){
       this.$http
         .get('http://'+this.$root.backIP+'/oauth/check')
         .then( (response) => {
-          this.$root.token = response.data
-          this.$http.defaults.headers.common['Authorization'] = this.$root.token
+          if(response.data){
+            this.$root.token = response.data
+            this.$http.defaults.headers.common['Authorization'] = this.$root.token
+            clearInterval(this.timer);
+          }
         })
-    },
+    }
   }
 }
 </script>

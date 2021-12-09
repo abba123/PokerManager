@@ -8,7 +8,7 @@ import (
 func main() {
 		
 	//api.RunGrpcSetver()
-	oauth.OAuthChan = make(chan string)
+	oauth.OAuthChan = make(chan string,1)
 	api.Tokens = map[string]bool{}
 	api.RunRestServer()
 	//url := oauth.GenerateURL()
