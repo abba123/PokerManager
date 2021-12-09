@@ -30,6 +30,7 @@ export default {
       username:"test",
       password:"test",
       timer: '',
+      timecount :0,
     }
   },
   methods:{
@@ -69,19 +70,26 @@ export default {
            //console.log(this.$http.defaults.headers.common)
            //this.$http.get(response.data)
            window.open(response.data)
-           this.timer = setInterval(this.checkOAuth, 5000);
+           this.timeInterval = setInterval(this.checkOAuth, 5000);
         })
     },
     checkOAuth(){
-      this.$http
-        .get('http://'+this.$root.backIP+'/oauth/check')
-        .then( (response) => {
-          if(response.data){
-            this.$root.token = response.data
-            this.$http.defaults.headers.common['Authorization'] = this.$root.token
-            clearInterval(this.timer);
-          }
-        })
+      if (this.timecount < 10){
+        this.timecount += 1
+        this.$http
+          .get('http://'+this.$root.backIP+'/oauth/check')
+          .then( (response) => {
+            if(response.data){
+             this.$root.token = response.data
+             this.$http.defaults.headers.common['Authorization'] = this.$root.token
+              clearInterval(this.timeInterval);
+            }
+          })
+      }else{
+        this.timecount = 0
+        clearInterval(this.timeInterval);
+      }
+      
     }
   }
 }
