@@ -8,9 +8,7 @@ pipeline {
             stage('delete old file'){
               dir("/home/ec2-user"){
                 if(fileExists('Poker')){
-                  dir("/home/ec2-user/Poker"){
-                    deleteDir()
-                  }
+                  sh "rm Poker"
                 }
               }
             }
