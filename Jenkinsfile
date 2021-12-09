@@ -10,6 +10,7 @@ pipeline {
                 if(fileExists('Poker')){
                   sh "rm Poker"
                 }
+                sh "mkdir Poker"
               }
             }
             stage('get clone'){
