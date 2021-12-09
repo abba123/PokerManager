@@ -5,11 +5,7 @@ pipeline {
       steps {
         script {
           node {
-            stage('delete old file'){
-              dir("/home/ec2-user/Poker"){
-                deleteDir()
-              }
-            }
+
             stage('get clone'){
               dir('/home/ec2-user/Poker'){
                 sh "git clone https://github.com/abba123/PokerManager"
