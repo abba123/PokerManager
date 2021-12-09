@@ -9,6 +9,7 @@ pipeline {
               dir("/home/ec2-user"){
                 if(fileExists('Poker')){
                   sh "rm Poker"
+                  sh "mkdir Poker"
                 }
               }
             }
