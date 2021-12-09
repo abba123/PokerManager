@@ -6,11 +6,8 @@ pipeline {
         script {
           node {
             stage('delete old file'){
-              dir("/home/ec2-user"){
-                if(fileExists('Poker')){
-                  sh "rm Poker"
-                }
-                sh "mkdir Poker"
+              dir("/home/ec2-user/Poker"){
+                deleteDir()
               }
             }
             stage('get clone'){
