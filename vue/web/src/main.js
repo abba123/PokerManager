@@ -14,7 +14,7 @@ Vue.config.productionTip = false
 
 Vue.use(BootstrapVue);
 Vue.prototype.$http = axios;
-Vue.prototype.$http.defaults.headers.common['Authorization'] = "123";
+Vue.prototype.$http.defaults.headers.common['Authorization'] = "";
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
@@ -28,9 +28,9 @@ new Vue({
   template: '<App/>',
   data(){
     return {
-      token: "123",
-      //backIP: "3.133.150.55",
-      backIP: "127.0.0.1",
+      token: "",
+      backIP: "3.133.150.55",
+      //backIP: "127.0.0.1",
     }
   }
 })

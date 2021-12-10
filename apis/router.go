@@ -18,12 +18,12 @@ func RunRestServer() {
 
 	router.GET("/hand", middlewaree, getHand)
 	router.PUT("/hand", middlewaree, putHand)
+	
+	router.GET("/analysis", middlewaree, getAnalysis)
 
 	router.GET("/oauth/access", oauthGetCode)
 	router.GET("/oauth/login", oauthGetToken)
 	router.GET("/oauth/check", oauthCheckToken)
-
-	router.GET("/analysis", getAnalysis)
 
 	router.Run(":80")
 }

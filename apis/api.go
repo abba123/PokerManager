@@ -111,7 +111,7 @@ func getHand(c *gin.Context) {
 
 func putHand(c *gin.Context) {
 	table := poker.Parsefile(c)
-	go InsertHandDB(table)
+	InsertHandDB(table)
 	c.JSON(http.StatusOK, table)
 }
 
@@ -181,20 +181,21 @@ func oauthCheckToken(c *gin.Context) {
 	}
 }
 
-func getAnalysis(c *gin.Context){
-	type r struct {
-		Hands int	
-		Profit int	
+func getAnalysis(c *gin.Context) {
+
+	profits := getProfitDB()
+
+	result := []struct {
+		Hand int
+		Gain float64
+	}{}
+	total := 0.0
+	for count, profit := range profits {
+		total += profit
+		result = append(result, struct {
+			Hand int
+			Gain float64
+		}{Hand: count, Gain: total})
 	}
-
-	profits := []r{}
-	profits = append(profits, r{Hands: 1, Profit: 1})
-	profits = append(profits, r{Hands: 2, Profit: 1})
-	profits = append(profits, r{Hands: 3, Profit: -1})
-	profits = append(profits, r{Hands: 4, Profit: -1})
-	profits = append(profits, r{Hands: 5, Profit: 6})
-	profits = append(profits, r{Hands: 6, Profit: 0})
-	profits = append(profits, r{Hands: 7, Profit: 1})
-
-	c.JSON(http.StatusOK, profits)
+	c.JSON(http.StatusOK, result)
 }

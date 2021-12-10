@@ -10,7 +10,6 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
-	
 )
 
 type user struct {
@@ -59,14 +58,14 @@ func InitDB() *gorm.DB {
 	return db
 }
 
-func InsertUserDB(username string, password string){
+func InsertUserDB(username string, password string) {
 	db := InitDB()
 
 	user := user{Username: username, Password: password}
 	db.Clauses(clause.OnConflict{DoNothing: true}).Create(&user)
 }
 
-func GetUserDB(username string) user{
+func GetUserDB(username string) user {
 	db := InitDB()
 
 	user := user{}
@@ -124,14 +123,14 @@ func getHandDB(num string, gain string, seat string) []game {
 
 	db := InitDB()
 
-	n,_ := strconv.Atoi(num)
+	n, _ := strconv.Atoi(num)
 	db = db.Order("time").Limit(n)
-	if gain != "all"{
-		g,_ := strconv.ParseFloat(gain[1:],64)
+	if gain != "all" {
+		g, _ := strconv.ParseFloat(gain[1:], 64)
 		db.Where("gain >= ?", g)
 	}
 	fmt.Println(seat)
-	if seat != "all"{
+	if seat != "all" {
 		fmt.Println(seat)
 		db.Where("seat = ?", seat)
 	}
@@ -139,4 +138,15 @@ func getHandDB(num string, gain string, seat string) []game {
 	db.Find(&games)
 
 	return games
+}
+
+func getProfitDB() []float64 {
+
+	var results []float64
+
+	db := InitDB()
+
+	db.Table("games").Select("gain").Scan(&results).Order("time")
+
+	return results
 }

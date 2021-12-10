@@ -150,10 +150,11 @@ func ParsePreFlop(data []string, line *int, table *Table) {
 }
 
 func ParseBasic(data []string, line *int, table *Table) {
-	timestr := strings.Split(data[*line], " ")[9]
+	timestr := strings.Split(data[*line], " ")[9] +" " + strings.Split(data[*line], " ")[10]
 	timestr = strings.ReplaceAll(timestr, "/", "-")
-	(*table).Time, _ = time.Parse("2006-01-02", timestr)
-
+	fmt.Println(timestr)
+	(*table).Time, _ = time.Parse("2006-01-02 15:04:05", timestr)
+	fmt.Println((*table).Time)
 	id := strings.Split(data[*line], " ")[2]
 	(*table).ID, _ = strconv.Atoi(id[3 : len(id)-1])
 

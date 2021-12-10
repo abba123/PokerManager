@@ -5,8 +5,7 @@ import (
 	oauth "poker/apis/OAuth"
 )
 
-func main() {
-		
+func main() {	
 	//api.RunGrpcSetver()
 	oauth.OAuthChan = make(chan string,1)
 	api.Tokens = map[string]bool{}

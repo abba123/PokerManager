@@ -13,7 +13,7 @@ export default {
         }
       },
       chartData: {
-        columns: ['Hands', 'Profit'],
+        columns: ['Hand', 'Gain'],
         rows: [
         ]
       }
@@ -26,8 +26,6 @@ export default {
             response.data.forEach(element => {
               this.chartData.rows.push(element)
             });
-            console.log(response.data)
-            console.log(this.chartData.rows)
           })
     },
   },
