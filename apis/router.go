@@ -23,6 +23,8 @@ func RunRestServer() {
 	router.GET("/oauth/login", oauthGetToken)
 	router.GET("/oauth/check", oauthCheckToken)
 
+	router.GET("/analysis", getAnalysis)
+
 	router.Run(":80")
 }
 

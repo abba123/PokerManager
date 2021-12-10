@@ -1,6 +1,5 @@
 <template>
-
-  <ve-line :data="chartData" width="500px" :events="chartEvents"></ve-line>
+  <ve-line :data="chartData" :extend="extend" width="80%" style="margin: auto;"></ve-line>
 </template>
 
 <script>
@@ -8,21 +7,32 @@ export default {
   name: 'analysis',
   data () {
     return {
+      extend:{
+        series:{
+          smooth:false
+        }
+      },
       chartData: {
-        columns: ['日期', '销售额'],
+        columns: ['Hands', 'Profit'],
         rows: [
-          { '日期': '1月1日', '销售额': 123 },
-          { '日期': '1月2日', '销售额': 1223 },
-          { '日期': '1月3日', '销售额': 2123 },
-          { '日期': '1月4日', '销售额': 4123 },
-          { '日期': '1月5日', '销售额': 3123 },
-          { '日期': '1月6日', '销售额': 7123 }
         ]
       }
     }
   },
   methods:{
-    
+    analysis() {
+        this.$http.get('http://'+this.$root.backIP+'/analysis')
+          .then( (response) => {
+            response.data.forEach(element => {
+              this.chartData.rows.push(element)
+            });
+            console.log(response.data)
+            console.log(this.chartData.rows)
+          })
+    },
+  },
+  mounted(){
+    this.analysis()
   }
 }
 </script>

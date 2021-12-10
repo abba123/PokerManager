@@ -180,3 +180,21 @@ func oauthCheckToken(c *gin.Context) {
 		fmt.Println("finish check")
 	}
 }
+
+func getAnalysis(c *gin.Context){
+	type r struct {
+		Hands int	
+		Profit int	
+	}
+
+	profits := []r{}
+	profits = append(profits, r{Hands: 1, Profit: 1})
+	profits = append(profits, r{Hands: 2, Profit: 1})
+	profits = append(profits, r{Hands: 3, Profit: -1})
+	profits = append(profits, r{Hands: 4, Profit: -1})
+	profits = append(profits, r{Hands: 5, Profit: 6})
+	profits = append(profits, r{Hands: 6, Profit: 0})
+	profits = append(profits, r{Hands: 7, Profit: 1})
+
+	c.JSON(http.StatusOK, profits)
+}
