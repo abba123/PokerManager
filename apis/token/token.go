@@ -5,13 +5,13 @@ import (
 )
 
 type Token struct {
-	Username string
+	Username  string
+	Authority int
 	jwt.StandardClaims
 }
 
 func GenerateToken(username string) string {
-	tk := &Token{Username: username}
-	tk.StandardClaims.Subject = username
+	tk := &Token{Username: username, Authority: 0}
 	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), tk)
 	tokenString, _ := token.SignedString([]byte("secert"))
 

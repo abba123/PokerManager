@@ -25,18 +25,20 @@ func Parsefile(c *gin.Context) []Table {
 	data := strings.Split(dataString, "\r\n") // 從 string 轉成 string slice
 
 	tables := []Table{}
+	name := c.GetString("username")
+	fmt.Println(name)
 	for line := 0; line < len(data); line++ {
 		if strings.Contains(data[line], "Poker Hand") {
-			tables = append(tables, ParseTable(data, &line))
+			tables = append(tables, ParseTable(data, &line, name))
 		}
 	}
 	println(tables)
 	return tables
 }
 
-func ParseTable(data []string, line *int) Table {
+func ParseTable(data []string, line *int, name string) Table {
 	table := Table{}
-	table.Player = append(table.Player, Player{Name: "Hero"})
+	table.Player = append(table.Player, Player{Name: name})
 
 	ParseBasic(data, line, &table)
 
@@ -150,7 +152,7 @@ func ParsePreFlop(data []string, line *int, table *Table) {
 }
 
 func ParseBasic(data []string, line *int, table *Table) {
-	timestr := strings.Split(data[*line], " ")[9] +" " + strings.Split(data[*line], " ")[10]
+	timestr := strings.Split(data[*line], " ")[9] + " " + strings.Split(data[*line], " ")[10]
 	timestr = strings.ReplaceAll(timestr, "/", "-")
 	fmt.Println(timestr)
 	(*table).Time, _ = time.Parse("2006-01-02 15:04:05", timestr)

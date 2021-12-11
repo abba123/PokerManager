@@ -19,9 +19,9 @@ type user struct {
 
 type game struct {
 	//gorm為model的tag標籤，v2版的auto_increment要放在type裡面，v1版是放獨立定義
-	ID         int       `gorm:"type:int;primaryKey" json:"ID,omitempty"`
+	Player     string    `gorm:"type:varchar(100);primaryKey;autoIncrement:false" json:"player,omitempty"`
+	ID         int       `gorm:"type:int;primaryKey;autoIncrement:false" json:"ID,omitempty"`
 	Time       time.Time `gorm:"type:TIME" json:"time,omitempty"`
-	Player     string    `gorm:"type:varchar(100)" json:"player,omitempty"`
 	Seat       string    `gorm:"type:varchar(100)" json:"seat,omitempty"`
 	HeroCard1  string    `gorm:"type:varchar(100)" json:"herocard1,omitempty"`
 	HeroCard2  string    `gorm:"type:varchar(100)" json:"herocard2,omitempty"`
@@ -117,14 +117,14 @@ func InsertHandDB(tables []poker.Table) {
 
 }
 
-func getHandDB(num string, gain string, seat string) []game {
+func getHandDB(num string, gain string, seat string, player string) []game {
 
 	games := []game{}
 
 	db := InitDB()
 
 	n, _ := strconv.Atoi(num)
-	db = db.Order("time").Limit(n)
+	db = db.Order("time").Limit(n).Where("player = ?", player)
 	if gain != "all" {
 		g, _ := strconv.ParseFloat(gain[1:], 64)
 		db.Where("gain >= ?", g)
@@ -140,13 +140,13 @@ func getHandDB(num string, gain string, seat string) []game {
 	return games
 }
 
-func getProfitDB() []float64 {
+func getProfitDB(player string) []float64 {
 
 	var results []float64
 
 	db := InitDB()
 
-	db.Table("games").Select("gain").Scan(&results).Order("time")
+	db.Table("games").Where("player = ?", player).Select("gain").Scan(&results).Order("time")
 
 	return results
 }

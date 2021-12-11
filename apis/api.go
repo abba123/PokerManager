@@ -44,7 +44,7 @@ func getWinRate(c *gin.Context) {
 
 func getHand(c *gin.Context) {
 
-	result := getHandDB(c.Query("num"), c.Query("gain"), c.Query("seat"))
+	result := getHandDB(c.Query("num"), c.Query("gain"), c.Query("seat"), c.GetString("username"))
 
 	tables := []poker.Table{}
 
@@ -121,7 +121,6 @@ func login(c *gin.Context) {
 	user := GetUserDB(request.Username)
 	if user.Password == request.Password {
 		tk := token.GenerateToken(user.Username)
-		Tokens[tk] = true
 		c.JSON(http.StatusOK, tk)
 	} else {
 		c.AbortWithStatus(http.StatusForbidden)
@@ -144,14 +143,11 @@ func middlewaree(c *gin.Context) {
 	tk := c.Request.Header.Get("Authorization")
 	claim, err := token.ValidToken(tk)
 
-	if _, ok := Tokens[tk]; !ok {
+	if err != nil || claim.Authority != 0 {
 		c.AbortWithStatus(http.StatusForbidden)
 	}
 
-	if err != nil || claim.Username != claim.StandardClaims.Subject {
-		c.AbortWithStatus(http.StatusForbidden)
-	}
-
+	c.Set("username", claim.Username)
 }
 
 func oauthGetCode(c *gin.Context) {
@@ -183,7 +179,7 @@ func oauthCheckToken(c *gin.Context) {
 
 func getAnalysis(c *gin.Context) {
 
-	profits := getProfitDB()
+	profits := getProfitDB(c.GetString("username"))
 
 	result := []struct {
 		Hand int
