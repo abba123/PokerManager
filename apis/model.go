@@ -1,12 +1,15 @@
 package api
 
 import (
+	"context"
+	"encoding/json"
 	"fmt"
 	"poker/poker"
 	"strconv"
 	"strings"
 	"time"
 
+	"github.com/go-redis/redis/v8"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -16,6 +19,8 @@ type user struct {
 	Username string `gorm:"type:varchar(100);primaryKey" json:"username,omitempty"`
 	Password string `gorm:"type:varchar(100)" json:"password,omitempty"`
 }
+
+var ctx = context.Background()
 
 type game struct {
 	//gorm為model的tag標籤，v2版的auto_increment要放在type裡面，v1版是放獨立定義
@@ -41,8 +46,8 @@ func InitDB() *gorm.DB {
 
 	//連接MySQL
 
-	IP := "database-1.crj366caarmq.us-east-2.rds.amazonaws.com"
-	//IP := "127.0.0.1"
+	//IP := "database-1.crj366caarmq.us-east-2.rds.amazonaws.com"
+	IP := "127.0.0.1"
 
 	db, err := gorm.Open(mysql.Open("abba123:abbaABBA123@tcp("+IP+":3306)/pokerdb?parseTime=true"), &gorm.Config{})
 	if err != nil {
@@ -56,6 +61,15 @@ func InitDB() *gorm.DB {
 	db.Migrator()
 
 	return db
+}
+
+func InitRedis() *redis.Client {
+	client := redis.NewClient(&redis.Options{
+		Addr:     "127.0.0.1:6379",
+		Password: "", // no password set
+		DB:       0,  // use default DB
+	})
+	return client
 }
 
 func InsertUserDB(username string, password string) {
@@ -117,21 +131,30 @@ func InsertHandDB(tables []poker.Table) {
 
 }
 
-func getHandDB(num string, gain string, seat string, player string) []game {
+func getGainDB(gain string, player string) []game {
 
 	games := []game{}
 
 	db := InitDB()
 
-	n, _ := strconv.Atoi(num)
-	db = db.Order("time").Limit(n).Where("player = ?", player)
+	db = db.Order("time").Where("player = ?", player)
 	if gain != "all" {
 		g, _ := strconv.ParseFloat(gain[1:], 64)
 		db.Where("gain >= ?", g)
 	}
-	fmt.Println(seat)
+	db.Find(&games)
+
+	return games
+}
+
+func getSeatDB(seat string, player string) []game {
+
+	games := []game{}
+
+	db := InitDB()
+	db = db.Order("time").Where("player = ?", player)
+
 	if seat != "all" {
-		fmt.Println(seat)
 		db.Where("seat = ?", seat)
 	}
 
@@ -140,13 +163,87 @@ func getHandDB(num string, gain string, seat string, player string) []game {
 	return games
 }
 
-func getProfitDB(player string) []float64 {
+func getHandRedis(num string, gain string, seat string, player string) []game {
+	client := InitRedis()
 
+	existGain, _ := client.Exists(ctx, player+"gain"+gain).Result()
+	existSeat, _ := client.Exists(ctx, player+"seat"+seat).Result()
+
+	if existGain == 0 {
+		insertGainRedis(gain, player)
+	}
+	if existSeat == 0 {
+		insertSeatRedis(seat, player)
+	}
+	client.ZInterStore(ctx, "inter", &redis.ZStore{Keys: []string{player + "gain" + gain, player + "seat" + seat}}).Result()
+	results, _ := client.ZRange(ctx, "inter", 0, -1).Result()
+	client.Del(ctx, "inter")
+
+	games := []game{}
+	n, _ := strconv.Atoi(num)
+	for i := 0; i < n && i < len(results); i++ {
+		result := results[i]
+		g := game{}
+		json.Unmarshal([]byte(result), &g)
+		games = append(games, g)
+	}
+	return games
+}
+
+func insertGainRedis(gain string, player string) {
+	games := getGainDB(gain, player)
+
+	client := InitRedis()
+
+	for i, game := range games {
+		gameStr, _ := json.Marshal(game)
+		client.ZAdd(ctx, player+"gain"+gain, &redis.Z{Score: float64(i), Member: gameStr})
+	}
+}
+
+func insertSeatRedis(seat string, player string) {
+	games := getSeatDB(seat, player)
+
+	client := InitRedis()
+
+	for i, game := range games {
+		gameStr, _ := json.Marshal(game)
+		client.ZAdd(ctx, player+"seat"+seat, &redis.Z{Score: float64(i), Member: gameStr})
+	}
+}
+
+func getProfitDB(player string) []float64 {
 	var results []float64
 
 	db := InitDB()
 
-	db.Table("games").Where("player = ?", player).Select("gain").Scan(&results).Order("time")
+	db.Table("games").Where("player = ?", player).Select("gain").Order("time").Scan(&results)
 
 	return results
+}
+
+func getProfitRedis(player string) []string {
+	client := InitRedis()
+
+	exist, _ := client.Exists(ctx, player+"profit").Result()
+
+	if exist == 0 {
+		insertProfitRedis(player)
+	}
+
+	result, _ := client.LRange(ctx, player+"profit", 0, -1).Result()
+
+	return result
+}
+
+func insertProfitRedis(player string) {
+	client := InitRedis()
+
+	profits := getProfitDB(player)
+
+	for _, profit := range profits {
+		client.RPush(ctx, player+"profit", fmt.Sprint(profit))
+	}
+
+	getProfitRedis(player)
 }

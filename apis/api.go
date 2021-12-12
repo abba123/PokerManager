@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"net/http"
 
 	oauth "poker/apis/OAuth"
@@ -44,7 +43,7 @@ func getWinRate(c *gin.Context) {
 
 func getHand(c *gin.Context) {
 
-	result := getHandDB(c.Query("num"), c.Query("gain"), c.Query("seat"), c.GetString("username"))
+	result := getHandRedis(c.Query("num"), c.Query("gain"), c.Query("seat"), c.GetString("username"))
 
 	tables := []poker.Table{}
 
@@ -151,35 +150,28 @@ func middlewaree(c *gin.Context) {
 }
 
 func oauthGetCode(c *gin.Context) {
-	fmt.Println("get code")
 	url := oauth.GenerateCodeURL()
 	c.JSON(http.StatusOK, url)
 }
 
 func oauthGetToken(c *gin.Context) {
-	fmt.Println("get token")
 	code := c.Query("code")
 	token := oauth.GenerateTokenURL(code)
 	Tokens[token] = true
 
 	oauth.OAuthChan <- token
-	fmt.Println("finish token")
-
 }
 
 func oauthCheckToken(c *gin.Context) {
 	if len(oauth.OAuthChan) > 0 {
 		result := <-oauth.OAuthChan
-		fmt.Println("get check")
-		fmt.Println(result)
 		c.JSON(http.StatusOK, result)
-		fmt.Println("finish check")
 	}
 }
 
 func getAnalysis(c *gin.Context) {
 
-	profits := getProfitDB(c.GetString("username"))
+	profits := getProfitRedis(c.GetString("username"))
 
 	result := []struct {
 		Hand int
@@ -187,7 +179,8 @@ func getAnalysis(c *gin.Context) {
 	}{}
 	total := 0.0
 	for count, profit := range profits {
-		total += profit
+		num, _ := strconv.ParseFloat(profit, 64)
+		total += num
 		result = append(result, struct {
 			Hand int
 			Gain float64
