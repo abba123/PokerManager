@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'analysis',
+  name: 'profit',
   data () {
     return {
       extend:{
@@ -20,8 +20,8 @@ export default {
     }
   },
   methods:{
-    analysis() {
-        this.$http.get('http://'+this.$root.backIP+'/analysis')
+    profit() {
+        this.$http.get('http://'+this.$root.backIP+'/profit')
           .then( (response) => {
             response.data.forEach(element => {
               this.chartData.rows.push(element)
@@ -30,7 +30,7 @@ export default {
     },
   },
   mounted(){
-    this.analysis()
+    this.profit()
   }
 }
 </script>

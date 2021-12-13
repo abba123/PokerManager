@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import getwinrate from '@/components/getwinrate'
 import handmanager from '@/components/handmanager'
 import login from '@/components/login'
-import analysis from '@/components/analysis'
+import profit from '@/components/profit'
 Vue.use(Router)
 
 const router  =  new Router({
@@ -36,9 +36,9 @@ const router  =  new Router({
       }
     },
     {
-      path: '/analysis',
-      name: 'analysis',
-      component: analysis,
+      path: '/profit',
+      name: 'profit',
+      component: profit,
       beforeEnter (to, from, next) {
         if (Vue.prototype.$http.defaults.headers.common['Authorization'] == ""){
           next({name: 'login'})

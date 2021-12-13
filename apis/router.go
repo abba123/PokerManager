@@ -14,12 +14,12 @@ func RunRestServer() {
 	router.PUT("/", register)
 	router.DELETE("/", middlewaree, logout)
 
-	router.GET("/getwinrate", middlewaree, getWinRate)
+	router.POST("/getwinrate", middlewaree, getWinRate)
 
 	router.GET("/hand", middlewaree, getHand)
 	router.PUT("/hand", middlewaree, putHand)
 	
-	router.GET("/analysis", middlewaree, getAnalysis)
+	router.GET("/profit", middlewaree, getAnalysis)
 
 	router.GET("/oauth/access", oauthGetCode)
 	router.GET("/oauth/login", oauthGetToken)
