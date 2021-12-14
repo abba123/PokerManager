@@ -3,7 +3,8 @@ package api
 import (
 	"net/http"
 
-	oauth "poker/apis/OAuth"
+	"poker/apis/model"
+	"poker/apis/oauth"
 	"poker/apis/token"
 	"poker/poker"
 	"strconv"
@@ -43,7 +44,7 @@ func getWinRate(c *gin.Context) {
 
 func getHand(c *gin.Context) {
 
-	result := getHandRedis(c.Query("num"), c.Query("gain"), c.Query("seat"), c.GetString("username"))
+	result := model.GetHandRedis(c.Query("num"), c.Query("gain"), c.Query("seat"), c.GetString("username"))
 
 	tables := []poker.Table{}
 
@@ -110,14 +111,14 @@ func getHand(c *gin.Context) {
 
 func putHand(c *gin.Context) {
 	table := poker.Parsefile(c)
-	InsertHandDB(table)
+	model.InsertHandDB(table)
 	c.JSON(http.StatusOK, table)
 }
 
 func login(c *gin.Context) {
-	var request user
+	var request model.User
 	c.BindJSON(&request)
-	user := GetUserDB(request.Username)
+	user := model.GetUserDB(request.Username)
 	if user.Password == request.Password {
 		tk := token.GenerateToken(user.Username)
 		c.JSON(http.StatusOK, tk)
@@ -127,9 +128,9 @@ func login(c *gin.Context) {
 }
 
 func register(c *gin.Context) {
-	var request user
+	var request model.User
 	c.BindJSON(&request)
-	InsertUserDB(request.Username, request.Password)
+	model.InsertUserDB(request.Username, request.Password)
 }
 
 func logout(c *gin.Context) {
@@ -171,7 +172,7 @@ func oauthCheckToken(c *gin.Context) {
 
 func getAnalysis(c *gin.Context) {
 
-	profits := getProfitRedis(c.GetString("username"))
+	profits := model.GetProfitRedis(c.GetString("username"))
 
 	result := []struct {
 		Hand int
