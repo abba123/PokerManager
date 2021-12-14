@@ -19,7 +19,8 @@ func RunRestServer() {
 	router.GET("/hand", middlewaree, getHand)
 	router.PUT("/hand", middlewaree, putHand)
 	
-	router.GET("/profit", middlewaree, getAnalysis)
+	router.GET("/profit", middlewaree, getPorfit)
+	router.GET("/threebet", getThreeBet)
 
 	router.GET("/oauth/access", oauthGetCode)
 	router.GET("/oauth/login", oauthGetToken)

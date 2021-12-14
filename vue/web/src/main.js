@@ -14,7 +14,7 @@ Vue.config.productionTip = false
 
 Vue.use(BootstrapVue);
 Vue.prototype.$http = axios;
-Vue.prototype.$http.defaults.headers.common['Authorization'] = "";
+Vue.prototype.$http.defaults.headers.common['Authorization'] = "123";
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';

@@ -133,3 +133,23 @@ func GetProfitDB(player string) []float64 {
 
 	return results
 }
+
+func GetCountAllDB(player string) float64 {
+	var result int64
+
+	db := InitDB()
+
+	db.Table("games").Where("player = ?", player).Count(&result)
+
+	return float64(result)
+}
+
+func GetCountThreeBetDB(player string) float64 {
+	var result int64
+
+	db := InitDB()
+
+	db.Table("games").Where("player = ?", player).Where("preflop LIKE = ?", "%raise%").Count(&result)
+
+	return float64(result)
+}

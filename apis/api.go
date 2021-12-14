@@ -170,7 +170,7 @@ func oauthCheckToken(c *gin.Context) {
 	}
 }
 
-func getAnalysis(c *gin.Context) {
+func getPorfit(c *gin.Context) {
 
 	profits := model.GetProfitRedis(c.GetString("username"))
 
@@ -187,5 +187,20 @@ func getAnalysis(c *gin.Context) {
 			Gain float64
 		}{Hand: count, Gain: total})
 	}
+	c.JSON(http.StatusOK, result)
+}
+
+func getThreeBet(c *gin.Context) {
+	//username := c.GetString("username")
+	/*
+		result := struct {
+			Total    string
+			ThreeBet string
+		}{Total: model.GetCountThreeBetRedis(username), ThreeBet: model.GetCountAllRedis(username)}
+	*/
+	result := struct {
+		Total    string
+		ThreeBet string
+	}{Total: "5", ThreeBet: "1"}
 	c.JSON(http.StatusOK, result)
 }

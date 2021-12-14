@@ -2,7 +2,7 @@ package main
 
 import (
 	api "poker/apis"
-	oauth "poker/apis/OAuth"
+	"poker/apis/oauth"
 )
 
 func main() {
