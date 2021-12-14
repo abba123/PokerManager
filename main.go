@@ -1,12 +1,13 @@
 package main
 
 import (
-	api "poker/apis"
-	"poker/apis/oauth"
+	"poker/api"
+	"poker/api/grpc"
+	"poker/api/oauth"
 )
 
 func main() {
-	//api.RunGrpcSetver()
+	grpc.RunGrpcSetver()
 	oauth.OAuthChan = make(chan string, 1)
 	api.RunRestServer()
 
