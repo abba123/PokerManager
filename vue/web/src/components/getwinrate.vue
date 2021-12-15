@@ -6,83 +6,80 @@
           <th></th>
           <th colspan="2" >Card1</th>
           <th colspan="2" >Crad2</th>
-          <th colspan="2" >Winrate</th>
+          <th>Hand</th>
+          <th>Winrate</th>
         </thead>
         <tr>
-          <td rowspan="2">Player1</td>
+          <td>Player1</td>
           <td>
-            <select v-model="player1Card1Num">
-              <option v-for="num in nums" :key="num">
+            <select v-model=player1.Card[0].Num>
+              <option v-for="num in nums" :key=num>
                 {{ num }}
               </option>
             </select>
           </td>
           <td>
-            <select v-model="player1Card1Suit">
+            <select v-model=player1.Card[0].Suit>
               <option v-for="suit in suits" :key="suit">
                 {{ suit }}
               </option>
             </select>
           </td>
           <td>
-            <select v-model="player1Card2Num">
-              <option v-for="num in nums" :key="num">
+            <select v-model=player1.Card[1].Num>
+              <option v-for="num in nums" :key=num>
                 {{ num }}
               </option>
             </select>
           </td>
           <td>
-            <select v-model="player1Card2Suit">
+            <select v-model=player1.Card[1].Suit>
               <option v-for="suit in suits" :key="suit">
                 {{ suit }}
               </option>
             </select>
           </td>
-          <td id="result" colspan="2">
+          <img v-bind:src="'../../static/images/'+player1.Card[0].Num+player1.Card[0].Suit+'.png'">
+          <img v-bind:src="'../../static/images/'+player1.Card[1].Num+player1.Card[1].Suit+'.png'">
+          <td id="result">
             {{winRate1}}
           </td>
         </tr>
         <tr>
-          <td colspan="2"><img v-bind:src="'../../static/images/'+player1Card1Num+player1Card1Suit+'.png'"></td>
-          <td colspan="2"><img v-bind:src="'../../static/images/'+player1Card2Num+player1Card2Suit+'.png'"></td>
-        </tr>
-        <tr>
-          <td rowspan="2">Player2</td>
+          <td>Player2</td>
           <td>
-            <select v-model="player2Card1Num">
-              <option v-for="num in nums" :key="num">
+            <select v-model=player2.Card[0].Num>
+              <option v-for="num in nums" :key=num>
                 {{ num }}
               </option>
             </select>
           </td>
           <td>
-            <select v-model="player2Card1Suit">
+            <select v-model=player2.Card[0].Suit>
               <option v-for="suit in suits" :key="suit">
                 {{ suit }}
               </option>
             </select>
           </td>
           <td>
-            <select v-model="player2Card2Num">
-              <option v-for="num in nums" :key="num">
+            <select v-model=player2.Card[1].Num>
+              <option v-for="num in nums" :key= num>
                 {{ num }}
               </option>
             </select>
           </td>
           <td>
-            <select v-model="player2Card2Suit">
+            <select v-model=player2.Card[1].Suit>
               <option v-for="suit in suits" :key="suit">
                 {{ suit }}
               </option>
             </select>
           </td>
-          <td id="result" colspan="2">
+          <img v-bind:src="'../../static/images/'+player2.Card[0].Num+player2.Card[0].Suit+'.png'">
+          <img v-bind:src="'../../static/images/'+player2.Card[1].Num+player2.Card[1].Suit+'.png'">
+          <td id="result">
             {{winRate2}}
           </td>
-        </tr>
-        <tr>
-          <td colspan="2"><img v-bind:src="'../../static/images/'+player2Card1Num+player2Card1Suit+'.png'"></td>
-          <td colspan="2"><img v-bind:src="'../../static/images/'+player2Card2Num+player2Card2Suit+'.png'"></td>
         </tr>
       </table>
       
@@ -98,40 +95,44 @@ export default {
       counter : 1,
       msg: 'Welcome to PokerManager',
       suits: ["s","h","d","c"],
-      nums:["1","2","3","4","5","6","7","8","9","10","11","12","13"],
-      player1Card1Num:"",
-      player1Card1Suit:"",
-      player1Card2Num:"",
-      player1Card2Suit:"",
-      player2Card1Num:"",
-      player2Card1Suit:"",
-      player2Card2Num:"",
-      player2Card2Suit:"",
-      player1Card1: "",
-      player1Card2: "",
-      player2Card1: "",
-      player2Card2: "",
+      nums:[1,2,3,4,5,6,7,8,9,10,11,12,13],
+      player:[],
+      player1:{
+        Name:"1",
+        Card:[
+          {
+            Num:0,
+            Suit:""
+          },
+          {
+            Num:0,
+            Suit:""
+          },
+        ]
+      },
+      player2:{
+        Name:"123",
+        Card:[
+          {
+            Num:0,
+            Suit:""
+          },
+          {
+            Num:0,
+            Suit:""
+          },
+        ]
+      },
       winRate1: 0,
       winRate2: 0,
     }
   },
   methods:{
     getWinRate: function(){
+      this.player = [this.player1,this.player2]
+      console.log(this.player)
       this.$http
-        .get('http://'+this.$root.backIP+'/getwinrate', {
-          params: {
-            name1: "player1",
-            name2: "player2",
-            p1Card1Num: this.player1Card1Num,
-            p1Card1Suit: this.player1Card1Suit,
-            p1Card2Num: this.player1Card2Num,
-            p1Card2Suit: this.player1Card2Suit,
-            p2Card1Num: this.player2Card1Num,
-            p2Card1Suit: this.player2Card1Suit,
-            p2Card2Num: this.player2Card2Num,
-            p2Card2Suit: this.player2Card2Suit,
-          }
-        })
+        .post('http://'+this.$root.backIP+'/getwinrate',this.player)
         .then( (response) => {
           this.winRate1 = response.data.player1
           this.winRate2 = response.data.player2
@@ -149,7 +150,7 @@ h1{
 
 table{
     table-layout : fixed;
-    width: 550px;
+    width: 750px;
     margin:auto;
     margin-top: 30px;
 }
@@ -159,6 +160,6 @@ select{
 }
 
 img{
-  width: 50px;
+  width: 40px;
 }
 </style>

@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 
 	"poker/api/model"
@@ -18,6 +19,15 @@ var Tokens map[string]bool
 func getWinRate(c *gin.Context) {
 
 	t := poker.Table{}
+	var body []struct {
+		Name string `json:"Name"`
+		Card []struct {
+			Num  int    `json:"Num"`
+			Suit string `json:"Suit"`
+		} `json:"Card"`
+	}
+	c.Bind(&body)
+	fmt.Println(body)
 
 	p1 := poker.Player{Name: c.Query("name1")}
 	p2 := poker.Player{Name: c.Query("name2")}
