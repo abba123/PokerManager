@@ -27,7 +27,6 @@ func RemoveKeyRedis(player string) {
 	iter := client.Scan(ctx, 0, player+"*", 0).Iterator()
 
 	for iter.Next(ctx) {
-		fmt.Println(iter.Val())
 		client.Del(ctx, iter.Val())
 	}
 

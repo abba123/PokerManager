@@ -1,35 +1,20 @@
 package poker
 
 import (
-	"fmt"
-	"io/ioutil"
-	"os"
 	"strconv"
 	"strings"
 	"time"
-
-	"github.com/gin-gonic/gin"
 )
 
-func Parsefile(c *gin.Context) []Table {
-	dataByte, err := ioutil.ReadAll(c.Request.Body)
-
-	// err 沒有錯誤的話會回傳 nil
-	if err != nil {
-		// 當有錯誤時顯示錯誤訊息並離開程式
-		fmt.Println("Error: ", err)
-		os.Exit(1)
-	}
-
-	dataString := string(dataByte)            // 從 byte slice 轉成 string
-	data := strings.Split(dataString, "\r\n") // 從 string 轉成 string slice
+func Parsefile(username string, data string) []Table {
+	// 從 byte slice 轉成 string
+	dataSlice := strings.Split(data, "\r\n") // 從 string 轉成 string slice
 
 	tables := []Table{}
-	name := c.GetString("username")
 
-	for line := 0; line < len(data); line++ {
-		if strings.Contains(data[line], "Poker Hand") {
-			tables = append(tables, ParseTable(data, &line, name))
+	for line := 0; line < len(dataSlice); line++ {
+		if strings.Contains(dataSlice[line], "Poker Hand") {
+			tables = append(tables, ParseTable(dataSlice, &line, username))
 		}
 	}
 

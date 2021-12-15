@@ -4,12 +4,14 @@ import (
 	"math/rand"
 	"sort"
 	"time"
+
+	"github.com/shopspring/decimal"
 )
 
-func GetWinRate(player []Player, times int) map[string]float32 {
+func GetWinRate(player []Player, times int) map[string]float64 {
 
-	result := map[string]float32{}
-	total := 0
+	result := map[string]float64{}
+	var total int64
 
 	for i := 0; i < times; i++ {
 		winner := GetWinner(player, i)
@@ -20,7 +22,7 @@ func GetWinRate(player []Player, times int) map[string]float32 {
 	}
 
 	for k, v := range result {
-		result[k] = v / float32(total)
+		result[k], _ = decimal.NewFromFloat(v).Div(decimal.NewFromInt(total)).Float64()
 	}
 
 	return result

@@ -150,7 +150,7 @@ type GetWinRateResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Result map[string]float32 `protobuf:"bytes,1,rep,name=result,proto3" json:"result,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"fixed32,2,opt,name=value,proto3"`
+	Result map[string]float64 `protobuf:"bytes,1,rep,name=result,proto3" json:"result,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"fixed32,2,opt,name=value,proto3"`
 }
 
 func (x *GetWinRateResponse) Reset() {
@@ -185,7 +185,7 @@ func (*GetWinRateResponse) Descriptor() ([]byte, []int) {
 	return file_poker_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *GetWinRateResponse) GetResult() map[string]float32 {
+func (x *GetWinRateResponse) GetResult() map[string]float64 {
 	if x != nil {
 		return x.Result
 	}

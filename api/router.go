@@ -14,7 +14,7 @@ func RunRestServer() {
 	router.PUT("/", register)
 	router.DELETE("/", middlewaree, logout)
 
-	router.POST("/getwinrate", getWinRate)
+	router.POST("/getwinrate", middlewaree, getWinRate)
 
 	router.GET("/hand", middlewaree, getHand)
 	router.PUT("/hand", middlewaree, putHand)

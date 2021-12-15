@@ -12,28 +12,28 @@
         <tr>
           <td>Player1</td>
           <td>
-            <select v-model=player1.Card[0].Num>
-              <option v-for="num in nums" :key=num>
+            <select v-model="player1.Card[0].Num">
+              <option v-for="num in nums" :key="num">
                 {{ num }}
               </option>
             </select>
           </td>
           <td>
-            <select v-model=player1.Card[0].Suit>
+            <select v-model="player1.Card[0].Suit">
               <option v-for="suit in suits" :key="suit">
                 {{ suit }}
               </option>
             </select>
           </td>
           <td>
-            <select v-model=player1.Card[1].Num>
-              <option v-for="num in nums" :key=num>
+            <select v-model="player1.Card[1].Num">
+              <option v-for="num in nums" :key="num">
                 {{ num }}
               </option>
             </select>
           </td>
           <td>
-            <select v-model=player1.Card[1].Suit>
+            <select v-model="player1.Card[1].Suit">
               <option v-for="suit in suits" :key="suit">
                 {{ suit }}
               </option>
@@ -42,34 +42,34 @@
           <img v-bind:src="'../../static/images/'+player1.Card[0].Num+player1.Card[0].Suit+'.png'">
           <img v-bind:src="'../../static/images/'+player1.Card[1].Num+player1.Card[1].Suit+'.png'">
           <td id="result">
-            {{winRate1}}
+            {{winRate.Player1}}
           </td>
         </tr>
         <tr>
           <td>Player2</td>
           <td>
-            <select v-model=player2.Card[0].Num>
-              <option v-for="num in nums" :key=num>
+            <select v-model="player2.Card[0].Num">
+              <option v-for="num in nums" :key="num">
                 {{ num }}
               </option>
             </select>
           </td>
           <td>
-            <select v-model=player2.Card[0].Suit>
+            <select v-model="player2.Card[0].Suit">
               <option v-for="suit in suits" :key="suit">
                 {{ suit }}
               </option>
             </select>
           </td>
           <td>
-            <select v-model=player2.Card[1].Num>
-              <option v-for="num in nums" :key= num>
+            <select v-model="player2.Card[1].Num">
+              <option v-for="num in nums" :key="num">
                 {{ num }}
               </option>
             </select>
           </td>
           <td>
-            <select v-model=player2.Card[1].Suit>
+            <select v-model="player2.Card[1].Suit">
               <option v-for="suit in suits" :key="suit">
                 {{ suit }}
               </option>
@@ -78,7 +78,7 @@
           <img v-bind:src="'../../static/images/'+player2.Card[0].Num+player2.Card[0].Suit+'.png'">
           <img v-bind:src="'../../static/images/'+player2.Card[1].Num+player2.Card[1].Suit+'.png'">
           <td id="result">
-            {{winRate2}}
+            {{winRate.Player2}}
           </td>
         </tr>
       </table>
@@ -98,7 +98,7 @@ export default {
       nums:[1,2,3,4,5,6,7,8,9,10,11,12,13],
       player:[],
       player1:{
-        Name:"1",
+        Name:"Player1",
         Card:[
           {
             Num:0,
@@ -111,7 +111,7 @@ export default {
         ]
       },
       player2:{
-        Name:"123",
+        Name:"Player2",
         Card:[
           {
             Num:0,
@@ -123,20 +123,27 @@ export default {
           },
         ]
       },
-      winRate1: 0,
-      winRate2: 0,
+      winRate:{
+        Player1:0,
+        Player2:0,
+      }
     }
   },
   methods:{
     getWinRate: function(){
       this.player = [this.player1,this.player2]
-      console.log(this.player)
+      this.player.forEach(value =>
+        value.Card.forEach( value =>
+          value.Num = parseInt(value.Num)
+        )
+      )
       this.$http
         .post('http://'+this.$root.backIP+'/getwinrate',this.player)
         .then( (response) => {
-          this.winRate1 = response.data.player1
-          this.winRate2 = response.data.player2
+          this.winRate.Player1 = response.data.Player1
+          this.winRate.Player2 = response.data.Player2
         })
+      
     }
   }
 }

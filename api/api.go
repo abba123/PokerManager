@@ -1,9 +1,10 @@
 package api
 
 import (
-	"fmt"
+	"io/ioutil"
 	"net/http"
 
+	"poker/api/kafka"
 	"poker/api/model"
 	"poker/api/oauth"
 	"poker/api/token"
@@ -19,36 +20,9 @@ var Tokens map[string]bool
 func getWinRate(c *gin.Context) {
 
 	t := poker.Table{}
-	var body []struct {
-		Name string `json:"Name"`
-		Card []struct {
-			Num  int    `json:"Num"`
-			Suit string `json:"Suit"`
-		} `json:"Card"`
-	}
-	c.Bind(&body)
-	fmt.Println(body)
-
-	p1 := poker.Player{Name: c.Query("name1")}
-	p2 := poker.Player{Name: c.Query("name2")}
-
-	p1.Card = []poker.Card{{}, {}}
-	p1.Card[0].Num, _ = strconv.Atoi(c.Query("p1Card1Num"))
-	p1.Card[0].Suit = c.Query("p1Card1Suit")
-	p1.Card[1].Num, _ = strconv.Atoi(c.Query("p1Card2Num"))
-	p1.Card[1].Suit = c.Query("p1Card2Suit")
-
-	p2.Card = []poker.Card{{}, {}}
-	p2.Card[0].Num, _ = strconv.Atoi(c.Query("p2Card1Num"))
-	p2.Card[0].Suit = c.Query("p2Card1Suit")
-	p2.Card[1].Num, _ = strconv.Atoi(c.Query("p2Card2Num"))
-	p2.Card[1].Suit = c.Query("p2Card2Suit")
-
-	t.Player = append(t.Player, p1)
-	t.Player = append(t.Player, p2)
+	c.Bind(&t.Player)
 
 	result := poker.GetWinRate(t.Player, 10000)
-
 	c.JSON(http.StatusOK, result)
 }
 
@@ -120,10 +94,10 @@ func getHand(c *gin.Context) {
 }
 
 func putHand(c *gin.Context) {
-	table := poker.Parsefile(c)
-	model.InsertHandDB(table)
-	model.RemoveKeyRedis(table[0].Player[0].Name)
-	c.JSON(http.StatusOK, table)
+	dataByte, _ := ioutil.ReadAll(c.Request.Body)
+	username := c.GetString("username")
+	kafka.KafkaWrite(dataByte, []byte(username))
+	c.JSON(http.StatusOK, nil)
 }
 
 func login(c *gin.Context) {
