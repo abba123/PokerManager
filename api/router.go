@@ -29,7 +29,7 @@ func RunRestServer() {
 	router.GET("/oauth/login", oauthGetToken)
 	router.GET("/oauth/check", oauthCheckToken)
 
-	router.Run(":8080")
+	router.Run(":80")
 }
 
 // 定義 cors-config
