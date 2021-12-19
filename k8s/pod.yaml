@@ -10,4 +10,4 @@ spec:
       image: centos
       command: [ "/bin/bash", "-ce", "tail -f /dev/null" ]
       ports:
-        - containerPort: 80
+        - containerPort: 8080

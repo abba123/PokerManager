@@ -4,7 +4,7 @@ metadata:
   name: my-service
 spec:
   selector:
-    app: web
+    app: my-app
   type: NodePort
   ports:
     - protocol: TCP
