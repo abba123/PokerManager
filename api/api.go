@@ -142,9 +142,9 @@ func oauthGetCode(c *gin.Context) {
 
 func oauthGetToken(c *gin.Context) {
 	code := c.Query("code")
-	token := oauth.GenerateTokenURL(code)
-	Tokens[token] = true
-
+	oauthToken := oauth.GenerateTokenURL(code)
+	username := oauth.GetUser(oauthToken)
+	token := token.GenerateToken(username)
 	oauth.OAuthChan <- token
 }
 

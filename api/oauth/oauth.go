@@ -1,6 +1,7 @@
 package oauth
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -12,6 +13,7 @@ const clientSecret string = "8517b74a34215561a21abae585cfb2ac4f0fa1be"
 const scopes string = "user:email"
 
 const redirectURL string = "http://localhost:8000/oauth/login"
+
 //const redirectURL string = "http://3.133.150.55/oauth/login"
 
 var OAuthChan chan string
@@ -30,6 +32,27 @@ func GenerateTokenURL(code string) string {
 	tokenString := strings.Split(string(body), "&")[0]
 	token := strings.Split(tokenString, "=")[1]
 
-	fmt.Println(token)
+	GetUser(token)
 	return token
+}
+
+func GetUser(token string) string {
+	client := http.Client{}
+	req, _ := http.NewRequest("GET", "https://api.github.com/user", nil)
+
+	req.Header = http.Header{
+		"Authorization": []string{"token " + token},
+	}
+
+	res, _ := client.Do(req)
+
+	var body struct {
+		Username string `json:"login"`
+	}
+
+	r, _ := ioutil.ReadAll(res.Body)
+
+	json.Unmarshal(r, &body)
+
+	return body.Username
 }
