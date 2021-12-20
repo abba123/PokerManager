@@ -3,11 +3,37 @@ kind: Pod
 metadata:
   name: my-pod
   labels:
-    app: web
+    app: my-app
 spec:
   containers:
-    - name: backend
-      image: centos
-      command: [ "/bin/bash", "-ce", "tail -f /dev/null" ]
-      ports:
-        - containerPort: 8080
+        - name: frontend
+          image: abba123/frontend
+          ports:
+            - containerPort: 80
+        - name: mysql
+          image: mysql
+          env:
+            # Use secret in real usage
+          - name: MYSQL_ROOT_PASSWORD
+            value: abbaABBA123
+          - name: MYSQL_DATABASE
+            value: pokerdb
+          - name: MYSQL_USER
+            value: abba123
+          - name: MYSQL_PASSWORD
+            value: abbaABBA123
+          ports:
+          - containerPort: 3306
+        - name: redis
+          image: redis
+          ports:
+            - containerPort: 6379
+        - name: kafka
+          image: spotify/kafka
+          ports:
+            - containerPort: 9092
+        - name: backend
+          image: abba123/backend
+          command: [ "./PokerManager/backend"]
+          ports:
+            - containerPort: 8000

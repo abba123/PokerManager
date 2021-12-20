@@ -8,11 +8,12 @@ import (
 
 func Parsefile(username string, data string) []Table {
 	// 從 byte slice 轉成 string
-	dataSlice := strings.Split(data, "\r\n") // 從 string 轉成 string slice
+	data = strings.Replace(data, "\r\n", "\n", -1)
+	dataSlice := strings.Split(data, "\n") // 從 string 轉成 string slice
 
 	tables := []Table{}
 
-	for line := 0; line < len(dataSlice); line++ {
+	for line := 4; line < len(dataSlice); line++ {
 		if strings.Contains(dataSlice[line], "Poker Hand") {
 			tables = append(tables, ParseTable(dataSlice, &line, username))
 		}
