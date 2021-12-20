@@ -8,7 +8,7 @@ import (
 
 func main() {
 	//grpc.RunGrpcSetver()
-	//go kafka.KafkaRead()
+	go kafka.KafkaRead()
 	oauth.OAuthChan = make(chan string, 1)
 	api.RunRestServer()
 }
