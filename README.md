@@ -2,14 +2,33 @@
 PokerManagr is a software which can manage and analysis your hands played on GGPoker and Natural8
 
 # Related Installation
+* Frontend : vue
+* Backend : golang(gin)
 * Web server : Nginx
+* DB : mysql
 * Cache : Redis
 * Message Queue : Kafka
+* deployment : docker, k8s
 
 # Start
-Put PokerManager/vue/web/dist/index.html & static in Nginx and start Nginx
+you can use k8s to run the program
 
-connect web with url http://127.0.0.1:8080
+## for mac
+start the minikube
+    
+    minikube start
+
+create the pod (all for one)
+
+    kubectl create -f pod.yaml
+  
+expose the port
+
+    sudo kubectl port-forward my-pod 80:80 8000:8000 3306:3306 6379:6379 9092:9092
+  
+connect the web
+
+    connect web with url http://127.0.0.1:80
 
 # What we can do
 
