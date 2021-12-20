@@ -32,7 +32,7 @@ connect the web
 
 # What we can do
 
-Details in the [user guide]()
+Details in the [user guide](https://github.com/abba123/PokerManager/blob/master/guide.md)
 
 # Help
 connect me a0981861951@gmail.com
