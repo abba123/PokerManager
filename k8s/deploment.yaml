@@ -42,6 +42,7 @@ spec:
             - containerPort: 9092
         - name: backend
           image: abba123/backend
+          command: [ "/bin/bash", "-ce", "tail -f /dev/null" ]
           ports:
             - containerPort: 8080
       

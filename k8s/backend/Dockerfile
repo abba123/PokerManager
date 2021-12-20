@@ -10,4 +10,4 @@ RUN yum install git golang -y \
     && go mod download \
     && go build -o backend
 
-CMD [ "./PokerManager/backend" ]
+CMD [ "./PokerManager/backend",">","backend.log"]
