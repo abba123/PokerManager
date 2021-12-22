@@ -11,6 +11,10 @@ import (
 	"github.com/segmentio/kafka-go"
 )
 
+const kafkaURL string = "ec2-3-131-38-31.us-east-2.compute.amazonaws.com:9092"
+//const kafkaURL string = "localhost:9092"
+const topic string = "pokerHand" 
+
 func NewKafkaWriter(kafkaURL, topic string) *kafka.Writer {
 	return &kafka.Writer{
 		Addr:     kafka.TCP(kafkaURL),
@@ -31,10 +35,6 @@ func NewKafkaReader(kafkaURL, topic string) *kafka.Reader {
 }
 
 func KafkaWrite(data []byte, username []byte) {
-	kafkaURL := "ec2-3-131-38-31.us-east-2.compute.amazonaws.com:9092"
-	//kafkaURL := "localhost:9092"
-	topic := "pokerHand"
-
 	writer := NewKafkaWriter(kafkaURL, topic)
 	defer writer.Close()
 	fmt.Println("start producing ... !!")
@@ -50,7 +50,6 @@ func KafkaWrite(data []byte, username []byte) {
 }
 
 func KafkaRead() {
-	kafkaURL := "localhost:9092"
 	topic := "pokerHand"
 
 	reader := NewKafkaReader(kafkaURL, topic)
