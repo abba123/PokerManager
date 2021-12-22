@@ -31,7 +31,8 @@ func NewKafkaReader(kafkaURL, topic string) *kafka.Reader {
 }
 
 func KafkaWrite(data []byte, username []byte) {
-	kafkaURL := "localhost:9092"
+	kafkaURL := "ec2-3-131-38-31.us-east-2.compute.amazonaws.com:9092"
+	//kafkaURL := "localhost:9092"
 	topic := "pokerHand"
 
 	writer := NewKafkaWriter(kafkaURL, topic)

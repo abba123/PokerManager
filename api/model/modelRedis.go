@@ -13,7 +13,8 @@ var ctx = context.Background()
 
 func InitRedis() *redis.Client {
 	client := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
+		Addr: "rediscache.93ekuw.0001.use2.cache.amazonaws.com:6379",
+		//Addr:     "localhost:6379",
 		Password: "", // no password set
 		DB:       0,  // use default DB
 	})
