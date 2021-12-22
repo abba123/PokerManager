@@ -11,8 +11,8 @@ import (
 	"github.com/segmentio/kafka-go"
 )
 
-const kafkaURL string = "ec2-3-131-38-31.us-east-2.compute.amazonaws.com:9092"
-//const kafkaURL string = "localhost:9092"
+//const kafkaURL string = "ec2-3-131-38-31.us-east-2.compute.amazonaws.com:9092"
+const kafkaURL string = "localhost:9092"
 const topic string = "pokerHand" 
 
 func NewKafkaWriter(kafkaURL, topic string) *kafka.Writer {
