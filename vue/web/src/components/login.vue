@@ -15,6 +15,9 @@
     <div v-if="this.$root.token">
       <b-button variant="danger" class="btn" @click="logout">登出</b-button>
     </div>
+    <b-modal v-model="registerModalShow">註冊成功</b-modal>
+    <b-modal v-model="loginModalShow">登入成功</b-modal>
+    <b-modal v-model="logoutModalShow">登出成功</b-modal>
   </div>
 </template>
 
@@ -31,6 +34,9 @@ export default {
       password:"test",
       timer: '',
       timecount :0,
+      registerModalShow: false,
+      loginModalShow: false,
+      logoutModalShow: false
     }
   },
   methods:{
@@ -45,6 +51,7 @@ export default {
           if (response.data){
             this.$root.token = response.data
             this.$http.defaults.headers.common['Authorization'] = this.$root.token 
+            this.loginModalShow = true
           }
         })
     },
@@ -53,15 +60,16 @@ export default {
         .post('http://'+this.$root.backIP, {
           username: this.username,
           password: this.password,
-          
         })
+      tihs.registerModalShow = true
     },
     logout(){
       this.$http
         .delete('http://'+this.$root.backIP)
         
-        this.$root.token = ""
-        this.$http.defaults.headers.common['Authorization'] = this.$root.token
+      this.$root.token = ""
+      this.$http.defaults.headers.common['Authorization'] = this.$root.token
+      this.logoutModalShow = true
     },
     oAuth(){
       this.$http
@@ -83,6 +91,7 @@ export default {
              this.$root.token = response.data
              this.$http.defaults.headers.common['Authorization'] = this.$root.token
               clearInterval(this.timeInterval);
+              this.loginModalShow = true
             }
           })
       }else{

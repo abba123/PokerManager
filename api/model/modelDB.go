@@ -10,14 +10,15 @@ import (
 	"gorm.io/gorm/clause"
 )
 
+//const mysqlIP string = "database-1.crj366caarmq.us-east-2.rds.amazonaws.com:3306"
+const mysqlIP string = "localhost:3306"
+
+
 func InitDB() *gorm.DB {
 
 	//連接MySQL
 
-	//IP := "database-1.crj366caarmq.us-east-2.rds.amazonaws.com"
-	IP := "localhost"
-
-	db, err := gorm.Open(mysql.Open("abba123:abbaABBA123@tcp("+IP+":3306)/pokerdb?parseTime=true"), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open("abba123:abbaABBA123@tcp("+mysqlIP+")/pokerdb?parseTime=true"), &gorm.Config{})
 	if err != nil {
 		fmt.Println("connection to mysql failed:", err)
 		return db

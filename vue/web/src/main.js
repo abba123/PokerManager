@@ -29,7 +29,7 @@ new Vue({
   data(){
     return {
       token: "",
-      //backIP: "3.133.150.55",
+      //backIP: "ec2-3-128-204-27.us-east-2.compute.amazonaws.com:8000",
       backIP: "localhost:8000",
     }
   }
