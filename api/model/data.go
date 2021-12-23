@@ -19,7 +19,7 @@ type Card struct {
 }
 
 type Action struct {
-	action []string
+	Action []string
 }
 
 type Game struct {

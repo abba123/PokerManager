@@ -10,7 +10,6 @@ import (
 	"poker/api/token"
 	"poker/poker"
 	"strconv"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,63 +27,32 @@ func getWinRate(c *gin.Context) {
 
 func getHand(c *gin.Context) {
 
-	result := model.GetHandRedis(c.Query("num"), c.Query("gain"), c.Query("seat"), c.GetString("username"))
+	results := model.GetHandRedis(c.Query("num"), c.Query("gain"), c.Query("seat"), c.GetString("username"))
 
 	tables := []poker.Table{}
 
-	for _, r := range result {
+	for _, result := range results {
 		table := poker.Table{}
 
-		table.Time = r.Time
-		if r.TableCard1 != "" {
-			table.Card = append(table.Card, poker.Card{})
-			table.Card[0].Num, _ = strconv.Atoi(string(r.TableCard1[:len(r.TableCard1)-1]))
-			table.Card[0].Suit = string(r.TableCard1[len(r.TableCard1)-1:])
+		table.Time = result.Time
+
+		for _, card := range result.TableCard {
+			table.Card = append(table.Card, poker.Card(card))
 		}
-		if r.TableCard2 != "" {
-			table.Card = append(table.Card, poker.Card{})
-			table.Card[1].Num, _ = strconv.Atoi(string(r.TableCard2[:len(r.TableCard1)-1]))
-			table.Card[1].Suit = string(r.TableCard2[len(r.TableCard1)-1:])
-		}
-		if r.TableCard3 != "" {
-			table.Card = append(table.Card, poker.Card{})
-			table.Card[2].Num, _ = strconv.Atoi(string(r.TableCard3[:len(r.TableCard1)-1]))
-			table.Card[2].Suit = string(r.TableCard3[len(r.TableCard1)-1:])
-		}
-		if r.TableCard4 != "" {
-			table.Card = append(table.Card, poker.Card{})
-			table.Card[3].Num, _ = strconv.Atoi(string(r.TableCard4[:len(r.TableCard1)-1]))
-			table.Card[3].Suit = string(r.TableCard4[len(r.TableCard1)-1:])
-		}
-		if r.TableCard5 != "" {
-			table.Card = append(table.Card, poker.Card{})
-			table.Card[4].Num, _ = strconv.Atoi(string(r.TableCard5[:len(r.TableCard1)-1]))
-			table.Card[4].Suit = string(r.TableCard5[len(r.TableCard1)-1:])
-		}
+
 		player := poker.Player{}
 
-		player.Card = append(player.Card, poker.Card{})
-		player.Card[0].Num, _ = strconv.Atoi(string(r.HeroCard1[:len(r.HeroCard1)-1]))
-		player.Card[0].Suit = string(r.HeroCard1[len(r.HeroCard1)-1:])
-		player.Card = append(player.Card, poker.Card{})
-		player.Card[1].Num, _ = strconv.Atoi(string(r.HeroCard2[:len(r.HeroCard2)-1]))
-		player.Card[1].Suit = string(r.HeroCard2[len(r.HeroCard2)-1:])
-		player.Gain = r.Gain
-		player.Seat = r.Seat
-		player.Name = r.Player
+		player.Card = append(player.Card, poker.Card(result.HeroCard[0]))
+		player.Card = append(player.Card, poker.Card(result.HeroCard[1]))
 
-		if r.Preflop != "" {
-			player.Action.Preflop = strings.Split(r.Preflop, " ")
-		}
-		if r.Flop != "" {
-			player.Action.Flop = strings.Split(r.Flop, " ")
-		}
-		if r.Turn != "" {
-			player.Action.Turn = strings.Split(r.Turn, " ")
-		}
-		if r.River != "" {
-			player.Action.River = strings.Split(r.River, " ")
-		}
+		player.Gain = result.Gain
+		player.Seat = result.Seat.Location
+		player.Name = result.User.Username
+
+		player.Action.Preflop = result.Preflop.Action
+		player.Action.Flop = result.Flop.Action
+		player.Action.Turn = result.Turn.Action
+		player.Action.River = result.River.Action
 
 		table.Player = append(table.Player, player)
 		tables = append(tables, table)

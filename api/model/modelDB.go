@@ -67,10 +67,10 @@ func InsertHandDB(tables []poker.Table) {
 		}
 		game.Seat.Location = table.Player[0].Seat
 		game.Gain = table.Player[0].Gain
-		game.Preflop.action = table.Player[0].Action.Preflop
-		game.Flop.action = table.Player[0].Action.Flop
-		game.Turn.action = table.Player[0].Action.Turn
-		game.River.action = table.Player[0].Action.River
+		game.Preflop.Action = table.Player[0].Action.Preflop
+		game.Flop.Action = table.Player[0].Action.Flop
+		game.Turn.Action = table.Player[0].Action.Turn
+		game.River.Action = table.Player[0].Action.River
 
 		games = append(games, game)
 	}
