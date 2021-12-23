@@ -11,13 +11,13 @@ func RunRestServer() {
 
 	router.Use(cors.New(CorsConfig()))
 	router.POST("/", login)
-	router.PUT("/", register)
+	router.POST("/", register)
 	router.DELETE("/", middlewaree, logout)
 
 	router.POST("/getwinrate", middlewaree, getWinRate)
 
 	router.GET("/hand", middlewaree, getHand)
-	router.PUT("/hand", middlewaree, putHand)
+	router.POST("/hand", middlewaree, putHand)
 	
 	router.GET("/profit", middlewaree, getPorfit)
 	router.GET("/preflop", middlewaree, getPreflop)

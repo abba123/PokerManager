@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"poker/poker"
 	"strconv"
-	"strings"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -56,35 +55,23 @@ func InsertHandDB(tables []poker.Table) {
 		game := Game{}
 		game.ID = table.ID
 		game.Time = table.Time
-		game.Player = table.Player[0].Name
-		game.HeroCard1 = strconv.Itoa(table.Player[0].Card[0].Num) + table.Player[0].Card[0].Suit
-		game.HeroCard2 = strconv.Itoa(table.Player[0].Card[1].Num) + table.Player[0].Card[1].Suit
-
-		if len(table.Card) > 0 {
-			game.TableCard1 = strconv.Itoa(table.Card[0].Num) + table.Card[0].Suit
+		game.User.Username = table.Player[0].Name
+		for i := 0; i < 2; i++ {
+			game.HeroCard[i].Num = table.Player[0].Card[i].Num
+			game.HeroCard[i].Suit = table.Player[0].Card[i].Suit
 		}
-		if len(table.Card) > 1 {
-			game.TableCard2 = strconv.Itoa(table.Card[1].Num) + table.Card[1].Suit
+		for i := 0; i < 5; i++ {
+			game.TableCard[i].Num = table.Card[i].Num
+			game.TableCard[i].Suit = table.Card[i].Suit
 		}
-		if len(table.Card) > 2 {
-			game.TableCard3 = strconv.Itoa(table.Card[2].Num) + table.Card[2].Suit
-		}
-		if len(table.Card) > 3 {
-			game.TableCard4 = strconv.Itoa(table.Card[3].Num) + table.Card[3].Suit
-		}
-		if len(table.Card) > 4 {
-			game.TableCard5 = strconv.Itoa(table.Card[4].Num) + table.Card[4].Suit
-		}
-
-		game.Seat = table.Player[0].Seat
+		game.Seat.Location = table.Player[0].Seat
 		game.Gain = table.Player[0].Gain
-		game.Preflop = strings.Join(table.Player[0].Action.Preflop, " ")
-		game.Flop = strings.Join(table.Player[0].Action.Flop, " ")
-		game.Turn = strings.Join(table.Player[0].Action.Turn, " ")
-		game.River = strings.Join(table.Player[0].Action.River, " ")
+		game.Preflop.action = table.Player[0].Action.Preflop
+		game.Flop.action = table.Player[0].Action.Flop
+		game.Turn.action = table.Player[0].Action.Turn
+		game.River.action = table.Player[0].Action.River
 
 		games = append(games, game)
-
 	}
 
 	db.Clauses(clause.OnConflict{DoNothing: true}).Create(&games)

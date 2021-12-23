@@ -22,11 +22,8 @@ func ValidToken(token string) (*Token, error) {
 	tokenClaims, err := jwt.ParseWithClaims(token, &Token{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte("secert"), nil
 	})
-	if err != nil {
-		return nil, err
-	}
 
-	if tokenClaims != nil {
+	if err == nil && tokenClaims != nil {
 		if claims, ok := tokenClaims.Claims.(*Token); ok && tokenClaims.Valid {
 			return claims, nil
 		}

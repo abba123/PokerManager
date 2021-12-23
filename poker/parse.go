@@ -18,7 +18,6 @@ func Parsefile(username string, data string) []Table {
 			tables = append(tables, ParseTable(dataSlice, &line, username))
 		}
 	}
-
 	return tables
 }
 

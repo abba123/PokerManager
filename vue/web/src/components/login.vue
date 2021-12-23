@@ -50,7 +50,7 @@ export default {
     },
     register(){
       this.$http
-        .put('http://'+this.$root.backIP, {
+        .post('http://'+this.$root.backIP, {
           username: this.username,
           password: this.password,
           

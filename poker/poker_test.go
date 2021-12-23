@@ -1,6 +1,7 @@
 package poker
 
 import (
+	"os"
 	"testing"
 )
 
@@ -9,11 +10,10 @@ func TestStraightFlush(t *testing.T) {
 	player := Player{}
 	table := Table{}
 
-	player.Card = []Card{{Num: 1, Suit: "c"}, {Num: 9, Suit: "s"}}
+	player.Card = []Card{{Num: 1, Suit: "c"}, {Num: 9, Suit: "c"}}
 	table.Card = []Card{{Num: 10, Suit: "c"}, {Num: 11, Suit: "c"}, {Num: 12, Suit: "c"}, {Num: 13, Suit: "c"}, {Num: 3, Suit: "c"}}
 
 	rank, _ := GetRank(player, table)
-
 	if rank == 8 {
 		t.Log("Straight flush PASS")
 	} else {
@@ -171,5 +171,39 @@ func TestHighCard2(t *testing.T) {
 		t.Log("High card PASS")
 	} else {
 		t.Error("High card FAIL")
+	}
+}
+
+func TestGetWinRate(t *testing.T) {
+	table := Table{}
+
+	player1 := Player{}
+	player2 := Player{}
+	player1.Card = []Card{{Num: 1, Suit: "c"}, {Num: 5, Suit: "s"}}
+	player2.Card = []Card{{Num: 1, Suit: "h"}, {Num: 4, Suit: "s"}}
+	player1.Name = "player1"
+	player2.Name = "player2"
+
+	table.Player = append(table.Player, player1, player2)
+
+	result := GetWinRate(table.Player, 10000)
+	if result[player1.Name] > result[player2.Name] {
+		t.Log("GetWinRate PASS")
+	} else {
+		t.Log("GetWinRate FAIL")
+	}
+}
+
+func TestParseFile(t *testing.T) {
+	data, _ := os.ReadFile("testData.txt")
+	result := Parsefile("test", string(data))[0]
+
+	table := Table{}
+	table.ID = 376515665
+
+	if table.ID == result.ID {
+		t.Log("Parse PASS")
+	} else {
+		t.Log("Parse FAIL")
 	}
 }

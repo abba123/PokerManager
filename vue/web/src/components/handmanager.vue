@@ -80,7 +80,7 @@ export default {
       
     },
     upload() {
-        this.$http.put('http://'+this.$root.backIP+'/hand', this.formData)
+        this.$http.post('http://'+this.$root.backIP+'/hand', this.formData)
           .then( (response) => {
             this.num = 10
             this.gethand()
