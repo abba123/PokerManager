@@ -1,0 +1,55 @@
+-
+-
+-
+-
+Poker Hand #RC376515970: Hold'em No Limit  ($0.02/$0.05) - 2021/04/25 12:42:44
+Table 'RushAndCash3741230' 6-max Seat #1 is the button
+Seat 1: 9a503170 ($5.07 in chips)
+Seat 2: 14c739a9 ($8.65 in chips)
+Seat 3: Hero ($5.12 in chips)
+Seat 4: 61d85776 ($6 in chips)
+Seat 5: 24e90562 ($3.11 in chips)
+Seat 6: 8aeb6eb1 ($5.35 in chips)
+14c739a9: posts small blind $0.02
+Hero: posts big blind $0.05
+*** HOLE CARDS ***
+Dealt to 9a503170
+Dealt to 14c739a9
+Dealt to Hero [5c 6c]
+Dealt to 61d85776
+Dealt to 24e90562
+Dealt to 8aeb6eb1
+61d85776: folds
+24e90562: raises $0.06 to $0.11
+8aeb6eb1: folds
+9a503170: calls $0.11
+14c739a9: folds
+Hero: calls $0.06
+*** FLOP *** [Qc 2d Kc]
+Hero: checks
+24e90562: checks
+9a503170: bets $0.27
+Hero: calls $0.27
+24e90562: calls $0.27
+*** TURN *** [Qc 2d Kc] [3s]
+Hero: checks
+24e90562: checks
+9a503170: bets $0.87
+Hero: calls $0.87
+24e90562: folds
+*** RIVER *** [Qc 2d Kc 3s] [8s]
+Hero: checks
+9a503170: checks
+Hero: shows [5c 6c] (King-High)
+9a503170: shows [Ks Ts] (Pair of Kings)
+*** SHOWDOWN ***
+9a503170 collected $2.71 from pot
+*** SUMMARY ***
+Total pot $2.9 | Rake $0.14 | Jackpot $0.05 | Bingo $0
+Board [Qc 2d Kc 3s 8s]
+Seat 1: 9a503170 (button) showed [Ks Ts] and won ($2.71) with Pair of Kings
+Seat 2: 14c739a9 (small blind) folded before Flop
+Seat 3: Hero (big blind) showed [5c 6c] and lost with King-High
+Seat 4: 61d85776 folded before Flop (didn't bet)
+Seat 5: 24e90562 folded on the Turn
+Seat 6: 8aeb6eb1 folded before Flop (didn't bet)

@@ -88,7 +88,7 @@ func getSuits(card []Card) []Card {
 		}
 	}
 
-	for i := len(card) - 1; i >= 0; i-- {
+	for i := 0; i < len(card); i++ {
 		if card[i].Suit == maxValue {
 			result = append(result, card[i])
 		}

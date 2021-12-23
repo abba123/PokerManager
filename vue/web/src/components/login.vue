@@ -42,7 +42,7 @@ export default {
   methods:{
     login(){
       this.$http
-        .post('http://'+this.$root.backIP, {
+        .post('http://'+this.$root.backIP+'/login', {
           username: this.username,
           password: this.password,
           
@@ -57,7 +57,7 @@ export default {
     },
     register(){
       this.$http
-        .put('http://'+this.$root.backIP, {
+        .post('http://'+this.$root.backIP+'/register', {
           username: this.username,
           password: this.password,
         })
@@ -65,7 +65,7 @@ export default {
     },
     logout(){
       this.$http
-        .delete('http://'+this.$root.backIP)
+        .delete('http://'+this.$root.backIP+'/logout')
         
       this.$root.token = ""
       this.$http.defaults.headers.common['Authorization'] = this.$root.token
