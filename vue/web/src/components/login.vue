@@ -57,7 +57,11 @@ export default {
     },
     register(){
       this.$http
+<<<<<<< HEAD
         .post('http://'+this.$root.backIP+'/register', {
+=======
+        .post('http://'+this.$root.backIP, {
+>>>>>>> ad5f48ad (add unit test)
           username: this.username,
           password: this.password,
         })

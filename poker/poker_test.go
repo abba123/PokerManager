@@ -10,11 +10,10 @@ func TestStraightFlush(t *testing.T) {
 	player := Player{}
 	table := Table{}
 
-	player.Card = []Card{{Num: 1, Suit: "c"}, {Num: 9, Suit: "s"}}
+	player.Card = []Card{{Num: 1, Suit: "c"}, {Num: 9, Suit: "c"}}
 	table.Card = []Card{{Num: 10, Suit: "c"}, {Num: 11, Suit: "c"}, {Num: 12, Suit: "c"}, {Num: 13, Suit: "c"}, {Num: 3, Suit: "c"}}
 
 	rank, _ := GetRank(player, table)
-
 	if rank == 8 {
 		t.Log("Straight flush PASS")
 	} else {
