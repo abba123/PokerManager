@@ -5,10 +5,10 @@ type Player struct {
 	Seat   string  
 	Gain   float64 
 	Action struct {
-		Preflop []string
-		Flop    []string
-		Turn    []string
-		River   []string
+		Preflop string
+		Flop    string
+		Turn    string
+		River   string
 	} 
 	Card      []Card 
 	Rank      int    

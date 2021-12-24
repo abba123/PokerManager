@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"poker/poker"
 	"strconv"
-	"strings"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -13,7 +12,6 @@ import (
 
 //const mysqlIP string = "database-1.crj366caarmq.us-east-2.rds.amazonaws.com:3306"
 const mysqlIP string = "localhost:3306"
-
 
 func InitDB() *gorm.DB {
 
@@ -79,10 +77,10 @@ func InsertHandDB(tables []poker.Table) {
 
 		game.Seat = table.Player[0].Seat
 		game.Gain = table.Player[0].Gain
-		game.Preflop = strings.Join(table.Player[0].Action.Preflop, " ")
-		game.Flop = strings.Join(table.Player[0].Action.Flop, " ")
-		game.Turn = strings.Join(table.Player[0].Action.Turn, " ")
-		game.River = strings.Join(table.Player[0].Action.River, " ")
+		game.Preflop = table.Player[0].Action.Preflop
+		game.Flop = table.Player[0].Action.Flop
+		game.Turn = table.Player[0].Action.Turn
+		game.River = table.Player[0].Action.River
 
 		games = append(games, game)
 

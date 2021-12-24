@@ -10,9 +10,9 @@ func RunRestServer() {
 	router := gin.Default()
 
 	router.Use(cors.New(CorsConfig()))
-	router.POST("/", login)
-	router.POST("/", register)
-	router.DELETE("/", middlewaree, logout)
+	router.POST("/login", login)
+	router.POST("/register", register)
+	router.DELETE("/logout", middlewaree, logout)
 
 	router.POST("/getwinrate", middlewaree, getWinRate)
 

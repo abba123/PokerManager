@@ -10,7 +10,6 @@ import (
 	"poker/api/token"
 	"poker/poker"
 	"strconv"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -73,18 +72,10 @@ func getHand(c *gin.Context) {
 		player.Seat = r.Seat
 		player.Name = r.Player
 
-		if r.Preflop != "" {
-			player.Action.Preflop = strings.Split(r.Preflop, " ")
-		}
-		if r.Flop != "" {
-			player.Action.Flop = strings.Split(r.Flop, " ")
-		}
-		if r.Turn != "" {
-			player.Action.Turn = strings.Split(r.Turn, " ")
-		}
-		if r.River != "" {
-			player.Action.River = strings.Split(r.River, " ")
-		}
+		player.Action.Preflop = r.Preflop
+		player.Action.Flop = r.Flop
+		player.Action.Turn = r.Turn
+		player.Action.River = r.River
 
 		table.Player = append(table.Player, player)
 		tables = append(tables, table)
@@ -182,7 +173,15 @@ func getPreflop(c *gin.Context) {
 		Raise string
 		Call  string
 		Fold  string
-	}{Raise: model.GetActionRedis("Preflop", "Raise", username), Call: model.GetActionRedis("Preflop", "Call", username), Fold: model.GetActionRedis("Preflop", "Fold", username)}
+		Check string
+		Bet string
+	}{
+		Raise: model.GetActionRedis("Preflop", "R", username),
+		Call:  model.GetActionRedis("Preflop", "C", username),
+		Fold:  model.GetActionRedis("Preflop", "F", username),
+		Check: model.GetActionRedis("Preflop", "X", username),
+		Bet: model.GetActionRedis("Preflop", "B", username),
+	}
 
 	c.JSON(http.StatusOK, result)
 }
@@ -194,7 +193,15 @@ func getFlop(c *gin.Context) {
 		Raise string
 		Call  string
 		Fold  string
-	}{Raise: model.GetActionRedis("Flop", "Raise", username), Call: model.GetActionRedis("Flop", "Call", username), Fold: model.GetActionRedis("Flop", "Fold", username)}
+		Check string
+		Bet string
+	}{
+		Raise: model.GetActionRedis("Flop", "R", username),
+		Call:  model.GetActionRedis("Flop", "C", username),
+		Fold:  model.GetActionRedis("Flop", "F", username),
+		Check: model.GetActionRedis("Flop", "X", username),
+		Bet: model.GetActionRedis("Flop", "B", username),
+	}
 
 	c.JSON(http.StatusOK, result)
 }
@@ -206,7 +213,15 @@ func getTurn(c *gin.Context) {
 		Raise string
 		Call  string
 		Fold  string
-	}{Raise: model.GetActionRedis("Turn", "Raise", username), Call: model.GetActionRedis("Turn", "Call", username), Fold: model.GetActionRedis("Turn", "Fold", username)}
+		Check string
+		Bet string
+	}{
+		Raise: model.GetActionRedis("Turn", "R", username),
+		Call:  model.GetActionRedis("Turn", "C", username),
+		Fold:  model.GetActionRedis("Turn", "F", username),
+		Check: model.GetActionRedis("Turn", "X", username),
+		Bet: model.GetActionRedis("Turn", "B", username),
+	}
 
 	c.JSON(http.StatusOK, result)
 }
@@ -218,7 +233,15 @@ func getRiver(c *gin.Context) {
 		Raise string
 		Call  string
 		Fold  string
-	}{Raise: model.GetActionRedis("River", "Raise", username), Call: model.GetActionRedis("River", "Call", username), Fold: model.GetActionRedis("River", "Fold", username)}
+		Check string
+		Bet string
+	}{
+		Raise: model.GetActionRedis("River", "R", username),
+		Call:  model.GetActionRedis("River", "C", username),
+		Fold:  model.GetActionRedis("River", "F", username),
+		Check: model.GetActionRedis("River", "X", username),
+		Bet: model.GetActionRedis("River", "B", username),
+	}
 
 	c.JSON(http.StatusOK, result)
 }

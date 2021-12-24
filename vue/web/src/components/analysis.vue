@@ -44,6 +44,14 @@ export default {
             'action':'Fold',
             'count':'0'
           },
+          {
+            'action':'Check',
+            'count':'0'
+          },
+          {
+            'action':'Bet',
+            'count':'0'
+          }
         ]
       },
       Flop: {
@@ -61,6 +69,14 @@ export default {
             'action':'Fold',
             'count':'0'
           },
+          {
+            'action':'Check',
+            'count':'0'
+          },
+          {
+            'action':'Bet',
+            'count':'0'
+          }
         ]
       },
       Turn: {
@@ -78,6 +94,14 @@ export default {
             'action':'Fold',
             'count':'0'
           },
+          {
+            'action':'Check',
+            'count':'0'
+          },
+          {
+            'action':'Bet',
+            'count':'0'
+          }
         ]
       },
       River: {
@@ -95,6 +119,14 @@ export default {
             'action':'Fold',
             'count':'0'
           },
+          {
+            'action':'Check',
+            'count':'0'
+          },
+          {
+            'action':'Bet',
+            'count':'0'
+          }
         ]
       },
       charExtend:{
@@ -114,7 +146,9 @@ export default {
         .then( (response) => {
           this.preFlop.rows[0].count = response.data.Raise,
           this.preFlop.rows[1].count = response.data.Call,
-          this.preFlop.rows[2].count = response.data.Fold
+          this.preFlop.rows[2].count = response.data.Fold,
+          this.preFlop.rows[3].count = response.data.Check,
+          this.preFlop.rows[4].count = response.data.Bet
         })
     },
     flop() {
@@ -122,7 +156,9 @@ export default {
         .then( (response) => {
           this.Flop.rows[0].count = response.data.Raise,
           this.Flop.rows[1].count = response.data.Call,
-          this.Flop.rows[2].count = response.data.Fold
+          this.Flop.rows[2].count = response.data.Fold,
+          this.Flop.rows[3].count = response.data.Check,
+          this.Flop.rows[4].count = response.data.Bet
         })
     },
     turn() {
@@ -130,7 +166,9 @@ export default {
         .then( (response) => {
           this.Turn.rows[0].count = response.data.Raise,
           this.Turn.rows[1].count = response.data.Call,
-          this.Turn.rows[2].count = response.data.Fold
+          this.Turn.rows[2].count = response.data.Fold,
+          this.Turn.rows[3].count = response.data.Check,
+          this.Turn.rows[4].count = response.data.Bet
         })
     },
     river() {
@@ -138,7 +176,9 @@ export default {
         .then( (response) => {
           this.River.rows[0].count = response.data.Raise,
           this.River.rows[1].count = response.data.Call,
-          this.River.rows[2].count = response.data.Fold
+          this.River.rows[2].count = response.data.Fold,
+          this.River.rows[3].count = response.data.Check,
+          this.River.rows[4].count = response.data.Bet
         })
     },
   },

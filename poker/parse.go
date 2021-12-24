@@ -53,10 +53,10 @@ func ParseTable(data []string, line *int, name string) Table {
 
 func CheckEnd(data []string, line *int, table *Table) bool {
 	if strings.Contains(data[*line], "SHOWDOWN") ||
-		(len(table.Player[0].Action.Preflop) != 0 && table.Player[0].Action.Preflop[len(table.Player[0].Action.Preflop)-1] == "folds") ||
-		(len(table.Player[0].Action.Flop) != 0 && table.Player[0].Action.Flop[len(table.Player[0].Action.Flop)-1] == "folds") ||
-		(len(table.Player[0].Action.Turn) != 0 && table.Player[0].Action.Turn[len(table.Player[0].Action.Turn)-1] == "folds") ||
-		(len(table.Player[0].Action.River) != 0 && table.Player[0].Action.River[len(table.Player[0].Action.River)-1] == "folds") {
+		(len(table.Player[0].Action.Preflop) != 0 && table.Player[0].Action.Preflop[len(table.Player[0].Action.Preflop)-1] == 'F') ||
+		(len(table.Player[0].Action.Flop) != 0 && table.Player[0].Action.Flop[len(table.Player[0].Action.Flop)-1] == 'F') ||
+		(len(table.Player[0].Action.Turn) != 0 && table.Player[0].Action.Turn[len(table.Player[0].Action.Turn)-1] == 'F') ||
+		(len(table.Player[0].Action.River) != 0 && table.Player[0].Action.River[len(table.Player[0].Action.River)-1] == 'F') {
 		return true
 	}
 	return false
@@ -163,9 +163,9 @@ func ParseBasic(data []string, line *int, table *Table) {
 	*line += 1
 }
 
-func GetPay(data []string, line *int, nextState string) (float64, []string) {
+func GetPay(data []string, line *int, nextState string) (float64, string) {
 	pay := 0.0
-	action := []string{}
+	action := ""
 	for ; !strings.Contains(data[*line], nextState) && !strings.Contains(data[*line], "SHOWDOWN"); *line++ {
 		if strings.Contains(data[*line], "Hero") {
 			act := strings.Split(data[*line], " ")[1]
@@ -175,7 +175,18 @@ func GetPay(data []string, line *int, nextState string) (float64, []string) {
 				pay += tmp
 			} else {
 				if act != "shows" {
-					action = append(action, act)
+					switch act {
+					case "raises":
+						action += "R"
+					case "calls":
+						action += "C"
+					case "folds":
+						action += "F"
+					case "checks":
+						action += "X"
+					case "bets":
+						action += "B"
+					}
 				}
 				if strings.Contains(data[*line], "calls") || strings.Contains(data[*line], "raises") || strings.Contains(data[*line], "bets") {
 					str := strings.Split(data[*line], " ")
