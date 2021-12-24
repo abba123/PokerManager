@@ -5,14 +5,16 @@ import (
 )
 
 type User struct {
-	Username string `gorm:"type:varchar(100);primaryKey" json:"username,omitempty"`
+	ID       int    `gorm:"type:int;primaryKey;" json:"ID,omitempty"`
+	Username string `gorm:"type:varchar(100);unique" json:"username,omitempty"`
 	Password string `gorm:"type:varchar(100)" json:"password,omitempty"`
 }
 
 type Game struct {
 	//gorm為model的tag標籤，v2版的auto_increment要放在type裡面，v1版是放獨立定義
-	Player     string    `gorm:"type:varchar(100);primaryKey;autoIncrement:false" json:"player,omitempty"`
 	ID         int       `gorm:"type:int;primaryKey;autoIncrement:false" json:"ID,omitempty"`
+	PlayerID   int       `gorm:"default:NULL;"`
+	Player     User      `gorm:"foreignKey:PlayerID;association:ID;"`
 	Time       time.Time `gorm:"type:TIME" json:"time,omitempty"`
 	Seat       string    `gorm:"type:varchar(100)" json:"seat,omitempty"`
 	HeroCard1  string    `gorm:"type:varchar(100)" json:"herocard1,omitempty"`

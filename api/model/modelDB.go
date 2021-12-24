@@ -27,6 +27,9 @@ func InitDB() *gorm.DB {
 	db.Debug().AutoMigrate(&Game{})
 	db.Debug().AutoMigrate(&User{})
 	db.Migrator()
+	
+	//db.Model(&Game{}).AddForeignKey("role_id", "roles(id)", "RESTRICT", "RESTRICT")
+
 
 	return db
 }
@@ -55,7 +58,8 @@ func InsertHandDB(tables []poker.Table) {
 		game := Game{}
 		game.ID = table.ID
 		game.Time = table.Time
-		game.Player = table.Player[0].Name
+		db.FirstOrCreate(&game.Player, User{Username: table.Player[0].Name})
+		fmt.Println(game.Player)
 		game.HeroCard1 = strconv.Itoa(table.Player[0].Card[0].Num) + table.Player[0].Card[0].Suit
 		game.HeroCard2 = strconv.Itoa(table.Player[0].Card[1].Num) + table.Player[0].Card[1].Suit
 
@@ -83,10 +87,11 @@ func InsertHandDB(tables []poker.Table) {
 		game.River = table.Player[0].Action.River
 
 		games = append(games, game)
-
+		db.Clauses(clause.Insert{Modifier: "IGNORE"}).Create(&game)
+		
 	}
 
-	db.Clauses(clause.OnConflict{DoNothing: true}).Create(&games)
+	db.Debug().Clauses(clause.OnConflict{DoNothing: true}).Create(&games)
 }
 
 func GetGainDB(gain string, player string) []Game {

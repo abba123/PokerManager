@@ -70,7 +70,7 @@ func getHand(c *gin.Context) {
 		player.Card[1].Suit = string(r.HeroCard2[len(r.HeroCard2)-1:])
 		player.Gain = r.Gain
 		player.Seat = r.Seat
-		player.Name = r.Player
+		player.Name = r.Player.Username
 
 		player.Action.Preflop = r.Preflop
 		player.Action.Flop = r.Flop
