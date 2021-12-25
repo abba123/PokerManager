@@ -61,7 +61,9 @@ export default {
           username: this.username,
           password: this.password,
         })
-      tihs.registerModalShow = true
+        .then( (response) => {
+          this.registerModalShow = true
+        })
     },
     logout(){
       this.$http

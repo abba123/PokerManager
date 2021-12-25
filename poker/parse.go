@@ -53,10 +53,10 @@ func ParseTable(data []string, line *int, name string) Table {
 
 func CheckEnd(data []string, line *int, table *Table) bool {
 	if strings.Contains(data[*line], "SHOWDOWN") ||
-		(len(table.Player[0].Action.Preflop) != 0 && table.Player[0].Action.Preflop[len(table.Player[0].Action.Preflop)-1] == 'F') ||
-		(len(table.Player[0].Action.Flop) != 0 && table.Player[0].Action.Flop[len(table.Player[0].Action.Flop)-1] == 'F') ||
-		(len(table.Player[0].Action.Turn) != 0 && table.Player[0].Action.Turn[len(table.Player[0].Action.Turn)-1] == 'F') ||
-		(len(table.Player[0].Action.River) != 0 && table.Player[0].Action.River[len(table.Player[0].Action.River)-1] == 'F') {
+		(strings.Contains(table.Player[0].Action.Preflop, "F")) ||
+		(strings.Contains(table.Player[0].Action.Flop, "F")) ||
+		(strings.Contains(table.Player[0].Action.Turn, "F")) ||
+		(strings.Contains(table.Player[0].Action.River, "F")) {
 		return true
 	}
 	return false
@@ -75,7 +75,8 @@ func ParseShowdown(data []string, line *int, table *Table) {
 
 func ParseRiver(data []string, line *int, table *Table) {
 	if strings.Contains(data[*line], "RIVER") {
-		card := GetCard(strings.Split(data[*line], " ")[3][1:3])
+		s := strings.Split(data[*line], " ")
+		card := GetCard(s[len(s)-1][1:3])
 		(*table).Card = append((*table).Card, card)
 	}
 	pay, action := GetPay(data, line, "SHOWDOWN")
@@ -85,8 +86,8 @@ func ParseRiver(data []string, line *int, table *Table) {
 
 func ParseTurn(data []string, line *int, table *Table) {
 	if strings.Contains(data[*line], "TURN") {
-		card := GetCard(strings.Split(data[*line], " ")[6][1:3])
-
+		s := strings.Split(data[*line], " ")
+		card := GetCard(s[len(s)-1][1:3])
 		(*table).Card = append((*table).Card, card)
 	}
 	pay, action := GetPay(data, line, "RIVER")

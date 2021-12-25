@@ -10,23 +10,51 @@ type User struct {
 	Password string `gorm:"type:varchar(100)" json:"password,omitempty"`
 }
 
+type Seat struct {
+	ID   int    `gorm:"type:int;primaryKey;" json:"ID,omitempty"`
+	Seat string `gorm:"type:varchar(3)" json:"seat,omitempty"`
+}
+
+type Card struct {
+	ID   int    `gorm:"type:int;primaryKey;" json:"ID,omitempty"`
+	Num  int    `gorm:"type:int;default:NULL;" json:"num,omitempty"`
+	Suit string `gorm:"type:varchar(1);default:NULL;" json:"suit,omitempty"`
+}
+
+type Action struct {
+	ID     int    `gorm:"type:int;primaryKey;" json:"ID,omitempty"`
+	Action string `gorm:"type:varchar(10);default:NULL;" json:"action,omitempty"`
+}
+
 type Game struct {
 	//gorm為model的tag標籤，v2版的auto_increment要放在type裡面，v1版是放獨立定義
-	ID         int       `gorm:"type:int;primaryKey;autoIncrement:false" json:"ID,omitempty"`
-	PlayerID   int       `gorm:"default:NULL;"`
-	Player     User      `gorm:"foreignKey:PlayerID;association:ID;"`
-	Time       time.Time `gorm:"type:TIME" json:"time,omitempty"`
-	Seat       string    `gorm:"type:varchar(100)" json:"seat,omitempty"`
-	HeroCard1  string    `gorm:"type:varchar(100)" json:"herocard1,omitempty"`
-	HeroCard2  string    `gorm:"type:varchar(100)" json:"herocard2,omitempty"`
-	TableCard1 string    `gorm:"type:varchar(100)" json:"tablecard1,omitempty"`
-	TableCard2 string    `gorm:"type:varchar(100)" json:"tablecard2,omitempty"`
-	TableCard3 string    `gorm:"type:varchar(100)" json:"tablecard3,omitempty"`
-	TableCard4 string    `gorm:"type:varchar(100)" json:"tablecard4,omitempty"`
-	TableCard5 string    `gorm:"type:varchar(100)" json:"tablecard5,omitempty"`
-	Gain       float64   `gorm:"type:float" json:"gain,omitempty"`
-	Preflop    string    `gorm:"type:varchar(100)" json:"preflop,omitempty"`
-	Flop       string    `gorm:"type:varchar(100)" json:"flop,omitempty"`
-	Turn       string    `gorm:"type:varchar(100)" json:"turn,omitempty"`
-	River      string    `gorm:"type:varchar(100)" json:"river,omitempty"`
+	ID           int       `gorm:"type:int;primaryKey;autoIncrement:false" json:"ID,omitempty"`
+	PlayerID     int       `gorm:"primaryKey"`
+	Player       User      `gorm:"foreignKey:PlayerID;association:ID;"`
+	Time         time.Time `gorm:"type:TIME" json:"time,omitempty"`
+	SeatID       int       `gorm:"default:NULL;"`
+	Seat         Seat      `gorm:"foreignKey:SeatID;association:ID;"`
+	HeroCard1ID  int       `gorm:"default:NULL;"`
+	HeroCard1    Card      `gorm:"foreignKey:HeroCard1ID;association:ID;"`
+	HeroCard2ID  int       `gorm:"default:NULL;"`
+	HeroCard2    Card      `gorm:"foreignKey:HeroCard2ID;association:ID;"`
+	TableCard1ID int       `gorm:"default:NULL;"`
+	TableCard1   Card      `gorm:"foreignKey:TableCard1ID;association:ID;"`
+	TableCard2ID int       `gorm:"default:NULL;"`
+	TableCard2   Card      `gorm:"foreignKey:TableCard2ID;association:ID;"`
+	TableCard3ID int       `gorm:"default:NULL;"`
+	TableCard3   Card      `gorm:"foreignKey:TableCard3ID;association:ID;"`
+	TableCard4ID int       `gorm:"default:NULL;"`
+	TableCard4   Card      `gorm:"foreignKey:TableCard4ID;association:ID;"`
+	TableCard5ID int       `gorm:"default:NULL;"`
+	TableCard5   Card      `gorm:"foreignKey:TableCard5ID;association:ID;"`
+	Gain         float64   `gorm:"type:float" json:"gain,omitempty"`
+	PreFlopID    int       `gorm:"default:NULL;"`
+	Preflop      Action    `gorm:"foreignKey:PreFlopID;association:ID;"`
+	FlopID       int       `gorm:"default:NULL;"`
+	Flop         Action    `gorm:"foreignKey:FlopID;association:ID;"`
+	TurnID       int       `gorm:"default:NULL;"`
+	Turn         Action    `gorm:"foreignKey:TurnID;association:ID;"`
+	RiverID      int       `gorm:"default:NULL;"`
+	River        Action    `gorm:"foreignKey:RiverID;association:ID;"`
 }

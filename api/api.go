@@ -35,47 +35,47 @@ func getHand(c *gin.Context) {
 		table := poker.Table{}
 
 		table.Time = r.Time
-		if r.TableCard1 != "" {
+		if r.TableCard1.ID != 0 {
 			table.Card = append(table.Card, poker.Card{})
-			table.Card[0].Num, _ = strconv.Atoi(string(r.TableCard1[:len(r.TableCard1)-1]))
-			table.Card[0].Suit = string(r.TableCard1[len(r.TableCard1)-1:])
+			table.Card[0].Num = r.TableCard1.Num
+			table.Card[0].Suit = r.TableCard1.Suit
 		}
-		if r.TableCard2 != "" {
+		if r.TableCard2.ID != 0 {
 			table.Card = append(table.Card, poker.Card{})
-			table.Card[1].Num, _ = strconv.Atoi(string(r.TableCard2[:len(r.TableCard1)-1]))
-			table.Card[1].Suit = string(r.TableCard2[len(r.TableCard1)-1:])
+			table.Card[1].Num = r.TableCard2.Num
+			table.Card[1].Suit = r.TableCard2.Suit
 		}
-		if r.TableCard3 != "" {
+		if r.TableCard3.ID != 0 {
 			table.Card = append(table.Card, poker.Card{})
-			table.Card[2].Num, _ = strconv.Atoi(string(r.TableCard3[:len(r.TableCard1)-1]))
-			table.Card[2].Suit = string(r.TableCard3[len(r.TableCard1)-1:])
+			table.Card[2].Num = r.TableCard3.Num
+			table.Card[2].Suit = r.TableCard3.Suit
 		}
-		if r.TableCard4 != "" {
+		if r.TableCard4.ID != 0 {
 			table.Card = append(table.Card, poker.Card{})
-			table.Card[3].Num, _ = strconv.Atoi(string(r.TableCard4[:len(r.TableCard1)-1]))
-			table.Card[3].Suit = string(r.TableCard4[len(r.TableCard1)-1:])
+			table.Card[3].Num = r.TableCard4.Num
+			table.Card[3].Suit = r.TableCard4.Suit
 		}
-		if r.TableCard5 != "" {
+		if r.TableCard5.ID != 0 {
 			table.Card = append(table.Card, poker.Card{})
-			table.Card[4].Num, _ = strconv.Atoi(string(r.TableCard5[:len(r.TableCard1)-1]))
-			table.Card[4].Suit = string(r.TableCard5[len(r.TableCard1)-1:])
+			table.Card[4].Num = r.TableCard5.Num
+			table.Card[4].Suit = r.TableCard5.Suit
 		}
 		player := poker.Player{}
 
 		player.Card = append(player.Card, poker.Card{})
-		player.Card[0].Num, _ = strconv.Atoi(string(r.HeroCard1[:len(r.HeroCard1)-1]))
-		player.Card[0].Suit = string(r.HeroCard1[len(r.HeroCard1)-1:])
+		player.Card[0].Num = r.HeroCard1.Num
+		player.Card[0].Suit = r.HeroCard1.Suit
 		player.Card = append(player.Card, poker.Card{})
-		player.Card[1].Num, _ = strconv.Atoi(string(r.HeroCard2[:len(r.HeroCard2)-1]))
-		player.Card[1].Suit = string(r.HeroCard2[len(r.HeroCard2)-1:])
+		player.Card[1].Num = r.HeroCard2.Num
+		player.Card[1].Suit = r.HeroCard2.Suit
 		player.Gain = r.Gain
-		player.Seat = r.Seat
+		player.Seat = r.Seat.Seat
 		player.Name = r.Player.Username
 
-		player.Action.Preflop = r.Preflop
-		player.Action.Flop = r.Flop
-		player.Action.Turn = r.Turn
-		player.Action.River = r.River
+		player.Action.Preflop = r.Preflop.Action
+		player.Action.Flop = r.Flop.Action
+		player.Action.Turn = r.Turn.Action
+		player.Action.River = r.River.Action
 
 		table.Player = append(table.Player, player)
 		tables = append(tables, table)
@@ -174,13 +174,13 @@ func getPreflop(c *gin.Context) {
 		Call  string
 		Fold  string
 		Check string
-		Bet string
+		Bet   string
 	}{
-		Raise: model.GetActionRedis("Preflop", "R", username),
-		Call:  model.GetActionRedis("Preflop", "C", username),
-		Fold:  model.GetActionRedis("Preflop", "F", username),
-		Check: model.GetActionRedis("Preflop", "X", username),
-		Bet: model.GetActionRedis("Preflop", "B", username),
+		Raise: model.GetActionRedis("pre_flop", "R", username),
+		Call:  model.GetActionRedis("pre_flop", "C", username),
+		Fold:  model.GetActionRedis("pre_flop", "F", username),
+		Check: model.GetActionRedis("pre_flop", "X", username),
+		Bet:   model.GetActionRedis("pre_flop", "B", username),
 	}
 
 	c.JSON(http.StatusOK, result)
@@ -194,13 +194,13 @@ func getFlop(c *gin.Context) {
 		Call  string
 		Fold  string
 		Check string
-		Bet string
+		Bet   string
 	}{
-		Raise: model.GetActionRedis("Flop", "R", username),
-		Call:  model.GetActionRedis("Flop", "C", username),
-		Fold:  model.GetActionRedis("Flop", "F", username),
-		Check: model.GetActionRedis("Flop", "X", username),
-		Bet: model.GetActionRedis("Flop", "B", username),
+		Raise: model.GetActionRedis("flop", "R", username),
+		Call:  model.GetActionRedis("flop", "C", username),
+		Fold:  model.GetActionRedis("flop", "F", username),
+		Check: model.GetActionRedis("flop", "X", username),
+		Bet:   model.GetActionRedis("flop", "B", username),
 	}
 
 	c.JSON(http.StatusOK, result)
@@ -214,13 +214,13 @@ func getTurn(c *gin.Context) {
 		Call  string
 		Fold  string
 		Check string
-		Bet string
+		Bet   string
 	}{
-		Raise: model.GetActionRedis("Turn", "R", username),
-		Call:  model.GetActionRedis("Turn", "C", username),
-		Fold:  model.GetActionRedis("Turn", "F", username),
-		Check: model.GetActionRedis("Turn", "X", username),
-		Bet: model.GetActionRedis("Turn", "B", username),
+		Raise: model.GetActionRedis("turn", "R", username),
+		Call:  model.GetActionRedis("turn", "C", username),
+		Fold:  model.GetActionRedis("turn", "F", username),
+		Check: model.GetActionRedis("turn", "X", username),
+		Bet:   model.GetActionRedis("turn", "B", username),
 	}
 
 	c.JSON(http.StatusOK, result)
@@ -234,13 +234,13 @@ func getRiver(c *gin.Context) {
 		Call  string
 		Fold  string
 		Check string
-		Bet string
+		Bet   string
 	}{
-		Raise: model.GetActionRedis("River", "R", username),
-		Call:  model.GetActionRedis("River", "C", username),
-		Fold:  model.GetActionRedis("River", "F", username),
-		Check: model.GetActionRedis("River", "X", username),
-		Bet: model.GetActionRedis("River", "B", username),
+		Raise: model.GetActionRedis("river", "R", username),
+		Call:  model.GetActionRedis("river", "C", username),
+		Fold:  model.GetActionRedis("river", "F", username),
+		Check: model.GetActionRedis("river", "X", username),
+		Bet:   model.GetActionRedis("river", "B", username),
 	}
 
 	c.JSON(http.StatusOK, result)

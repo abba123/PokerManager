@@ -77,7 +77,6 @@ func InsertSeatRedis(seat string, player string) {
 	games := GetSeatDB(seat, player)
 
 	client := InitRedis()
-
 	for i, game := range games {
 		gameStr, _ := json.Marshal(game)
 		client.ZAdd(ctx, player+"Seat"+seat, &redis.Z{Score: float64(i), Member: gameStr})
