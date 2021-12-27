@@ -51,7 +51,7 @@ export default {
         })
         .then( (response) => {
           if (response.data){
-            
+            this.$root.user = this.username
             this.$root.token = response.data
             this.$http.defaults.headers.common['Authorization'] = this.$root.token 
             this.loginModalShow = true
@@ -82,6 +82,7 @@ export default {
       this.$http
         .delete('http://'+this.$root.backIP+'/logout')
         
+      this.$root.user = ""
       this.$root.token = ""
       this.$http.defaults.headers.common['Authorization'] = this.$root.token
       this.logoutModalShow = true

@@ -30,7 +30,6 @@ func RunGrpcSetver() {
 }
 
 func (*Server) GetWinRate(ctx context.Context, req *GetWinRateRequest) (*GetWinRateResponse, error) {
-	t := poker.Table{}
 
 	p1 := poker.Player{Name: req.GetName1()}
 	p2 := poker.Player{Name: req.GetName2()}

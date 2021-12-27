@@ -13,7 +13,7 @@ import (
 
 //const kafkaURL string = "ec2-3-131-38-31.us-east-2.compute.amazonaws.com:9092"
 const kafkaURL string = "localhost:9092"
-const topic string = "pokerHand" 
+const topic string = "pokerHand"
 
 func NewKafkaWriter(kafkaURL, topic string) *kafka.Writer {
 	return &kafka.Writer{
@@ -64,10 +64,9 @@ func KafkaRead() {
 			log.Fatalln(err)
 		}
 
-		table := poker.Parsefile(string(m.Key), string(m.Value))
-		model.InsertHandDB(table)
-		for _,p := range table[0].Player{
-			model.RemoveKeyRedis(p.Name)
-		}
+		tables := poker.Parsefile(string(m.Value))
+		model.InsertHandDB(string(m.Key),tables)
+		model.RemoveKeyRedis(string(m.Key))
+
 	}
 }

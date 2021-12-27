@@ -51,18 +51,21 @@ func GetUserDB(username string) User {
 	return user
 }
 
-func InsertHandDB(tables []poker.Table) {
+func InsertHandDB(name string, tables []poker.Table) {
 	db := ConnectDB()
 
 	games := []Game{}
 	for _, table := range tables {
-		game := Game{}
-		game.ID = table.ID
-		game.Time = table.Time
 		for _, value := range table.Player {
-			db.FirstOrCreate(&game.Player, User{Username: value.Name})
-			db.FirstOrCreate(&game.HeroCard1, Card{Num: value.Card[0].Num, Suit: value.Card[0].Suit})
-			db.FirstOrCreate(&game.HeroCard2, Card{Num: value.Card[1].Num, Suit: value.Card[1].Suit})
+			game := Game{}
+			game.ID = table.ID
+			game.Time = table.Time
+			db.FirstOrCreate(&game.User, User{Username: name})
+			db.FirstOrCreate(&game.Player, Player{Playername: value.Name})
+			if len(value.Card) > 0 {
+				db.FirstOrCreate(&game.HeroCard1, Card{Num: value.Card[0].Num, Suit: value.Card[0].Suit})
+				db.FirstOrCreate(&game.HeroCard2, Card{Num: value.Card[1].Num, Suit: value.Card[1].Suit})
+			}
 			game.Gain = value.Gain
 			if value.Action.Preflop != "" {
 				db.FirstOrCreate(&game.Preflop, Action{Action: value.Action.Preflop})
@@ -79,27 +82,25 @@ func InsertHandDB(tables []poker.Table) {
 
 			db.FirstOrCreate(&game.Seat, Seat{Seat: value.Seat})
 
+			if len(table.Card) > 0 {
+				db.FirstOrCreate(&game.TableCard1, Card{Num: table.Card[0].Num, Suit: table.Card[0].Suit})
+			}
+			if len(table.Card) > 1 {
+				db.FirstOrCreate(&game.TableCard2, Card{Num: table.Card[1].Num, Suit: table.Card[1].Suit})
+			}
+			if len(table.Card) > 2 {
+				db.FirstOrCreate(&game.TableCard3, Card{Num: table.Card[2].Num, Suit: table.Card[2].Suit})
+			}
+			if len(table.Card) > 3 {
+				db.FirstOrCreate(&game.TableCard4, Card{Num: table.Card[3].Num, Suit: table.Card[3].Suit})
+			}
+			if len(table.Card) > 4 {
+				db.FirstOrCreate(&game.TableCard5, Card{Num: table.Card[4].Num, Suit: table.Card[4].Suit})
+			}
+			games = append(games, game)
 		}
-
-		if len(table.Card) > 0 {
-			db.FirstOrCreate(&game.TableCard1, Card{Num: table.Card[0].Num, Suit: table.Card[0].Suit})
-		}
-		if len(table.Card) > 1 {
-			db.FirstOrCreate(&game.TableCard2, Card{Num: table.Card[1].Num, Suit: table.Card[1].Suit})
-		}
-		if len(table.Card) > 2 {
-			db.FirstOrCreate(&game.TableCard3, Card{Num: table.Card[2].Num, Suit: table.Card[2].Suit})
-		}
-		if len(table.Card) > 3 {
-			db.FirstOrCreate(&game.TableCard4, Card{Num: table.Card[3].Num, Suit: table.Card[3].Suit})
-		}
-		if len(table.Card) > 4 {
-			db.FirstOrCreate(&game.TableCard5, Card{Num: table.Card[4].Num, Suit: table.Card[4].Suit})
-		}
-		
-		games = append(games, game)
 	}
-	db.Create(&games)
+	db.Clauses(clause.OnConflict{DoNothing: true}).Create(&games)
 }
 
 func GetGainDB(gain string, player string) []Game {
@@ -107,10 +108,11 @@ func GetGainDB(gain string, player string) []Game {
 	games := []Game{}
 
 	db := ConnectDB()
-	db = db.Joins(" INNER JOIN  users ON games.player_id = users.id ").Where("username = ?", player).Order("time")
+	db = db.Joins(" INNER JOIN  users ON games.user_id = users.id ").Where("username = ?", player).Order("time")
+	db = db.Joins(" INNER JOIN  players ON games.player_id = players.id ").Where("playername = ?", "Hero")
 	if gain != "all" {
 		g, _ := strconv.ParseFloat(gain[1:], 64)
-		db.Where("gain >= ?", g)
+		db = db.Where("gain >= ?", g)
 	}
 
 	db.Preload(clause.Associations).Find(&games)
@@ -123,13 +125,15 @@ func GetSeatDB(seat string, player string) []Game {
 	games := []Game{}
 
 	db := ConnectDB()
-	db = db.Debug().Joins("INNER JOIN  users ON games.player_id = users.id").Where("username = ?", player).Order("time")
+	db = db.Joins(" INNER JOIN  users ON games.user_id = users.id ").Where("username = ?", player).Order("time")
+	db = db.Joins(" INNER JOIN  players ON games.player_id = players.id ").Where("playername = ?", "Hero").Order("time")
 
 	if seat != "all" {
-		db.Joins("INNER JOIN  seats ON games.seat_id = seats.id").Where("seat = ?", seat)
+		db = db.Joins("INNER JOIN  seats ON games.seat_id = seats.id").Where("seat = ?", seat)
 	}
 
 	db.Preload(clause.Associations).Find(&games)
+
 	return games
 }
 
@@ -138,7 +142,9 @@ func GetProfitDB(player string) []float64 {
 
 	db := ConnectDB()
 
-	db.Table("games").Joins(" INNER JOIN  users ON games.player_id = users.id ").Where("username = ?", player).Select("gain").Order("time").Scan(&results)
+	db = db.Table("games").Joins(" INNER JOIN  users ON games.user_id = users.id ").Where("username = ?", player)
+	db = db.Joins(" INNER JOIN  players ON games.player_id = players.id ").Where("playername = ?", "Hero")
+	db.Select("gain").Order("time").Scan(&results)
 
 	return results
 }
@@ -148,7 +154,10 @@ func GetActionDB(stage string, action string, player string) float64 {
 
 	db := ConnectDB()
 
-	db.Table("games").Joins("INNER JOIN  users ON games.player_id = users.id").Joins(" INNER JOIN  actions ON games."+stage+"_id = actions.id ").Where("username = ?", player).Where("action LIKE ?", action+"%").Count(&result)
+	db = db.Table("games").Joins(" INNER JOIN  users ON games.user_id = users.id ").Where("username = ?", player)
+	db = db.Joins(" INNER JOIN  players ON games.player_id = players.id ").Where("playername = ?", "Hero")
+	db = db.Joins(" INNER JOIN  actions ON games."+stage+"_id = actions.id ").Where("action LIKE ?", action+"%")
+	db.Debug().Count(&result)
 
 	return float64(result)
 }

@@ -21,14 +21,13 @@ func getWinRate(c *gin.Context) {
 	t := poker.Table{}
 	c.Bind(&t.Player)
 
-	result := poker.GetWinRate([]poker.Player{t.Player["Player1"],t.Player["Player2"]}, 10000)
+	result := poker.GetWinRate([]poker.Player{t.Player["Player1"], t.Player["Player2"]}, 10000)
 	c.JSON(http.StatusOK, result)
 }
 
 func getHand(c *gin.Context) {
 
 	result := model.GetHandRedis(c.Query("num"), c.Query("gain"), c.Query("seat"), c.GetString("username"))
-
 	tables := []poker.Table{}
 
 	for _, r := range result {
@@ -70,13 +69,13 @@ func getHand(c *gin.Context) {
 		player.Card[1].Suit = r.HeroCard2.Suit
 		player.Gain = r.Gain
 		player.Seat = r.Seat.Seat
-		player.Name = r.Player.Username
+		player.Name = r.Player.Playername
 
 		player.Action.Preflop = r.Preflop.Action
 		player.Action.Flop = r.Flop.Action
 		player.Action.Turn = r.Turn.Action
 		player.Action.River = r.River.Action
-
+		table.Player = make(map[string]poker.Player)
 		table.Player[c.GetString("username")] = player
 		tables = append(tables, table)
 	}

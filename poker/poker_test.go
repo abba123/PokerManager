@@ -193,7 +193,7 @@ func TestGetWinRate(t *testing.T) {
 
 func TestParseFile(t *testing.T) {
 	data, _ := os.ReadFile("testData.txt")
-	result := Parsefile("test", string(data))[0]
+	result := Parsefile(string(data))[0]
 
 	table := Table{}
 	table.ID = 376515665

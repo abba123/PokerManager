@@ -10,6 +10,11 @@ type User struct {
 	Password string `gorm:"type:varchar(100)" json:"password,omitempty"`
 }
 
+type Player struct {
+	ID         int    `gorm:"type:int;primaryKey;" json:"ID,omitempty"`
+	Playername string `gorm:"type:varchar(100);unique" json:"playername,omitempty"`
+}
+
 type Seat struct {
 	ID   int    `gorm:"type:int;primaryKey;" json:"ID,omitempty"`
 	Seat string `gorm:"type:varchar(3)" json:"seat,omitempty"`
@@ -29,8 +34,10 @@ type Action struct {
 type Game struct {
 	//gorm為model的tag標籤，v2版的auto_increment要放在type裡面，v1版是放獨立定義
 	ID           int       `gorm:"type:int;primaryKey;autoIncrement:false" json:"ID,omitempty"`
+	UserID       int       `gorm:"primaryKey"`
+	User         User      `gorm:"foreignKey:UserID;association:ID;"`
 	PlayerID     int       `gorm:"primaryKey"`
-	Player       User      `gorm:"foreignKey:PlayerID;association:ID;"`
+	Player       Player    `gorm:"foreignKey:PlayerID;association:ID;"`
 	Time         time.Time `gorm:"type:TIME" json:"time,omitempty"`
 	SeatID       int       `gorm:"default:NULL;"`
 	Seat         Seat      `gorm:"foreignKey:SeatID;association:ID;"`
