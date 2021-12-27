@@ -84,7 +84,7 @@ func getHand(c *gin.Context) {
 	c.JSON(http.StatusOK, tables)
 }
 
-func putHand(c *gin.Context) {
+func insertHand(c *gin.Context) {
 	dataByte, _ := ioutil.ReadAll(c.Request.Body)
 	username := c.GetString("username")
 	kafka.KafkaWrite(dataByte, []byte(username))
@@ -106,7 +106,12 @@ func login(c *gin.Context) {
 func register(c *gin.Context) {
 	var request model.User
 	c.BindJSON(&request)
-	model.InsertUserDB(request.Username, request.Password)
+	err := model.InsertUserDB(request.Username, request.Password)
+	if err != nil {
+		c.JSON(http.StatusForbidden, nil)
+	} else {
+		c.JSON(http.StatusOK, nil)
+	}
 }
 
 func logout(c *gin.Context) {

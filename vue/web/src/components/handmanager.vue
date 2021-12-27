@@ -56,6 +56,7 @@
         <td>{{t.Player[0].Action.River}}</td>
       </tr>
     </table>
+    <b-modal v-model="insertHandShow">Insert Hand success</b-modal>
   </div>
 </template>
 
@@ -72,6 +73,7 @@ export default {
       num:1,
       gain:"all",
       seat:"all",
+      insertHandShow = false,
     }
   },
   methods:{
@@ -82,7 +84,7 @@ export default {
     upload() {
         this.$http.post('http://'+this.$root.backIP+'/hand', this.formData)
           .then( (response) => {
-            this.num = 10
+            this.insertHandShow = true
             //this.gethand()
           })
     },

@@ -15,9 +15,9 @@
     <div v-if="this.$root.token">
       <b-button variant="danger" class="btn" @click="logout">登出</b-button>
     </div>
-    <b-modal v-model="registerModalShow">註冊成功</b-modal>
-    <b-modal v-model="loginModalShow">登入成功</b-modal>
-    <b-modal v-model="logoutModalShow">登出成功</b-modal>
+    <b-modal v-model="registerModalShow">{{registerModalMsg}}</b-modal>
+    <b-modal v-model="loginModalShow">{{loginModalMsg}}</b-modal>
+    <b-modal v-model="logoutModalShow">logout success</b-modal>
   </div>
 </template>
 
@@ -35,7 +35,9 @@ export default {
       timer: '',
       timecount :0,
       registerModalShow: false,
+      registerModalMsg: "",
       loginModalShow: false,
+      loginModalMsg: "",
       logoutModalShow: false
     }
   },
@@ -49,10 +51,16 @@ export default {
         })
         .then( (response) => {
           if (response.data){
+            
             this.$root.token = response.data
             this.$http.defaults.headers.common['Authorization'] = this.$root.token 
             this.loginModalShow = true
+            this.loginModalMsg = "login success"
           }
+        })
+        .catch(function (error) { // 请求失败处理
+          this.loginModalShow = true
+          this.loginModalMsg = "login fail"
         })
     },
     register(){
@@ -63,6 +71,11 @@ export default {
         })
         .then( (response) => {
           this.registerModalShow = true
+          this.registerModalMsg = "register success"
+        })
+        .catch(function (error) {
+          this.registerModalShow = true
+          this.registerModalMsg = "register fail"
         })
     },
     logout(){

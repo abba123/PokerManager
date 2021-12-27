@@ -34,11 +34,12 @@ func InitDB() {
 	db.Migrator()
 }
 
-func InsertUserDB(username string, password string) {
+func InsertUserDB(username string, password string) error {
 	db := ConnectDB()
 
 	user := User{Username: username, Password: password}
-	db.Clauses(clause.OnConflict{DoNothing: true}).Create(&user)
+	err := db.Clauses(clause.OnConflict{DoNothing: true}).Create(&user).Error
+	return err
 }
 
 func GetUserDB(username string) User {
