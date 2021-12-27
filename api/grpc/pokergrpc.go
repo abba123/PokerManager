@@ -47,10 +47,7 @@ func (*Server) GetWinRate(ctx context.Context, req *GetWinRateRequest) (*GetWinR
 	p2.Card[1].Num = int(req.GetP2Card2Num())
 	p2.Card[1].Suit = req.GetP2Card2Suit()
 
-	t.Player = append(t.Player, p1)
-	t.Player = append(t.Player, p2)
-
-	result := poker.GetWinRate(t.Player, 10000)
+	result := poker.GetWinRate([]poker.Player{p1, p2}, 10000)
 
 	res := &GetWinRateResponse{
 		Result: result,

@@ -23,79 +23,69 @@ func Parsefile(username string, data string) []Table {
 
 func ParseTable(data []string, line *int, name string) Table {
 	table := Table{}
-	table.Player = append(table.Player, Player{Name: name})
-
 	ParseBasic(data, line, &table)
 
-	ParsePreFlop(data, line, &table)
+	ParsePreFlop(data, line, name, &table)
 	if CheckEnd(data, line, &table) {
-		ParseShowdown(data, line, &table)
+		ParseShowdown(data, line, name, &table)
 		return table
 	}
 
-	ParseFlop(data, line, &table)
+	ParseFlop(data, line, name, &table)
 	if CheckEnd(data, line, &table) {
-		ParseShowdown(data, line, &table)
+		ParseShowdown(data, line, name, &table)
 		return table
 	}
 
-	ParseTurn(data, line, &table)
+	ParseTurn(data, line, name, &table)
 	if CheckEnd(data, line, &table) {
-		ParseShowdown(data, line, &table)
+		ParseShowdown(data, line, name, &table)
 		return table
 	}
 
-	ParseRiver(data, line, &table)
-	ParseShowdown(data, line, &table)
+	ParseRiver(data, line, name, &table)
+	ParseShowdown(data, line, name, &table)
 
 	return table
 }
 
 func CheckEnd(data []string, line *int, table *Table) bool {
-	if strings.Contains(data[*line], "SHOWDOWN") ||
-		(strings.Contains(table.Player[0].Action.Preflop, "F")) ||
-		(strings.Contains(table.Player[0].Action.Flop, "F")) ||
-		(strings.Contains(table.Player[0].Action.Turn, "F")) ||
-		(strings.Contains(table.Player[0].Action.River, "F")) {
-		return true
-	}
-	return false
+	return  strings.Contains(data[*line], "SHOWDOWN")
 }
 
-func ParseShowdown(data []string, line *int, table *Table) {
+func ParseShowdown(data []string, line *int, name string, table *Table) {
 	*line++
 	pay := 0.0
-	if strings.Contains(data[*line], "Hero") {
-		str := strings.Split(data[*line], " ")
-		pay, _ = strconv.ParseFloat(str[2][1:], 64)
+	s := strings.Split(data[*line], " ")
+	playerName := s[0]
+	if playerName == "Hero" {
+		playerName = name
 	}
-
-	table.Player[0].Gain += pay
+	player := table.Player[playerName]
+	pay, _ = strconv.ParseFloat(s[2][1:], 64)
+	player.Gain += pay
+	table.Player[playerName] = player
 }
 
-func ParseRiver(data []string, line *int, table *Table) {
+func ParseRiver(data []string, line *int, name string, table *Table) {
 	if strings.Contains(data[*line], "RIVER") {
 		s := strings.Split(data[*line], " ")
 		card := GetCard(s[len(s)-1][1:3])
 		(*table).Card = append((*table).Card, card)
 	}
-	pay, action := GetPay(data, line, "SHOWDOWN")
-	(*table).Player[0].Gain += pay
-	(*table).Player[0].Action.River = action
+	GetPay(data, line, "SHOWDOWN", name, table)
 }
 
-func ParseTurn(data []string, line *int, table *Table) {
+func ParseTurn(data []string, line *int, name string, table *Table) {
 	if strings.Contains(data[*line], "TURN") {
 		s := strings.Split(data[*line], " ")
 		card := GetCard(s[len(s)-1][1:3])
 		(*table).Card = append((*table).Card, card)
 	}
-	pay, action := GetPay(data, line, "RIVER")
-	(*table).Player[0].Gain += pay
-	(*table).Player[0].Action.Turn = action
+	GetPay(data, line, "RIVER", name, table)
 }
 
-func ParseFlop(data []string, line *int, table *Table) {
+func ParseFlop(data []string, line *int, name string, table *Table) {
 	if strings.Contains(data[*line], "FLOP") {
 		card1 := GetCard(strings.Split(data[*line], " ")[3][1:3])
 		card2 := GetCard(strings.Split(data[*line], " ")[4][:2])
@@ -106,35 +96,27 @@ func ParseFlop(data []string, line *int, table *Table) {
 		(*table).Card = append((*table).Card, card3)
 	}
 
-	pay, action := GetPay(data, line, "TURN")
-	(*table).Player[0].Gain += pay
-	(*table).Player[0].Action.Flop = action
+	GetPay(data, line, "TURN", name, table)
 
 }
 
-func ParsePreFlop(data []string, line *int, table *Table) {
-	for ; !strings.Contains(data[*line], "HOLE CARDS"); *line++ {
-		if strings.Contains(data[*line], "Hero") {
-			if strings.Contains(data[*line], "small blind") || strings.Contains(data[*line], "big blind") {
-				str := strings.Split(data[*line], " ")
-				(*table).Player[0].Gain, _ = strconv.ParseFloat(str[len(str)-1][1:], 64)
-				(*table).Player[0].Gain *= -1
-			}
+func ParsePreFlop(data []string, line *int, name string, table *Table) {
+	for i := 0; i < 6; i++ {
+		playerName := strings.Split(data[*line], " ")[2]
+		if playerName == "Hero" {
+			player := table.Player[name]
+			card1 := GetCard(strings.Split(data[*line], " ")[3][1:3])
+			card2 := GetCard(strings.Split(data[*line], " ")[4][:2])
+			player.Card = append(player.Card, card1)
+			player.Card = append(player.Card, card2)
+			(*table).Player[playerName] = player
+		} else {
+			player := table.Player[playerName]
+			(*table).Player[playerName] = player
 		}
+		*line += 1
 	}
-	for ; strings.Split(data[*line], " ")[2] != "Hero"; *line++ {
-	}
-	card1 := GetCard(strings.Split(data[*line], " ")[3][1:3])
-	card2 := GetCard(strings.Split(data[*line], " ")[4][:2])
-	(*table).Player[0].Card = append((*table).Player[0].Card, card1)
-	(*table).Player[0].Card = append((*table).Player[0].Card, card2)
-
-	*line++
-
-	pay, action := GetPay(data, line, "FLOP")
-	(*table).Player[0].Gain += pay
-	(*table).Player[0].Action.Preflop = action
-
+	GetPay(data, line, "FLOP", name, table)
 }
 
 func ParseBasic(data []string, line *int, table *Table) {
@@ -144,61 +126,91 @@ func ParseBasic(data []string, line *int, table *Table) {
 	id := strings.Split(data[*line], " ")[2]
 	(*table).ID, _ = strconv.Atoi(id[3 : len(id)-1])
 
-	for ; !strings.Contains(data[*line], "Hero"); *line++ {
+	for ; strings.Contains(data[*line], "Seat"); *line++ {
+		s := strings.Split(data[*line], " ")
+		name := s[2]
+		player := Player{Name: name}
+		switch s[1][0] {
+		case '1':
+			player.Seat = "BTN"
+		case '2':
+			player.Seat = "SB"
+		case '3':
+			player.Seat = "BB"
+		case '4':
+			player.Seat = "LJ"
+		case '5':
+			player.Seat = "HJ"
+		case '6':
+			player.Seat = "CO"
+		}
+		table.Player[name] = player
 	}
-
-	switch strings.Split(data[*line], " ")[1][0] {
-	case '1':
-		(*table).Player[0].Seat = "BTN"
-	case '2':
-		(*table).Player[0].Seat = "SB"
-	case '3':
-		(*table).Player[0].Seat = "BB"
-	case '4':
-		(*table).Player[0].Seat = "LJ"
-	case '5':
-		(*table).Player[0].Seat = "HJ"
-	case '6':
-		(*table).Player[0].Seat = "CO"
+	for i := 0; i < 2; i++ {
+		s := strings.Split(data[*line], " ")
+		name := s[2]
+		gain, _ := strconv.ParseFloat(s[len(s)-1][1:], 64)
+		gain *= -1
+		player := table.Player[name]
+		player.Gain = gain
+		table.Player[name] = player
+		*line += 1
 	}
-	*line += 1
 }
 
-func GetPay(data []string, line *int, nextState string) (float64, string) {
-	pay := 0.0
-	action := ""
+func GetPay(data []string, line *int, nextState string, name string, table *Table) {
+	state := strings.Split(data[*line], " ")[1]
 	for ; !strings.Contains(data[*line], nextState) && !strings.Contains(data[*line], "SHOWDOWN"); *line++ {
-		if strings.Contains(data[*line], "Hero") {
-			act := strings.Split(data[*line], " ")[1]
-			if strings.Contains(data[*line], "returned to Hero") {
+		s := strings.Split(data[*line], " ")
+		act := s[1]
+		playerName := ""
+		action := ""
+		pay := 0.0
+		if strings.Contains(data[*line], "returned to") {
+			playerName = s[len(s)-1]
+			tmp, _ := strconv.ParseFloat(s[2][2:6], 64)
+			pay += tmp
+		} else {
+			playerName = s[0][:len(s[0])-1]
+			if playerName == "Hero" {
+				playerName = name
+			}
+			if strings.Contains(data[*line], "calls") || strings.Contains(data[*line], "raises") || strings.Contains(data[*line], "bets") {
 				str := strings.Split(data[*line], " ")
-				tmp, _ := strconv.ParseFloat(str[2][2:6], 64)
-				pay += tmp
-			} else {
-				if act != "shows" {
-					switch act {
-					case "raises":
-						action += "R"
-					case "calls":
-						action += "C"
-					case "folds":
-						action += "F"
-					case "checks":
-						action += "X"
-					case "bets":
-						action += "B"
-					}
-				}
-				if strings.Contains(data[*line], "calls") || strings.Contains(data[*line], "raises") || strings.Contains(data[*line], "bets") {
-					str := strings.Split(data[*line], " ")
-					tmp, _ := strconv.ParseFloat(str[len(str)-1][1:], 64)
-					pay += (tmp * -1)
-				}
+				tmp, _ := strconv.ParseFloat(str[len(str)-1][1:], 64)
+				pay += (tmp * -1)
 			}
 		}
-	}
 
-	return pay, action
+		if act != "shows" {
+			switch act {
+			case "raises":
+				action += "R"
+			case "calls":
+				action += "C"
+			case "folds":
+				action += "F"
+			case "checks":
+				action += "X"
+			case "bets":
+				action += "B"
+			}
+		}
+		player := table.Player[playerName]
+		switch state {
+		case "HOLE":
+			player.Action.Preflop = action
+		case "FLOP":
+			player.Action.Flop = action
+		case "TURN":
+			player.Action.Turn = action
+		case "RIVER":
+			player.Action.River = action
+		}
+		player.Gain += pay
+
+		table.Player[playerName] = player
+	}
 }
 
 func GetCard(str string) Card {

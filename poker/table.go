@@ -5,6 +5,6 @@ import "time"
 type Table struct {
 	ID     int
 	Time   time.Time
-	Player []Player
+	Player map[string]Player
 	Card   []Card
 }

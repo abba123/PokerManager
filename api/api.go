@@ -21,7 +21,7 @@ func getWinRate(c *gin.Context) {
 	t := poker.Table{}
 	c.Bind(&t.Player)
 
-	result := poker.GetWinRate(t.Player, 10000)
+	result := poker.GetWinRate([]poker.Player{t.Player["Player1"],t.Player["Player2"]}, 10000)
 	c.JSON(http.StatusOK, result)
 }
 
@@ -77,7 +77,7 @@ func getHand(c *gin.Context) {
 		player.Action.Turn = r.Turn.Action
 		player.Action.River = r.River.Action
 
-		table.Player = append(table.Player, player)
+		table.Player[c.GetString("username")] = player
 		tables = append(tables, table)
 	}
 

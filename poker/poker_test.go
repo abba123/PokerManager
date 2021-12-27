@@ -175,7 +175,6 @@ func TestHighCard2(t *testing.T) {
 }
 
 func TestGetWinRate(t *testing.T) {
-	table := Table{}
 
 	player1 := Player{}
 	player2 := Player{}
@@ -184,9 +183,7 @@ func TestGetWinRate(t *testing.T) {
 	player1.Name = "player1"
 	player2.Name = "player2"
 
-	table.Player = append(table.Player, player1, player2)
-
-	result := GetWinRate(table.Player, 10000)
+	result := GetWinRate([]Player{player1, player2}, 10000)
 	if result[player1.Name] > result[player2.Name] {
 		t.Log("GetWinRate PASS")
 	} else {

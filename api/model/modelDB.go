@@ -59,9 +59,27 @@ func InsertHandDB(tables []poker.Table) {
 		game := Game{}
 		game.ID = table.ID
 		game.Time = table.Time
-		db.FirstOrCreate(&game.Player, User{Username: table.Player[0].Name})
-		db.FirstOrCreate(&game.HeroCard1, Card{Num: table.Player[0].Card[0].Num, Suit: table.Player[0].Card[0].Suit})
-		db.FirstOrCreate(&game.HeroCard2, Card{Num: table.Player[0].Card[1].Num, Suit: table.Player[0].Card[1].Suit})
+		for _, value := range table.Player {
+			db.FirstOrCreate(&game.Player, User{Username: value.Name})
+			db.FirstOrCreate(&game.HeroCard1, Card{Num: value.Card[0].Num, Suit: value.Card[0].Suit})
+			db.FirstOrCreate(&game.HeroCard2, Card{Num: value.Card[1].Num, Suit: value.Card[1].Suit})
+			game.Gain = value.Gain
+			if value.Action.Preflop != "" {
+				db.FirstOrCreate(&game.Preflop, Action{Action: value.Action.Preflop})
+			}
+			if value.Action.Flop != "" {
+				db.FirstOrCreate(&game.Flop, Action{Action: value.Action.Flop})
+			}
+			if value.Action.Turn != "" {
+				db.FirstOrCreate(&game.Turn, Action{Action: value.Action.Turn})
+			}
+			if value.Action.River != "" {
+				db.FirstOrCreate(&game.River, Action{Action: value.Action.River})
+			}
+
+			db.FirstOrCreate(&game.Seat, Seat{Seat: value.Seat})
+
+		}
 
 		if len(table.Card) > 0 {
 			db.FirstOrCreate(&game.TableCard1, Card{Num: table.Card[0].Num, Suit: table.Card[0].Suit})
@@ -78,22 +96,7 @@ func InsertHandDB(tables []poker.Table) {
 		if len(table.Card) > 4 {
 			db.FirstOrCreate(&game.TableCard5, Card{Num: table.Card[4].Num, Suit: table.Card[4].Suit})
 		}
-		db.FirstOrCreate(&game.Seat, Seat{Seat: table.Player[0].Seat})
-
-		game.Gain = table.Player[0].Gain
-		if table.Player[0].Action.Preflop != "" {
-			db.FirstOrCreate(&game.Preflop, Action{Action: table.Player[0].Action.Preflop})
-		}
-		if table.Player[0].Action.Flop != "" {
-			db.FirstOrCreate(&game.Flop, Action{Action: table.Player[0].Action.Flop})
-		}
-		if table.Player[0].Action.Turn != "" {
-			db.FirstOrCreate(&game.Turn, Action{Action: table.Player[0].Action.Turn})
-		}
-		if table.Player[0].Action.River != "" {
-			db.FirstOrCreate(&game.River, Action{Action: table.Player[0].Action.River})
-		}
-
+		
 		games = append(games, game)
 	}
 	db.Create(&games)
@@ -109,7 +112,7 @@ func GetGainDB(gain string, player string) []Game {
 		g, _ := strconv.ParseFloat(gain[1:], 64)
 		db.Where("gain >= ?", g)
 	}
-	
+
 	db.Preload(clause.Associations).Find(&games)
 
 	return games
