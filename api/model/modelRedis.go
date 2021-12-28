@@ -23,11 +23,11 @@ func InitRedis() *redis.Client {
 	return client
 }
 
-func RemoveKeyRedis(player string) {
+func RemoveKeyRedis(username string) {
 
 	client := InitRedis()
 
-	iter := client.Scan(ctx, 0, player+"*", 0).Iterator()
+	iter := client.Scan(ctx, 0, username+"*", 0).Iterator()
 
 	for iter.Next(ctx) {
 		client.Del(ctx, iter.Val())
@@ -35,19 +35,19 @@ func RemoveKeyRedis(player string) {
 
 }
 
-func GetHandRedis(num string, gain string, seat string, player string) []Game {
+func GetHandRedis(num string, gain string, seat string, username string) []Game {
 	client := InitRedis()
 
-	existGain, _ := client.Exists(ctx, player+"Gain"+gain).Result()
-	existSeat, _ := client.Exists(ctx, player+"Seat"+seat).Result()
+	existGain, _ := client.Exists(ctx, username+"Gain"+gain).Result()
+	existSeat, _ := client.Exists(ctx, username+"Seat"+seat).Result()
 
 	if existGain == 0 {
-		InsertGainRedis(gain, player)
+		InsertGainRedis(gain, username)
 	}
 	if existSeat == 0 {
-		InsertSeatRedis(seat, player)
+		InsertSeatRedis(seat, username)
 	}
-	client.ZInterStore(ctx, "inter", &redis.ZStore{Keys: []string{player + "Gain" + gain, player + "Seat" + seat}}).Result()
+	client.ZInterStore(ctx, "inter", &redis.ZStore{Keys: []string{username + "Gain" + gain, username + "Seat" + seat}}).Result()
 	results, _ := client.ZRange(ctx, "inter", 0, -1).Result()
 	client.Del(ctx, "inter")
 
@@ -62,69 +62,94 @@ func GetHandRedis(num string, gain string, seat string, player string) []Game {
 	return games
 }
 
-func InsertGainRedis(gain string, player string) {
-	games := GetGainDB(gain, player)
+func InsertGainRedis(gain string, username string) {
+	games := GetGainDB(gain, username)
 
 	client := InitRedis()
 
 	for i, game := range games {
 		gameStr, _ := json.Marshal(game)
-		client.ZAdd(ctx, player+"Gain"+gain, &redis.Z{Score: float64(i), Member: gameStr})
+		client.ZAdd(ctx, username+"Gain"+gain, &redis.Z{Score: float64(i), Member: gameStr})
 	}
 }
 
-func InsertSeatRedis(seat string, player string) {
-	games := GetSeatDB(seat, player)
+func InsertSeatRedis(seat string, username string) {
+	games := GetSeatDB(seat, username)
 
 	client := InitRedis()
 	for i, game := range games {
 		gameStr, _ := json.Marshal(game)
-		client.ZAdd(ctx, player+"Seat"+seat, &redis.Z{Score: float64(i), Member: gameStr})
+		client.ZAdd(ctx, username+"Seat"+seat, &redis.Z{Score: float64(i), Member: gameStr})
 	}
 }
 
-func GetProfitRedis(player string) []string {
+func GetProfitRedis(username string, player string) []string {
 	client := InitRedis()
 
-	exist, _ := client.Exists(ctx, player+"Profit").Result()
+	exist, _ := client.Exists(ctx, username+player+"Profit").Result()
 
 	if exist == 0 {
-		InsertProfitRedis(player)
+		InsertProfitRedis(username,player)
 	}
 
-	result, _ := client.LRange(ctx, player+"Profit", 0, -1).Result()
+	result, _ := client.LRange(ctx, username+player+"Profit", 0, -1).Result()
 
 	return result
 }
 
-func InsertProfitRedis(player string) {
+func InsertProfitRedis(username string, player string) {
 	client := InitRedis()
 
-	profits := GetProfitDB(player)
+	profits := GetProfitDB(username, player)
 
 	for _, profit := range profits {
-		client.RPush(ctx, player+"Profit", fmt.Sprint(profit))
+		client.RPush(ctx, username+player+"Profit", fmt.Sprint(profit))
 	}
 }
 
-func GetActionRedis(stage string, action string, player string) string {
+func GetActionRedis(stage string, action string, username string, player string) string {
 	client := InitRedis()
 
-	exist, _ := client.Exists(ctx, player+stage+action).Result()
+	exist, _ := client.Exists(ctx, username+player+stage+action).Result()
 
 	if exist == 0 {
-		InsertActionRedis(stage, action, player)
+		InsertActionRedis(stage, action, username, player)
 	}
 
-	result, _ := client.Get(ctx, player+stage+action).Result()
+	result, _ := client.Get(ctx, username+player+stage+action).Result()
 
 	return result
 }
 
-func InsertActionRedis(stage string, action string, player string) {
+func InsertActionRedis(stage string, action string, username string, player string) {
 	client := InitRedis()
 
-	result := GetActionDB(stage, action, player)
+	result := GetActionDB(stage, action, username, player)
 
-	client.Set(ctx, player+stage+action, fmt.Sprint(result), 0)
+	client.Set(ctx, username+player+stage+action, fmt.Sprint(result), 0)
+}
+
+func GetPlayerRedis(username string) []string {
+	client := InitRedis()
+
+	exist, _ := client.Exists(ctx, username+"playerlist").Result()
+
+	if exist == 0 {
+		InsertPlayerRedis(username)
+	}
+
+	result, _ := client.LRange(ctx, username+"playerlist", 0, -1).Result()
+
+	return result
+}
+
+func InsertPlayerRedis(username string) {
+	client := InitRedis()
+
+	results := GetPlayerDB(username)
+
+	for _,result := range results{
+		client.RPush(ctx, username+"playerlist", fmt.Sprint(result))
+	}
+
 }

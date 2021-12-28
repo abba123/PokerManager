@@ -6,7 +6,6 @@ import (
 	"log"
 	"poker/api/model"
 	"poker/poker"
-	"strings"
 
 	"github.com/segmentio/kafka-go"
 )
@@ -24,7 +23,7 @@ func NewKafkaWriter(kafkaURL, topic string) *kafka.Writer {
 }
 
 func NewKafkaReader(kafkaURL, topic string) *kafka.Reader {
-	brokers := strings.Split(kafkaURL, ",")
+	brokers := []string{kafkaURL}
 	return kafka.NewReader(kafka.ReaderConfig{
 		Brokers:     brokers,
 		Topic:       topic,
@@ -57,7 +56,7 @@ func KafkaRead() {
 	defer reader.Close()
 
 	fmt.Println("start consuming ... !!")
-	reader.SetOffset(-1)
+
 	for {
 		m, err := reader.ReadMessage(context.Background())
 		if err != nil {
@@ -65,7 +64,7 @@ func KafkaRead() {
 		}
 
 		tables := poker.Parsefile(string(m.Value))
-		model.InsertHandDB(string(m.Key),tables)
+		model.InsertHandDB(string(m.Key), tables)
 		model.RemoveKeyRedis(string(m.Key))
 
 	}

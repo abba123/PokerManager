@@ -27,7 +27,8 @@ func InitDB() {
 
 	//連接MySQL
 	db := ConnectDB()
-
+	sqldb, _ := db.DB()
+	defer sqldb.Close()
 	//產生table
 	db.Debug().AutoMigrate(&Game{})
 	db.Debug().AutoMigrate(&User{})
@@ -36,6 +37,8 @@ func InitDB() {
 
 func InsertUserDB(username string, password string) error {
 	db := ConnectDB()
+	sqldb, _ := db.DB()
+	defer sqldb.Close()
 
 	user := User{Username: username, Password: password}
 	err := db.Clauses(clause.OnConflict{DoNothing: true}).Create(&user).Error
@@ -44,6 +47,8 @@ func InsertUserDB(username string, password string) error {
 
 func GetUserDB(username string) User {
 	db := ConnectDB()
+	sqldb, _ := db.DB()
+	defer sqldb.Close()
 
 	user := User{}
 	db.First(&user, "username = ?", username)
@@ -53,6 +58,8 @@ func GetUserDB(username string) User {
 
 func InsertHandDB(name string, tables []poker.Table) {
 	db := ConnectDB()
+	sqldb, _ := db.DB()
+	defer sqldb.Close()
 
 	games := []Game{}
 	for _, table := range tables {
@@ -103,12 +110,15 @@ func InsertHandDB(name string, tables []poker.Table) {
 	db.Clauses(clause.OnConflict{DoNothing: true}).Create(&games)
 }
 
-func GetGainDB(gain string, player string) []Game {
+func GetGainDB(gain string, username string) []Game {
 
 	games := []Game{}
 
 	db := ConnectDB()
-	db = db.Joins(" INNER JOIN  users ON games.user_id = users.id ").Where("username = ?", player).Order("time")
+	sqldb, _ := db.DB()
+	defer sqldb.Close()
+
+	db = db.Joins(" INNER JOIN  users ON games.user_id = users.id ").Where("username = ?", username).Order("time")
 	db = db.Joins(" INNER JOIN  players ON games.player_id = players.id ").Where("playername = ?", "Hero")
 	if gain != "all" {
 		g, _ := strconv.ParseFloat(gain[1:], 64)
@@ -120,12 +130,15 @@ func GetGainDB(gain string, player string) []Game {
 	return games
 }
 
-func GetSeatDB(seat string, player string) []Game {
+func GetSeatDB(seat string, username string) []Game {
 
 	games := []Game{}
 
 	db := ConnectDB()
-	db = db.Joins(" INNER JOIN  users ON games.user_id = users.id ").Where("username = ?", player).Order("time")
+	sqldb, _ := db.DB()
+	defer sqldb.Close()
+
+	db = db.Joins(" INNER JOIN  users ON games.user_id = users.id ").Where("username = ?", username).Order("time")
 	db = db.Joins(" INNER JOIN  players ON games.player_id = players.id ").Where("playername = ?", "Hero").Order("time")
 
 	if seat != "all" {
@@ -137,27 +150,43 @@ func GetSeatDB(seat string, player string) []Game {
 	return games
 }
 
-func GetProfitDB(player string) []float64 {
+func GetProfitDB(username string, player string) []float64 {
 	var results []float64
 
 	db := ConnectDB()
+	sqldb, _ := db.DB()
+	defer sqldb.Close()
 
-	db = db.Table("games").Joins(" INNER JOIN  users ON games.user_id = users.id ").Where("username = ?", player)
-	db = db.Joins(" INNER JOIN  players ON games.player_id = players.id ").Where("playername = ?", "Hero")
+	db = db.Table("games").Joins(" INNER JOIN  users ON games.user_id = users.id ").Where("username = ?", username)
+	db = db.Joins(" INNER JOIN  players ON games.player_id = players.id ").Where("playername = ?", player)
 	db.Select("gain").Order("time").Scan(&results)
 
 	return results
 }
 
-func GetActionDB(stage string, action string, player string) float64 {
+func GetActionDB(stage string, action string, username string, player string) float64 {
 	var result int64
 
 	db := ConnectDB()
+	sqldb, _ := db.DB()
+	defer sqldb.Close()
 
-	db = db.Table("games").Joins(" INNER JOIN  users ON games.user_id = users.id ").Where("username = ?", player)
-	db = db.Joins(" INNER JOIN  players ON games.player_id = players.id ").Where("playername = ?", "Hero")
+	db = db.Table("games").Joins(" INNER JOIN  users ON games.user_id = users.id ").Where("username = ?", username)
+	db = db.Joins(" INNER JOIN  players ON games.player_id = players.id ").Where("playername = ?", player)
 	db = db.Joins(" INNER JOIN  actions ON games."+stage+"_id = actions.id ").Where("action LIKE ?", action+"%")
-	db.Debug().Count(&result)
+	db.Count(&result)
 
 	return float64(result)
+}
+
+func GetPlayerDB(username string) []string {
+	result := []string{}
+	db := ConnectDB()
+	sqldb, _ := db.DB()
+	defer sqldb.Close()
+
+	db = db.Table("games").Joins(" INNER JOIN  users ON games.user_id = users.id ").Where("username = ?", username)
+	db = db.Joins(" INNER JOIN  players ON games.player_id = players.id ").Select("players.playername").Distinct("players.playername")
+	db.Scan(&result)
+	return result
 }

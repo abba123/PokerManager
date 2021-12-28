@@ -96,9 +96,12 @@ export default {
       msg: 'Welcome to PokerManager',
       suits: ["s","h","d","c"],
       nums:[1,2,3,4,5,6,7,8,9,10,11,12,13],
-      player:[],
+      player:{
+        player1:{},
+        player2:{}
+      },
       player1:{
-        Name:"Player1",
+        Name:"player1",
         Card:[
           {
             Num:0,
@@ -111,7 +114,7 @@ export default {
         ]
       },
       player2:{
-        Name:"Player2",
+        Name:"player2",
         Card:[
           {
             Num:0,
@@ -131,17 +134,21 @@ export default {
   },
   methods:{
     getWinRate: function(){
-      this.player = [this.player1,this.player2]
-      this.player.forEach(value =>
-        value.Card.forEach( value =>
-          value.Num = parseInt(value.Num)
-        )
+      this.player.player1 = this.player1
+      this.player.player2 = this.player2
+
+      this.player.player1.Card.forEach( value =>
+        value.Num = parseInt(value.Num)
       )
+      this.player.player2.Card.forEach( value =>
+        value.Num = parseInt(value.Num)
+      )
+      
       this.$http
         .post('http://'+this.$root.backIP+'/getwinrate',this.player)
         .then( (response) => {
-          this.winRate.Player1 = response.data.Player1
-          this.winRate.Player2 = response.data.Player2
+          this.winRate.Player1 = response.data.player1
+          this.winRate.Player2 = response.data.player2
         })
       
     }

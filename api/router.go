@@ -20,6 +20,8 @@ func RunRestServer() {
 	router.POST("/hand", middlewaree, insertHand)
 	
 	router.GET("/profit", middlewaree, getPorfit)
+
+	router.GET("/player", middlewaree, getPlayer)
 	router.GET("/preflop", middlewaree, getPreflop)
 	router.GET("/flop", middlewaree, getFlop)
 	router.GET("/turn", middlewaree, getTurn)

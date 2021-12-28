@@ -20,8 +20,7 @@ func getWinRate(c *gin.Context) {
 
 	t := poker.Table{}
 	c.Bind(&t.Player)
-
-	result := poker.GetWinRate([]poker.Player{t.Player["Player1"], t.Player["Player2"]}, 10000)
+	result := poker.GetWinRate([]poker.Player{t.Player["player1"], t.Player["player2"]}, 10000)
 	c.JSON(http.StatusOK, result)
 }
 
@@ -152,7 +151,7 @@ func oauthCheckToken(c *gin.Context) {
 
 func getPorfit(c *gin.Context) {
 
-	profits := model.GetProfitRedis(c.GetString("username"))
+	profits := model.GetProfitRedis(c.GetString("username"), c.Query("player"))
 
 	result := []struct {
 		Hand int
@@ -172,6 +171,7 @@ func getPorfit(c *gin.Context) {
 
 func getPreflop(c *gin.Context) {
 	username := c.GetString("username")
+	player := c.Query("player")
 
 	result := struct {
 		Raise string
@@ -180,11 +180,11 @@ func getPreflop(c *gin.Context) {
 		Check string
 		Bet   string
 	}{
-		Raise: model.GetActionRedis("pre_flop", "R", username),
-		Call:  model.GetActionRedis("pre_flop", "C", username),
-		Fold:  model.GetActionRedis("pre_flop", "F", username),
-		Check: model.GetActionRedis("pre_flop", "X", username),
-		Bet:   model.GetActionRedis("pre_flop", "B", username),
+		Raise: model.GetActionRedis("pre_flop", "R", username, player),
+		Call:  model.GetActionRedis("pre_flop", "C", username, player),
+		Fold:  model.GetActionRedis("pre_flop", "F", username, player),
+		Check: model.GetActionRedis("pre_flop", "X", username, player),
+		Bet:   model.GetActionRedis("pre_flop", "B", username, player),
 	}
 
 	c.JSON(http.StatusOK, result)
@@ -192,6 +192,7 @@ func getPreflop(c *gin.Context) {
 
 func getFlop(c *gin.Context) {
 	username := c.GetString("username")
+	player := c.Query("player")
 
 	result := struct {
 		Raise string
@@ -200,11 +201,11 @@ func getFlop(c *gin.Context) {
 		Check string
 		Bet   string
 	}{
-		Raise: model.GetActionRedis("flop", "R", username),
-		Call:  model.GetActionRedis("flop", "C", username),
-		Fold:  model.GetActionRedis("flop", "F", username),
-		Check: model.GetActionRedis("flop", "X", username),
-		Bet:   model.GetActionRedis("flop", "B", username),
+		Raise: model.GetActionRedis("flop", "R", username, player),
+		Call:  model.GetActionRedis("flop", "C", username, player),
+		Fold:  model.GetActionRedis("flop", "F", username, player),
+		Check: model.GetActionRedis("flop", "X", username, player),
+		Bet:   model.GetActionRedis("flop", "B", username, player),
 	}
 
 	c.JSON(http.StatusOK, result)
@@ -212,6 +213,7 @@ func getFlop(c *gin.Context) {
 
 func getTurn(c *gin.Context) {
 	username := c.GetString("username")
+	player := c.Query("player")
 
 	result := struct {
 		Raise string
@@ -220,11 +222,11 @@ func getTurn(c *gin.Context) {
 		Check string
 		Bet   string
 	}{
-		Raise: model.GetActionRedis("turn", "R", username),
-		Call:  model.GetActionRedis("turn", "C", username),
-		Fold:  model.GetActionRedis("turn", "F", username),
-		Check: model.GetActionRedis("turn", "X", username),
-		Bet:   model.GetActionRedis("turn", "B", username),
+		Raise: model.GetActionRedis("turn", "R", username, player),
+		Call:  model.GetActionRedis("turn", "C", username, player),
+		Fold:  model.GetActionRedis("turn", "F", username, player),
+		Check: model.GetActionRedis("turn", "X", username, player),
+		Bet:   model.GetActionRedis("turn", "B", username, player),
 	}
 
 	c.JSON(http.StatusOK, result)
@@ -232,6 +234,7 @@ func getTurn(c *gin.Context) {
 
 func getRiver(c *gin.Context) {
 	username := c.GetString("username")
+	player := c.Query("player")
 
 	result := struct {
 		Raise string
@@ -240,12 +243,20 @@ func getRiver(c *gin.Context) {
 		Check string
 		Bet   string
 	}{
-		Raise: model.GetActionRedis("river", "R", username),
-		Call:  model.GetActionRedis("river", "C", username),
-		Fold:  model.GetActionRedis("river", "F", username),
-		Check: model.GetActionRedis("river", "X", username),
-		Bet:   model.GetActionRedis("river", "B", username),
+		Raise: model.GetActionRedis("river", "R", username, player),
+		Call:  model.GetActionRedis("river", "C", username, player),
+		Fold:  model.GetActionRedis("river", "F", username, player),
+		Check: model.GetActionRedis("river", "X", username, player),
+		Bet:   model.GetActionRedis("river", "B", username, player),
 	}
+
+	c.JSON(http.StatusOK, result)
+}
+
+func getPlayer(c *gin.Context) {
+	username := c.GetString("username")
+
+	result := model.GetPlayerRedis(username)
 
 	c.JSON(http.StatusOK, result)
 }
