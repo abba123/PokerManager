@@ -12,7 +12,7 @@ func Parsefile(data string) []Table {
 	dataSlice := strings.Split(data, "\n") // 從 string 轉成 string slice
 
 	tables := []Table{}
-	for line := 4; line < len(dataSlice); line++ {
+	for line := 0; line < len(dataSlice); line++ {
 		if strings.Contains(dataSlice[line], "Poker Hand") {
 			table := ParseTable(dataSlice, &line)
 			tables = append(tables, table)

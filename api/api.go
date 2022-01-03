@@ -4,7 +4,6 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"poker/api/kafka"
 	"poker/api/model"
 	"poker/api/oauth"
 	"poker/api/token"
@@ -85,7 +84,9 @@ func getHand(c *gin.Context) {
 func insertHand(c *gin.Context) {
 	dataByte, _ := ioutil.ReadAll(c.Request.Body)
 	username := c.GetString("username")
-	kafka.KafkaWrite(dataByte, []byte(username))
+	tables := poker.Parsefile(string(dataByte))
+	model.InsertHandDB(username, tables)
+	model.RemoveKeyRedis(username)
 	c.JSON(http.StatusOK, nil)
 }
 
