@@ -7,12 +7,13 @@ import (
 	"strconv"
 
 	"github.com/go-redis/redis/v8"
+	"github.com/spf13/viper"
 )
 
 var ctx = context.Background()
 
 //const redisUrl string = "rediscache.93ekuw.0001.use2.cache.amazonaws.com:6379"
-const redisUrl string = "localhost:6379"
+var redisUrl string = viper.GetString("REDIS") + ":6379"
 
 func InitRedis() *redis.Client {
 	client := redis.NewClient(&redis.Options{
@@ -89,7 +90,7 @@ func GetProfitRedis(username string, player string) []string {
 	exist, _ := client.Exists(ctx, username+player+"Profit").Result()
 
 	if exist == 0 {
-		InsertProfitRedis(username,player)
+		InsertProfitRedis(username, player)
 	}
 
 	result, _ := client.LRange(ctx, username+player+"Profit", 0, -1).Result()
@@ -148,7 +149,7 @@ func InsertPlayerRedis(username string) {
 
 	results := GetPlayerDB(username)
 
-	for _,result := range results{
+	for _, result := range results {
 		client.RPush(ctx, username+"playerlist", fmt.Sprint(result))
 	}
 

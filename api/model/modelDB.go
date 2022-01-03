@@ -5,13 +5,13 @@ import (
 	"poker/poker"
 	"strconv"
 
+	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
 
-//const mysqlIP string = "database-1.crj366caarmq.us-east-2.rds.amazonaws.com:3306"
-const mysqlIP string = "localhost:3306"
+var mysqlIP string = viper.GetString("DATABASE") + ":3306"
 
 func ConnectDB() *gorm.DB {
 	db, err := gorm.Open(mysql.Open("abba123:abbaABBA123@tcp("+mysqlIP+")/pokerdb?parseTime=true"), &gorm.Config{})

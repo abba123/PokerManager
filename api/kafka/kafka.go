@@ -8,10 +8,12 @@ import (
 	"poker/poker"
 
 	"github.com/segmentio/kafka-go"
+	"github.com/spf13/viper"
 )
 
 //const kafkaURL string = "ec2-3-131-38-31.us-east-2.compute.amazonaws.com:9092"
-const kafkaURL string = "localhost:9092"
+var kafkaURL string = viper.GetString("DATABASE") + ":9092"
+
 const topic string = "pokerHand"
 
 func NewKafkaWriter(kafkaURL, topic string) *kafka.Writer {
@@ -26,6 +28,7 @@ func NewKafkaReader(kafkaURL, topic string) *kafka.Reader {
 	brokers := []string{kafkaURL}
 	return kafka.NewReader(kafka.ReaderConfig{
 		Brokers:     brokers,
+		GroupID:     "consumer",
 		Topic:       topic,
 		MinBytes:    0,    // 10KB
 		MaxBytes:    10e6, // 10MB
@@ -62,7 +65,7 @@ func KafkaRead() {
 		if err != nil {
 			log.Fatalln(err)
 		}
-
+		fmt.Println(string(m.Offset))
 		tables := poker.Parsefile(string(m.Value))
 		model.InsertHandDB(string(m.Key), tables)
 		model.RemoveKeyRedis(string(m.Key))

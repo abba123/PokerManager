@@ -6,14 +6,15 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+
+	"github.com/spf13/viper"
 )
 
 const clientID string = "2cab12bd0bcae1f150d0"
 const clientSecret string = "8517b74a34215561a21abae585cfb2ac4f0fa1be"
 const scopes string = "user:email"
 
-const redirectURL string = "http://localhost:8000/oauth/login"
-//const redirectURL string = "http://ec2-3-128-204-27.us-east-2.compute.amazonaws.com:8000/oauth/login"
+var redirectURL string = "http://" + viper.GetString("BACKEND") + ":8000/oauth/login"
 
 var OAuthChan chan string
 

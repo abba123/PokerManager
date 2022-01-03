@@ -175,7 +175,7 @@ func GetPay(data []string, line *int, nextState string, table *Table) {
 		if strings.Contains(data[*line], "returned to") {
 			playerName = s[len(s)-1]
 			player := table.Player[playerName]
-			tmp, _ := strconv.ParseFloat(s[2][2:6], 64)
+			tmp, _ := strconv.ParseFloat(s[2][2:len(s[2])-1], 64)
 			pay += tmp
 			player.Gain += pay
 			table.Player[playerName] = player
