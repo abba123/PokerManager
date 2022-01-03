@@ -14,11 +14,11 @@ const clientID string = "2cab12bd0bcae1f150d0"
 const clientSecret string = "8517b74a34215561a21abae585cfb2ac4f0fa1be"
 const scopes string = "user:email"
 
-var redirectURL string = "http://" + viper.GetString("BACKEND") + ":8000/oauth/login"
-
 var OAuthChan chan string
 
 func GenerateCodeURL() string {
+	viper.AutomaticEnv()
+	redirectURL := "http://" + viper.GetString("BACKEND") + ":8000/oauth/login"
 	url := "https://github.com/login/oauth/authorize?client_id=%s&scope=%s&redirect_uri=%s"
 
 	return fmt.Sprintf(url, clientID, scopes, redirectURL)

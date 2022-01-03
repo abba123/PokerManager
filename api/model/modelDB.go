@@ -11,9 +11,9 @@ import (
 	"gorm.io/gorm/clause"
 )
 
-var mysqlIP string = viper.GetString("DATABASE") + ":3306"
-
 func ConnectDB() *gorm.DB {
+	viper.AutomaticEnv()
+	mysqlIP := viper.GetString("DATABASE") + ":3306"
 	db, err := gorm.Open(mysql.Open("abba123:abbaABBA123@tcp("+mysqlIP+")/pokerdb?parseTime=true"), &gorm.Config{})
 	if err != nil {
 		fmt.Println("connection to mysql failed:", err)

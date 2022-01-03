@@ -12,10 +12,9 @@ import (
 
 var ctx = context.Background()
 
-//const redisUrl string = "rediscache.93ekuw.0001.use2.cache.amazonaws.com:6379"
-var redisUrl string = viper.GetString("REDIS") + ":6379"
-
 func InitRedis() *redis.Client {
+	viper.AutomaticEnv()
+	redisUrl := viper.GetString("REDIS") + ":6379"
 	client := redis.NewClient(&redis.Options{
 		Addr:     redisUrl,
 		Password: "", // no password set

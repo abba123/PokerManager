@@ -12,7 +12,6 @@ import (
 )
 
 //const kafkaURL string = "ec2-3-131-38-31.us-east-2.compute.amazonaws.com:9092"
-var kafkaURL string = viper.GetString("DATABASE") + ":9092"
 
 const topic string = "pokerHand"
 
@@ -37,6 +36,8 @@ func NewKafkaReader(kafkaURL, topic string) *kafka.Reader {
 }
 
 func KafkaWrite(data []byte, username []byte) {
+	viper.AutomaticEnv()
+	kafkaURL := viper.GetString("DATABASE") + ":9092"
 	writer := NewKafkaWriter(kafkaURL, topic)
 	defer writer.Close()
 	fmt.Println("start producing ... !!")
@@ -52,8 +53,9 @@ func KafkaWrite(data []byte, username []byte) {
 }
 
 func KafkaRead() {
-	topic := "pokerHand"
 
+	viper.AutomaticEnv()
+	kafkaURL := viper.GetString("DATABASE") + ":9092"
 	reader := NewKafkaReader(kafkaURL, topic)
 
 	defer reader.Close()
@@ -65,7 +67,6 @@ func KafkaRead() {
 		if err != nil {
 			log.Fatalln(err)
 		}
-		fmt.Println(string(m.Offset))
 		tables := poker.Parsefile(string(m.Value))
 		model.InsertHandDB(string(m.Key), tables)
 		model.RemoveKeyRedis(string(m.Key))
