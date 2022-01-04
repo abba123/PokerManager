@@ -28,7 +28,7 @@ func main() {
 	//grpc.RunGrpcSetver()
 	go kafka.KafkaRead()
 	oauth.OAuthChan = make(chan string, 1)
-	model.InitDB()
+	model.InitDB("pokerdb")
 	api.RunRestServer()
 
 }

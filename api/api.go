@@ -92,7 +92,7 @@ func insertHand(c *gin.Context) {
 func login(c *gin.Context) {
 	var request model.User
 	c.BindJSON(&request)
-	user := model.GetUserDB(request.Username)
+	user := model.GetUserDB("pokerdb",request.Username)
 	if user.Password == request.Password {
 		tk := token.GenerateToken(user.Username)
 		c.JSON(http.StatusOK, tk)
@@ -104,7 +104,7 @@ func login(c *gin.Context) {
 func register(c *gin.Context) {
 	var request model.User
 	c.BindJSON(&request)
-	err := model.InsertUserDB(request.Username, request.Password)
+	err := model.InsertUserDB("pokerdb",request.Username, request.Password)
 	if err != nil {
 		c.JSON(http.StatusForbidden, nil)
 	} else {

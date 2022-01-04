@@ -1,6 +1,7 @@
 package poker
 
 import (
+	"fmt"
 	"os"
 	"testing"
 )
@@ -187,7 +188,7 @@ func TestGetWinRate(t *testing.T) {
 	if result[player1.Name] > result[player2.Name] {
 		t.Log("GetWinRate PASS")
 	} else {
-		t.Log("GetWinRate FAIL")
+		t.Error("GetWinRate FAIL")
 	}
 }
 
@@ -196,11 +197,11 @@ func TestParseFile(t *testing.T) {
 	result := Parsefile(string(data))[0]
 
 	table := Table{}
-	table.ID = 376515665
-
+	table.ID = 376515970
+	fmt.Println(result.ID)
 	if table.ID == result.ID {
 		t.Log("Parse PASS")
 	} else {
-		t.Log("Parse FAIL")
+		t.Error("Parse FAIL")
 	}
 }

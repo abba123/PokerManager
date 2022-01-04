@@ -11,32 +11,41 @@ import (
 	"gorm.io/gorm/clause"
 )
 
-func ConnectDB() *gorm.DB {
+func ConnectDB(dbName string) *gorm.DB {
 	viper.AutomaticEnv()
 	mysqlIP := viper.GetString("DATABASE") + ":3306"
-	db, err := gorm.Open(mysql.Open("abba123:abbaABBA123@tcp("+mysqlIP+")/pokerdb?parseTime=true"), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open("abba123:abbaABBA123@tcp("+mysqlIP+")/"+dbName+"?parseTime=true"), &gorm.Config{})
 	if err != nil {
 		fmt.Println("connection to mysql failed:", err)
-		return db
+		return nil
 	}
 
 	return db
 }
 
-func InitDB() {
+func InitDB(dbName string) error {
 
 	//連接MySQL
-	db := ConnectDB()
+	db := ConnectDB(dbName)
 	sqldb, _ := db.DB()
 	defer sqldb.Close()
 	//產生table
-	db.Debug().AutoMigrate(&Game{})
-	db.Debug().AutoMigrate(&User{})
+	var err error
+	err = db.Debug().AutoMigrate(&Game{})
+	if err != nil {
+		return err
+	}
+	err = db.Debug().AutoMigrate(&User{})
+	if err != nil {
+		return err
+	}
 	db.Migrator()
+
+	return err
 }
 
-func InsertUserDB(username string, password string) error {
-	db := ConnectDB()
+func InsertUserDB(dbName string, username string, password string) error {
+	db := ConnectDB(dbName)
 	sqldb, _ := db.DB()
 	defer sqldb.Close()
 
@@ -45,8 +54,8 @@ func InsertUserDB(username string, password string) error {
 	return err
 }
 
-func GetUserDB(username string) User {
-	db := ConnectDB()
+func GetUserDB(dbName string, username string) User {
+	db := ConnectDB(dbName)
 	sqldb, _ := db.DB()
 	defer sqldb.Close()
 
@@ -56,8 +65,8 @@ func GetUserDB(username string) User {
 	return user
 }
 
-func InsertHandDB(name string, tables []poker.Table) {
-	db := ConnectDB()
+func InsertHandDB(dbName string, name string, tables []poker.Table) {
+	db := ConnectDB(dbName)
 	sqldb, _ := db.DB()
 	defer sqldb.Close()
 
@@ -110,11 +119,11 @@ func InsertHandDB(name string, tables []poker.Table) {
 	db.Clauses(clause.OnConflict{DoNothing: true}).Create(&games)
 }
 
-func GetGainDB(gain string, username string) []Game {
+func GetGainDB(dbName string, gain string, username string) []Game {
 
 	games := []Game{}
 
-	db := ConnectDB()
+	db := ConnectDB(dbName)
 	sqldb, _ := db.DB()
 	defer sqldb.Close()
 
@@ -130,11 +139,11 @@ func GetGainDB(gain string, username string) []Game {
 	return games
 }
 
-func GetSeatDB(seat string, username string) []Game {
+func GetSeatDB(dbName string, seat string, username string) []Game {
 
 	games := []Game{}
 
-	db := ConnectDB()
+	db := ConnectDB(dbName)
 	sqldb, _ := db.DB()
 	defer sqldb.Close()
 
@@ -150,10 +159,10 @@ func GetSeatDB(seat string, username string) []Game {
 	return games
 }
 
-func GetProfitDB(username string, player string) []float64 {
+func GetProfitDB(dbName string, username string, player string) []float64 {
 	var results []float64
 
-	db := ConnectDB()
+	db := ConnectDB(dbName)
 	sqldb, _ := db.DB()
 	defer sqldb.Close()
 
@@ -164,10 +173,10 @@ func GetProfitDB(username string, player string) []float64 {
 	return results
 }
 
-func GetActionDB(stage string, action string, username string, player string) float64 {
+func GetActionDB(dbName string, stage string, action string, username string, player string) float64 {
 	var result int64
 
-	db := ConnectDB()
+	db := ConnectDB(dbName)
 	sqldb, _ := db.DB()
 	defer sqldb.Close()
 
@@ -179,9 +188,9 @@ func GetActionDB(stage string, action string, username string, player string) fl
 	return float64(result)
 }
 
-func GetPlayerDB(username string) []string {
+func GetPlayerDB(dbName string, username string) []string {
 	result := []string{}
-	db := ConnectDB()
+	db := ConnectDB(dbName)
 	sqldb, _ := db.DB()
 	defer sqldb.Close()
 

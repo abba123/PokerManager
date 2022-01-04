@@ -63,7 +63,7 @@ func GetHandRedis(num string, gain string, seat string, username string) []Game 
 }
 
 func InsertGainRedis(gain string, username string) {
-	games := GetGainDB(gain, username)
+	games := GetGainDB("pokerdb",gain, username)
 
 	client := InitRedis()
 
@@ -74,7 +74,7 @@ func InsertGainRedis(gain string, username string) {
 }
 
 func InsertSeatRedis(seat string, username string) {
-	games := GetSeatDB(seat, username)
+	games := GetSeatDB("pokerdb",seat, username)
 
 	client := InitRedis()
 	for i, game := range games {
@@ -100,7 +100,7 @@ func GetProfitRedis(username string, player string) []string {
 func InsertProfitRedis(username string, player string) {
 	client := InitRedis()
 
-	profits := GetProfitDB(username, player)
+	profits := GetProfitDB("pokerdb",username, player)
 
 	for _, profit := range profits {
 		client.RPush(ctx, username+player+"Profit", fmt.Sprint(profit))
@@ -124,7 +124,7 @@ func GetActionRedis(stage string, action string, username string, player string)
 func InsertActionRedis(stage string, action string, username string, player string) {
 	client := InitRedis()
 
-	result := GetActionDB(stage, action, username, player)
+	result := GetActionDB("pokerdb",stage, action, username, player)
 
 	client.Set(ctx, username+player+stage+action, fmt.Sprint(result), 0)
 }
@@ -146,7 +146,7 @@ func GetPlayerRedis(username string) []string {
 func InsertPlayerRedis(username string) {
 	client := InitRedis()
 
-	results := GetPlayerDB(username)
+	results := GetPlayerDB("pokerdb",username)
 
 	for _, result := range results {
 		client.RPush(ctx, username+"playerlist", fmt.Sprint(result))
