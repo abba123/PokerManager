@@ -4,11 +4,13 @@ import (
 	"poker/poker"
 	"testing"
 	"time"
+
+	"github.com/spf13/viper"
 )
 
 func TestConnectDB(t *testing.T) {
-	//viper.Set("DATABASE", "127.0.0.1")
-	db := ConnectDB("testdb")
+	viper.Set("DBNAME", "testdb")
+	db := ConnectDB()
 	if db != nil {
 		t.Log("Connect DB PASS")
 	} else {
@@ -17,7 +19,8 @@ func TestConnectDB(t *testing.T) {
 }
 
 func TestInitDB(t *testing.T) {
-	err := InitDB("testdb")
+	viper.Set("DBNAME", "testdb")
+	err := InitDB()
 
 	if err == nil {
 		t.Log("Init DB PASS")
@@ -27,8 +30,9 @@ func TestInitDB(t *testing.T) {
 }
 
 func TestUserDB(t *testing.T) {
-	InsertUserDB("testdb", "test", "test")
-	user := GetUserDB("testdb", "test")
+	viper.Set("DBNAME", "testdb")
+	InsertUserDB("test", "test")
+	user := GetUserDB("test")
 
 	if user.Password == "test" {
 		t.Log("User DB PASS")
@@ -38,6 +42,7 @@ func TestUserDB(t *testing.T) {
 }
 
 func InsertTestHandDB() {
+	viper.Set("DBNAME", "testdb")
 	player := poker.Player{
 		Name: "Hero",
 		Seat: "BB",
@@ -57,11 +62,12 @@ func InsertTestHandDB() {
 		Card:   []poker.Card{{Num: 10, Suit: "c"}, {Num: 11, Suit: "c"}, {Num: 12, Suit: "c"}, {Num: 13, Suit: "c"}, {Num: 3, Suit: "c"}},
 	}
 
-	InsertHandDB("testdb", "test", []poker.Table{table})
+	InsertHandDB("test", []poker.Table{table})
 }
 func TestGetPlayerDB(t *testing.T) {
+	viper.Set("DBNAME", "testdb")
 	InsertTestHandDB()
-	result := GetPlayerDB("testdb", "test")
+	result := GetPlayerDB("test")
 	if len(result) != 0 {
 		t.Log("InsertHand DB PASS")
 	} else {
@@ -70,8 +76,9 @@ func TestGetPlayerDB(t *testing.T) {
 }
 
 func TestGetGainDB(t *testing.T) {
+	viper.Set("DBNAME", "testdb")
 	InsertTestHandDB()
-	result := GetGainDB("testdb", "all", "test")
+	result := GetGainDB("all", "test")
 
 	if result[0].Gain == 1.0 {
 		t.Log("Get Gain PASS")
@@ -81,8 +88,9 @@ func TestGetGainDB(t *testing.T) {
 }
 
 func TestGetSeatDB(t *testing.T) {
+	viper.Set("DBNAME", "testdb")
 	InsertTestHandDB()
-	result := GetSeatDB("testdb", "all", "test")
+	result := GetSeatDB("all", "test")
 	if result[0].Seat.Seat == "BB" {
 		t.Log("Get Seat PASS")
 	} else {
@@ -91,8 +99,9 @@ func TestGetSeatDB(t *testing.T) {
 }
 
 func TestGetProfitDB(t *testing.T) {
+	viper.Set("DBNAME", "testdb")
 	InsertTestHandDB()
-	result := GetProfitDB("testdb", "test", "Hero")
+	result := GetProfitDB("test", "Hero")
 
 	if result[0] == 1.0 {
 		t.Log("Get Profit PASS")
@@ -102,12 +111,58 @@ func TestGetProfitDB(t *testing.T) {
 }
 
 func TestGetActionDB(t *testing.T) {
+	viper.Set("DBNAME", "testdb")
 	InsertTestHandDB()
-	result := GetActionDB("testdb", "Flop", "X", "test", "Hero")
+	result := GetActionDB("Flop", "X", "test", "Hero")
 
 	if result == 1.0 {
 		t.Log("Get Action PASS")
 	} else {
 		t.Error("Get Action FAIL")
 	}
+}
+
+func TestPlayerRedis(t *testing.T) {
+	viper.Set("DBNAME", "testdb")
+	player := GetPlayerRedis("test")
+
+	if len(player) != 0 {
+		t.Log("Insert player redis PASS")
+	} else {
+		t.Error("Insert player redis FAIL")
+	}
+	RemoveKeyRedis("test")
+}
+
+func TestHandRedis(t *testing.T) {
+	viper.Set("DBNAME", "testdb")
+	result := GetHandRedis("10", "1.0", "BB", "test")
+	if len(result) != 0 {
+		t.Log("Hand Redis PASS")
+	} else {
+		t.Error("Hand Redis FAIL")
+	}
+	RemoveKeyRedis("test")
+}
+
+func TestProfitRedis(t *testing.T) {
+	viper.Set("DBNAME", "testdb")
+	result := GetProfitRedis("test", "Hero")
+	if len(result) != 0 {
+		t.Log("Profit Redis PASS")
+	} else {
+		t.Error("Profit Redis FAIL")
+	}
+	RemoveKeyRedis("test")
+}
+
+func TestActionRedis(t *testing.T) {
+	viper.Set("DBNAME", "testdb")
+	result := GetActionRedis("Flop", "X", "test", "test")
+	if len(result) != 0 {
+		t.Log("Action Redis PASS")
+	} else {
+		t.Error("Action Redis FAIL")
+	}
+	RemoveKeyRedis("test")
 }

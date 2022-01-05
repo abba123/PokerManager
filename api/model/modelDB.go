@@ -11,8 +11,9 @@ import (
 	"gorm.io/gorm/clause"
 )
 
-func ConnectDB(dbName string) *gorm.DB {
+func ConnectDB() *gorm.DB {
 	viper.AutomaticEnv()
+	dbName := viper.GetString("DBNAME")
 	mysqlIP := viper.GetString("DATABASE") + ":3306"
 	db, err := gorm.Open(mysql.Open("abba123:abbaABBA123@tcp("+mysqlIP+")/"+dbName+"?parseTime=true"), &gorm.Config{})
 	if err != nil {
@@ -23,10 +24,10 @@ func ConnectDB(dbName string) *gorm.DB {
 	return db
 }
 
-func InitDB(dbName string) error {
+func InitDB() error {
 
 	//連接MySQL
-	db := ConnectDB(dbName)
+	db := ConnectDB()
 	sqldb, _ := db.DB()
 	defer sqldb.Close()
 	//產生table
@@ -44,8 +45,8 @@ func InitDB(dbName string) error {
 	return err
 }
 
-func InsertUserDB(dbName string, username string, password string) error {
-	db := ConnectDB(dbName)
+func InsertUserDB(username string, password string) error {
+	db := ConnectDB()
 	sqldb, _ := db.DB()
 	defer sqldb.Close()
 
@@ -54,8 +55,8 @@ func InsertUserDB(dbName string, username string, password string) error {
 	return err
 }
 
-func GetUserDB(dbName string, username string) User {
-	db := ConnectDB(dbName)
+func GetUserDB(username string) User {
+	db := ConnectDB()
 	sqldb, _ := db.DB()
 	defer sqldb.Close()
 
@@ -65,8 +66,8 @@ func GetUserDB(dbName string, username string) User {
 	return user
 }
 
-func InsertHandDB(dbName string, name string, tables []poker.Table) {
-	db := ConnectDB(dbName)
+func InsertHandDB(name string, tables []poker.Table) {
+	db := ConnectDB()
 	sqldb, _ := db.DB()
 	defer sqldb.Close()
 
@@ -119,11 +120,11 @@ func InsertHandDB(dbName string, name string, tables []poker.Table) {
 	db.Clauses(clause.OnConflict{DoNothing: true}).Create(&games)
 }
 
-func GetGainDB(dbName string, gain string, username string) []Game {
+func GetGainDB(gain string, username string) []Game {
 
 	games := []Game{}
 
-	db := ConnectDB(dbName)
+	db := ConnectDB()
 	sqldb, _ := db.DB()
 	defer sqldb.Close()
 
@@ -139,11 +140,11 @@ func GetGainDB(dbName string, gain string, username string) []Game {
 	return games
 }
 
-func GetSeatDB(dbName string, seat string, username string) []Game {
+func GetSeatDB(seat string, username string) []Game {
 
 	games := []Game{}
 
-	db := ConnectDB(dbName)
+	db := ConnectDB()
 	sqldb, _ := db.DB()
 	defer sqldb.Close()
 
@@ -159,10 +160,10 @@ func GetSeatDB(dbName string, seat string, username string) []Game {
 	return games
 }
 
-func GetProfitDB(dbName string, username string, player string) []float64 {
+func GetProfitDB(username string, player string) []float64 {
 	var results []float64
 
-	db := ConnectDB(dbName)
+	db := ConnectDB()
 	sqldb, _ := db.DB()
 	defer sqldb.Close()
 
@@ -173,10 +174,10 @@ func GetProfitDB(dbName string, username string, player string) []float64 {
 	return results
 }
 
-func GetActionDB(dbName string, stage string, action string, username string, player string) float64 {
+func GetActionDB(stage string, action string, username string, player string) float64 {
 	var result int64
 
-	db := ConnectDB(dbName)
+	db := ConnectDB()
 	sqldb, _ := db.DB()
 	defer sqldb.Close()
 
@@ -188,9 +189,9 @@ func GetActionDB(dbName string, stage string, action string, username string, pl
 	return float64(result)
 }
 
-func GetPlayerDB(dbName string, username string) []string {
+func GetPlayerDB(username string) []string {
 	result := []string{}
-	db := ConnectDB(dbName)
+	db := ConnectDB()
 	sqldb, _ := db.DB()
 	defer sqldb.Close()
 

@@ -68,7 +68,7 @@ func KafkaRead() {
 			log.Fatalln(err)
 		}
 		tables := poker.Parsefile(string(m.Value))
-		model.InsertHandDB("pokerdb",string(m.Key), tables)
+		model.InsertHandDB(string(m.Key), tables)
 		model.RemoveKeyRedis(string(m.Key))
 
 	}

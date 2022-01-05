@@ -24,11 +24,14 @@ func main() {
 	if viper.GetString("KAFKA") == "" {
 		viper.Set("KAFKA", "127.0.0.1")
 	}
+	if viper.GetString("DBNAME") == ""{
+		viper.Set("DBNAME", "pokerdb")
+	}
 
 	//grpc.RunGrpcSetver()
 	go kafka.KafkaRead()
 	oauth.OAuthChan = make(chan string, 1)
-	model.InitDB("pokerdb")
+	model.InitDB()
 	api.RunRestServer()
 
 }
