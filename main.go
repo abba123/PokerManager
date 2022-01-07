@@ -2,6 +2,7 @@ package main
 
 import (
 	"poker/api"
+	proto "poker/api/grpc"
 	"poker/api/kafka"
 	"poker/api/model"
 	"poker/api/oauth"
@@ -12,7 +13,7 @@ import (
 func main() {
 
 	viper.AutomaticEnv()
-	if viper.GetString("BACKEND") == ""{
+	if viper.GetString("BACKEND") == "" {
 		viper.Set("BACKEND", "127.0.0.1")
 	}
 	if viper.GetString("DATABASE") == "" {
@@ -24,11 +25,11 @@ func main() {
 	if viper.GetString("KAFKA") == "" {
 		viper.Set("KAFKA", "127.0.0.1")
 	}
-	if viper.GetString("DBNAME") == ""{
+	if viper.GetString("DBNAME") == "" {
 		viper.Set("DBNAME", "pokerdb")
 	}
 
-	//grpc.RunGrpcSetver()
+	go proto.RunGrpcSetver()
 	go kafka.KafkaRead()
 	oauth.OAuthChan = make(chan string, 1)
 	model.InitDB()

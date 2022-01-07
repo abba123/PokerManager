@@ -5,21 +5,26 @@ syntax = "proto3";
 package calculator;
 option go_package = "proto/";
 
-message GetWinRateRequest {
-  string name1 = 1;
-  string name2 = 2;
-  int32 p1Card1Num = 3;
-  string p1Card1Suit = 4;
-  int32 p1Card2Num = 5;
-  string p1Card2Suit = 6;
-  int32 p2Card1Num = 7;
-  string p2Card1Suit = 8;
-  int32 p2Card2Num = 9;
-  string p2Card2Suit = 10;
+
+
+message GetWinRateRequest{
+  message Card {
+    int32 Num  = 1;
+    string Suit = 2;
+  }
+
+  message Player{
+    string Name = 1;
+    Card Card1 = 2;
+    Card Card2 = 3;
+  }
+
+  map<string, Player> Players = 1;
+
 }
 
 message GetWinRateResponse {
-  map<string, float> result = 1;
+  map<string, double> result = 1;
 }
 
 service GetWinRateService {

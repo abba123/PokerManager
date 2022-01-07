@@ -1,9 +1,12 @@
 package api
 
 import (
+	"context"
 	"io/ioutil"
+	"log"
 	"net/http"
 
+	pb "poker/api/grpc"
 	"poker/api/kafka"
 	"poker/api/model"
 	"poker/api/oauth"
@@ -12,16 +15,49 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"google.golang.org/grpc"
 )
 
 var Tokens map[string]bool
 
 func getWinRate(c *gin.Context) {
 
-	t := poker.Table{}
-	c.Bind(&t.Player)
-	result := poker.GetWinRate([]poker.Player{t.Player["player1"], t.Player["player2"]}, 10000)
-	c.JSON(http.StatusOK, result)
+	// Set up a connection to the server.
+	conn, err := grpc.Dial("127.0.0.1:81", grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+	defer conn.Close()
+	client := pb.NewGetWinRateServiceClient(conn)
+	/*
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		defer cancel()
+	*/
+
+	players := map[string]poker.Player{}
+	c.Bind(&players)
+
+	body := pb.GetWinRateRequest{}
+	body.Players = make(map[string]*pb.GetWinRateRequest_Player)
+
+	for key, value := range players {
+		body.Players[key] = &pb.GetWinRateRequest_Player{Name: key}
+		body.Players[key].Card1 = &pb.GetWinRateRequest_Card{Num: int32(value.Card[0].Num), Suit: value.Card[0].Suit}
+		body.Players[key].Card2 = &pb.GetWinRateRequest_Card{Num: int32(value.Card[1].Num), Suit: value.Card[1].Suit}
+	}
+
+	response, err := client.GetWinRate(context.Background(), &body)
+
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+
+	/*
+		t := poker.Table{}
+		c.Bind(&t.Player)
+		result := poker.GetWinRate([]poker.Player{t.Player["player1"], t.Player["player2"]}, 10000)
+	*/
+	c.JSON(http.StatusOK, response.GetResult())
 }
 
 func getHand(c *gin.Context) {

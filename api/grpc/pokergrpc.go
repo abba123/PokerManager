@@ -15,7 +15,7 @@ type Server struct{}
 func RunGrpcSetver() {
 	fmt.Println("starting gRPC server...")
 
-	lis, err := net.Listen("tcp", "127.0.0.1:80")
+	lis, err := net.Listen("tcp", "127.0.0.1:81")
 	if err != nil {
 		log.Fatalf("failed to listen: %v \n", err)
 	}
@@ -31,22 +31,16 @@ func RunGrpcSetver() {
 
 func (*Server) GetWinRate(ctx context.Context, req *GetWinRateRequest) (*GetWinRateResponse, error) {
 
-	p1 := poker.Player{Name: req.GetName1()}
-	p2 := poker.Player{Name: req.GetName2()}
+	players := []poker.Player{}
 
-	p1.Card = []poker.Card{{}, {}}
-	p1.Card[0].Num = int(req.GetP1Card1Num())
-	p1.Card[0].Suit = req.GetP1Card1Suit()
-	p1.Card[1].Num = int(req.GetP1Card2Num())
-	p1.Card[1].Suit = req.GetP1Card2Suit()
+	for key, value := range req.GetPlayers() {
+		player := poker.Player{Name: key}
+		player.Card = append(player.Card, poker.Card{Num: int(value.GetCard1().GetNum()), Suit: value.GetCard1().GetSuit()})
+		player.Card = append(player.Card, poker.Card{Num: int(value.GetCard2().GetNum()), Suit: value.GetCard2().GetSuit()})
+		players = append(players, player)
+	}
 
-	p2.Card = []poker.Card{{}, {}}
-	p2.Card[0].Num = int(req.GetP2Card1Num())
-	p2.Card[0].Suit = req.GetP2Card1Suit()
-	p2.Card[1].Num = int(req.GetP2Card2Num())
-	p2.Card[1].Suit = req.GetP2Card2Suit()
-
-	result := poker.GetWinRate([]poker.Player{p1, p2}, 10000)
+	result := poker.GetWinRate(players, 10000)
 
 	res := &GetWinRateResponse{
 		Result: result,
