@@ -33,7 +33,6 @@
     <table >
       <tr>
         <td>Time</td>
-        <td>Player</td>
         <td>Seat</td>
         <td>Gain</td>
         <td>Card</td>
@@ -44,7 +43,6 @@
       </tr>
       <tr v-for="t in table">
         <td>{{t.Time}}</td>
-        <td>{{t.Player[user].Name}}</td>
         <td>{{t.Player[user].Seat}}</td>
         <td>{{t.Player[user].Gain}}</td>
         <img v-bind:src= "imgsrc + t.Player[user].Card[0].Num + t.Player[user].Card[0].Suit + '.png'">

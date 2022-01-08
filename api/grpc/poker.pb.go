@@ -6,7 +6,7 @@
 // 	protoc        v3.19.2
 // source: poker.proto
 
-package grpc
+package proto
 
 import (
 	context "context"
@@ -15,6 +15,7 @@ import (
 	status "google.golang.org/grpc/status"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 )
@@ -26,18 +27,245 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Error struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Error string `protobuf:"bytes,1,opt,name=error,proto3" json:"error,omitempty"`
+}
+
+func (x *Error) Reset() {
+	*x = Error{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_poker_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Error) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Error) ProtoMessage() {}
+
+func (x *Error) ProtoReflect() protoreflect.Message {
+	mi := &file_poker_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Error.ProtoReflect.Descriptor instead.
+func (*Error) Descriptor() ([]byte, []int) {
+	return file_poker_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Error) GetError() string {
+	if x != nil {
+		return x.Error
+	}
+	return ""
+}
+
+type Empty struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *Empty) Reset() {
+	*x = Empty{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_poker_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Empty) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Empty) ProtoMessage() {}
+
+func (x *Empty) ProtoReflect() protoreflect.Message {
+	mi := &file_poker_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Empty.ProtoReflect.Descriptor instead.
+func (*Empty) Descriptor() ([]byte, []int) {
+	return file_poker_proto_rawDescGZIP(), []int{1}
+}
+
+type Card struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Num  int32  `protobuf:"varint,1,opt,name=num,proto3" json:"num,omitempty"`
+	Suit string `protobuf:"bytes,2,opt,name=suit,proto3" json:"suit,omitempty"`
+}
+
+func (x *Card) Reset() {
+	*x = Card{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_poker_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Card) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Card) ProtoMessage() {}
+
+func (x *Card) ProtoReflect() protoreflect.Message {
+	mi := &file_poker_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Card.ProtoReflect.Descriptor instead.
+func (*Card) Descriptor() ([]byte, []int) {
+	return file_poker_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Card) GetNum() int32 {
+	if x != nil {
+		return x.Num
+	}
+	return 0
+}
+
+func (x *Card) GetSuit() string {
+	if x != nil {
+		return x.Suit
+	}
+	return ""
+}
+
+type Player struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Name   string         `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Seat   string         `protobuf:"bytes,2,opt,name=seat,proto3" json:"seat,omitempty"`
+	Gain   float64        `protobuf:"fixed64,3,opt,name=gain,proto3" json:"gain,omitempty"`
+	Card1  *Card          `protobuf:"bytes,4,opt,name=card1,proto3" json:"card1,omitempty"`
+	Card2  *Card          `protobuf:"bytes,5,opt,name=card2,proto3" json:"card2,omitempty"`
+	Action *Player_Action `protobuf:"bytes,6,opt,name=action,proto3" json:"action,omitempty"`
+}
+
+func (x *Player) Reset() {
+	*x = Player{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_poker_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Player) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Player) ProtoMessage() {}
+
+func (x *Player) ProtoReflect() protoreflect.Message {
+	mi := &file_poker_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Player.ProtoReflect.Descriptor instead.
+func (*Player) Descriptor() ([]byte, []int) {
+	return file_poker_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *Player) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Player) GetSeat() string {
+	if x != nil {
+		return x.Seat
+	}
+	return ""
+}
+
+func (x *Player) GetGain() float64 {
+	if x != nil {
+		return x.Gain
+	}
+	return 0
+}
+
+func (x *Player) GetCard1() *Card {
+	if x != nil {
+		return x.Card1
+	}
+	return nil
+}
+
+func (x *Player) GetCard2() *Card {
+	if x != nil {
+		return x.Card2
+	}
+	return nil
+}
+
+func (x *Player) GetAction() *Player_Action {
+	if x != nil {
+		return x.Action
+	}
+	return nil
+}
+
 type GetWinRateRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Players map[string]*GetWinRateRequest_Player `protobuf:"bytes,1,rep,name=Players,proto3" json:"Players,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Player map[string]*Player `protobuf:"bytes,1,rep,name=player,proto3" json:"player,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (x *GetWinRateRequest) Reset() {
 	*x = GetWinRateRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_poker_proto_msgTypes[0]
+		mi := &file_poker_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -50,7 +278,7 @@ func (x *GetWinRateRequest) String() string {
 func (*GetWinRateRequest) ProtoMessage() {}
 
 func (x *GetWinRateRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_poker_proto_msgTypes[0]
+	mi := &file_poker_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -63,12 +291,12 @@ func (x *GetWinRateRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetWinRateRequest.ProtoReflect.Descriptor instead.
 func (*GetWinRateRequest) Descriptor() ([]byte, []int) {
-	return file_poker_proto_rawDescGZIP(), []int{0}
+	return file_poker_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *GetWinRateRequest) GetPlayers() map[string]*GetWinRateRequest_Player {
+func (x *GetWinRateRequest) GetPlayer() map[string]*Player {
 	if x != nil {
-		return x.Players
+		return x.Player
 	}
 	return nil
 }
@@ -84,7 +312,7 @@ type GetWinRateResponse struct {
 func (x *GetWinRateResponse) Reset() {
 	*x = GetWinRateResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_poker_proto_msgTypes[1]
+		mi := &file_poker_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -97,7 +325,7 @@ func (x *GetWinRateResponse) String() string {
 func (*GetWinRateResponse) ProtoMessage() {}
 
 func (x *GetWinRateResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_poker_proto_msgTypes[1]
+	mi := &file_poker_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -110,7 +338,7 @@ func (x *GetWinRateResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetWinRateResponse.ProtoReflect.Descriptor instead.
 func (*GetWinRateResponse) Descriptor() ([]byte, []int) {
-	return file_poker_proto_rawDescGZIP(), []int{1}
+	return file_poker_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *GetWinRateResponse) GetResult() map[string]float64 {
@@ -120,32 +348,32 @@ func (x *GetWinRateResponse) GetResult() map[string]float64 {
 	return nil
 }
 
-type GetWinRateRequest_Card struct {
+type LoginRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Num  int32  `protobuf:"varint,1,opt,name=Num,proto3" json:"Num,omitempty"`
-	Suit string `protobuf:"bytes,2,opt,name=Suit,proto3" json:"Suit,omitempty"`
+	Username string `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+	Password string `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
 }
 
-func (x *GetWinRateRequest_Card) Reset() {
-	*x = GetWinRateRequest_Card{}
+func (x *LoginRequest) Reset() {
+	*x = LoginRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_poker_proto_msgTypes[2]
+		mi := &file_poker_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *GetWinRateRequest_Card) String() string {
+func (x *LoginRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetWinRateRequest_Card) ProtoMessage() {}
+func (*LoginRequest) ProtoMessage() {}
 
-func (x *GetWinRateRequest_Card) ProtoReflect() protoreflect.Message {
-	mi := &file_poker_proto_msgTypes[2]
+func (x *LoginRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_poker_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -156,52 +384,223 @@ func (x *GetWinRateRequest_Card) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetWinRateRequest_Card.ProtoReflect.Descriptor instead.
-func (*GetWinRateRequest_Card) Descriptor() ([]byte, []int) {
-	return file_poker_proto_rawDescGZIP(), []int{0, 0}
+// Deprecated: Use LoginRequest.ProtoReflect.Descriptor instead.
+func (*LoginRequest) Descriptor() ([]byte, []int) {
+	return file_poker_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *GetWinRateRequest_Card) GetNum() int32 {
+func (x *LoginRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *LoginRequest) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+type LoginResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Token string `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+}
+
+func (x *LoginResponse) Reset() {
+	*x = LoginResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_poker_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *LoginResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LoginResponse) ProtoMessage() {}
+
+func (x *LoginResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_poker_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LoginResponse.ProtoReflect.Descriptor instead.
+func (*LoginResponse) Descriptor() ([]byte, []int) {
+	return file_poker_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *LoginResponse) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
+type InsertHandRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Data     string `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
+	Username string `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`
+}
+
+func (x *InsertHandRequest) Reset() {
+	*x = InsertHandRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_poker_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *InsertHandRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InsertHandRequest) ProtoMessage() {}
+
+func (x *InsertHandRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_poker_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InsertHandRequest.ProtoReflect.Descriptor instead.
+func (*InsertHandRequest) Descriptor() ([]byte, []int) {
+	return file_poker_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *InsertHandRequest) GetData() string {
+	if x != nil {
+		return x.Data
+	}
+	return ""
+}
+
+func (x *InsertHandRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+type GetHandRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Num      string `protobuf:"bytes,1,opt,name=num,proto3" json:"num,omitempty"`
+	Gain     string `protobuf:"bytes,2,opt,name=gain,proto3" json:"gain,omitempty"`
+	Seat     string `protobuf:"bytes,3,opt,name=seat,proto3" json:"seat,omitempty"`
+	Username string `protobuf:"bytes,4,opt,name=username,proto3" json:"username,omitempty"`
+}
+
+func (x *GetHandRequest) Reset() {
+	*x = GetHandRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_poker_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetHandRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetHandRequest) ProtoMessage() {}
+
+func (x *GetHandRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_poker_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetHandRequest.ProtoReflect.Descriptor instead.
+func (*GetHandRequest) Descriptor() ([]byte, []int) {
+	return file_poker_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *GetHandRequest) GetNum() string {
 	if x != nil {
 		return x.Num
 	}
-	return 0
+	return ""
 }
 
-func (x *GetWinRateRequest_Card) GetSuit() string {
+func (x *GetHandRequest) GetGain() string {
 	if x != nil {
-		return x.Suit
+		return x.Gain
 	}
 	return ""
 }
 
-type GetWinRateRequest_Player struct {
+func (x *GetHandRequest) GetSeat() string {
+	if x != nil {
+		return x.Seat
+	}
+	return ""
+}
+
+func (x *GetHandRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+type GetHandResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Name  string                  `protobuf:"bytes,1,opt,name=Name,proto3" json:"Name,omitempty"`
-	Card1 *GetWinRateRequest_Card `protobuf:"bytes,2,opt,name=Card1,proto3" json:"Card1,omitempty"`
-	Card2 *GetWinRateRequest_Card `protobuf:"bytes,3,opt,name=Card2,proto3" json:"Card2,omitempty"`
+	Table []*GetHandResponse_Table `protobuf:"bytes,1,rep,name=table,proto3" json:"table,omitempty"`
 }
 
-func (x *GetWinRateRequest_Player) Reset() {
-	*x = GetWinRateRequest_Player{}
+func (x *GetHandResponse) Reset() {
+	*x = GetHandResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_poker_proto_msgTypes[3]
+		mi := &file_poker_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *GetWinRateRequest_Player) String() string {
+func (x *GetHandResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetWinRateRequest_Player) ProtoMessage() {}
+func (*GetHandResponse) ProtoMessage() {}
 
-func (x *GetWinRateRequest_Player) ProtoReflect() protoreflect.Message {
-	mi := &file_poker_proto_msgTypes[3]
+func (x *GetHandResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_poker_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -212,28 +611,156 @@ func (x *GetWinRateRequest_Player) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetWinRateRequest_Player.ProtoReflect.Descriptor instead.
-func (*GetWinRateRequest_Player) Descriptor() ([]byte, []int) {
-	return file_poker_proto_rawDescGZIP(), []int{0, 1}
+// Deprecated: Use GetHandResponse.ProtoReflect.Descriptor instead.
+func (*GetHandResponse) Descriptor() ([]byte, []int) {
+	return file_poker_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *GetWinRateRequest_Player) GetName() string {
+func (x *GetHandResponse) GetTable() []*GetHandResponse_Table {
 	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *GetWinRateRequest_Player) GetCard1() *GetWinRateRequest_Card {
-	if x != nil {
-		return x.Card1
+		return x.Table
 	}
 	return nil
 }
 
-func (x *GetWinRateRequest_Player) GetCard2() *GetWinRateRequest_Card {
+type Player_Action struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Preflop string `protobuf:"bytes,1,opt,name=preflop,proto3" json:"preflop,omitempty"`
+	Flop    string `protobuf:"bytes,2,opt,name=flop,proto3" json:"flop,omitempty"`
+	Turn    string `protobuf:"bytes,3,opt,name=turn,proto3" json:"turn,omitempty"`
+	River   string `protobuf:"bytes,4,opt,name=river,proto3" json:"river,omitempty"`
+}
+
+func (x *Player_Action) Reset() {
+	*x = Player_Action{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_poker_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Player_Action) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Player_Action) ProtoMessage() {}
+
+func (x *Player_Action) ProtoReflect() protoreflect.Message {
+	mi := &file_poker_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Player_Action.ProtoReflect.Descriptor instead.
+func (*Player_Action) Descriptor() ([]byte, []int) {
+	return file_poker_proto_rawDescGZIP(), []int{3, 0}
+}
+
+func (x *Player_Action) GetPreflop() string {
 	if x != nil {
-		return x.Card2
+		return x.Preflop
+	}
+	return ""
+}
+
+func (x *Player_Action) GetFlop() string {
+	if x != nil {
+		return x.Flop
+	}
+	return ""
+}
+
+func (x *Player_Action) GetTurn() string {
+	if x != nil {
+		return x.Turn
+	}
+	return ""
+}
+
+func (x *Player_Action) GetRiver() string {
+	if x != nil {
+		return x.River
+	}
+	return ""
+}
+
+type GetHandResponse_Table struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id     int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Time   *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=time,proto3" json:"time,omitempty"`
+	Player map[string]*Player     `protobuf:"bytes,3,rep,name=player,proto3" json:"player,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Card   []*Card                `protobuf:"bytes,4,rep,name=card,proto3" json:"card,omitempty"`
+}
+
+func (x *GetHandResponse_Table) Reset() {
+	*x = GetHandResponse_Table{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_poker_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetHandResponse_Table) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetHandResponse_Table) ProtoMessage() {}
+
+func (x *GetHandResponse_Table) ProtoReflect() protoreflect.Message {
+	mi := &file_poker_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetHandResponse_Table.ProtoReflect.Descriptor instead.
+func (*GetHandResponse_Table) Descriptor() ([]byte, []int) {
+	return file_poker_proto_rawDescGZIP(), []int{10, 0}
+}
+
+func (x *GetHandResponse_Table) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *GetHandResponse_Table) GetTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Time
+	}
+	return nil
+}
+
+func (x *GetHandResponse_Table) GetPlayer() map[string]*Player {
+	if x != nil {
+		return x.Player
+	}
+	return nil
+}
+
+func (x *GetHandResponse_Table) GetCard() []*Card {
+	if x != nil {
+		return x.Card
 	}
 	return nil
 }
@@ -242,48 +769,120 @@ var File_poker_proto protoreflect.FileDescriptor
 
 var file_poker_proto_rawDesc = []byte{
 	0x0a, 0x0b, 0x70, 0x6f, 0x6b, 0x65, 0x72, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0a, 0x63,
-	0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x22, 0xfc, 0x02, 0x0a, 0x11, 0x47, 0x65,
-	0x74, 0x57, 0x69, 0x6e, 0x52, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
-	0x44, 0x0a, 0x07, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b,
-	0x32, 0x2a, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65,
-	0x74, 0x57, 0x69, 0x6e, 0x52, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e,
-	0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x07, 0x50, 0x6c,
-	0x61, 0x79, 0x65, 0x72, 0x73, 0x1a, 0x2c, 0x0a, 0x04, 0x43, 0x61, 0x72, 0x64, 0x12, 0x10, 0x0a,
-	0x03, 0x4e, 0x75, 0x6d, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x03, 0x4e, 0x75, 0x6d, 0x12,
-	0x12, 0x0a, 0x04, 0x53, 0x75, 0x69, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x53,
-	0x75, 0x69, 0x74, 0x1a, 0x90, 0x01, 0x0a, 0x06, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x12, 0x12,
-	0x0a, 0x04, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x4e, 0x61,
-	0x6d, 0x65, 0x12, 0x38, 0x0a, 0x05, 0x43, 0x61, 0x72, 0x64, 0x31, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x22, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47,
-	0x65, 0x74, 0x57, 0x69, 0x6e, 0x52, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x2e, 0x43, 0x61, 0x72, 0x64, 0x52, 0x05, 0x43, 0x61, 0x72, 0x64, 0x31, 0x12, 0x38, 0x0a, 0x05,
-	0x43, 0x61, 0x72, 0x64, 0x32, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x63, 0x61,
+	0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x1a, 0x1f, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
+	0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x74, 0x69, 0x6d, 0x65, 0x73,
+	0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x1d, 0x0a, 0x05, 0x45, 0x72,
+	0x72, 0x6f, 0x72, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x07, 0x0a, 0x05, 0x45, 0x6d, 0x70,
+	0x74, 0x79, 0x22, 0x2c, 0x0a, 0x04, 0x43, 0x61, 0x72, 0x64, 0x12, 0x10, 0x0a, 0x03, 0x6e, 0x75,
+	0x6d, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x03, 0x6e, 0x75, 0x6d, 0x12, 0x12, 0x0a, 0x04,
+	0x73, 0x75, 0x69, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x73, 0x75, 0x69, 0x74,
+	0x22, 0xa9, 0x02, 0x0a, 0x06, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x12, 0x12, 0x0a, 0x04, 0x6e,
+	0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12,
+	0x12, 0x0a, 0x04, 0x73, 0x65, 0x61, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x73,
+	0x65, 0x61, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x67, 0x61, 0x69, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28,
+	0x01, 0x52, 0x04, 0x67, 0x61, 0x69, 0x6e, 0x12, 0x26, 0x0a, 0x05, 0x63, 0x61, 0x72, 0x64, 0x31,
+	0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61,
+	0x74, 0x6f, 0x72, 0x2e, 0x43, 0x61, 0x72, 0x64, 0x52, 0x05, 0x63, 0x61, 0x72, 0x64, 0x31, 0x12,
+	0x26, 0x0a, 0x05, 0x63, 0x61, 0x72, 0x64, 0x32, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10,
+	0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x43, 0x61, 0x72, 0x64,
+	0x52, 0x05, 0x63, 0x61, 0x72, 0x64, 0x32, 0x12, 0x31, 0x0a, 0x06, 0x61, 0x63, 0x74, 0x69, 0x6f,
+	0x6e, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c,
+	0x61, 0x74, 0x6f, 0x72, 0x2e, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x2e, 0x41, 0x63, 0x74, 0x69,
+	0x6f, 0x6e, 0x52, 0x06, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x1a, 0x60, 0x0a, 0x06, 0x41, 0x63,
+	0x74, 0x69, 0x6f, 0x6e, 0x12, 0x18, 0x0a, 0x07, 0x70, 0x72, 0x65, 0x66, 0x6c, 0x6f, 0x70, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x70, 0x72, 0x65, 0x66, 0x6c, 0x6f, 0x70, 0x12, 0x12,
+	0x0a, 0x04, 0x66, 0x6c, 0x6f, 0x70, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x66, 0x6c,
+	0x6f, 0x70, 0x12, 0x12, 0x0a, 0x04, 0x74, 0x75, 0x72, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x04, 0x74, 0x75, 0x72, 0x6e, 0x12, 0x14, 0x0a, 0x05, 0x72, 0x69, 0x76, 0x65, 0x72, 0x18,
+	0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x72, 0x69, 0x76, 0x65, 0x72, 0x22, 0xa5, 0x01, 0x0a,
+	0x11, 0x47, 0x65, 0x74, 0x57, 0x69, 0x6e, 0x52, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x12, 0x41, 0x0a, 0x06, 0x70, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x18, 0x01, 0x20, 0x03,
+	0x28, 0x0b, 0x32, 0x29, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e,
+	0x47, 0x65, 0x74, 0x57, 0x69, 0x6e, 0x52, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x2e, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x06, 0x70,
+	0x6c, 0x61, 0x79, 0x65, 0x72, 0x1a, 0x4d, 0x0a, 0x0b, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x45,
+	0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x28, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x12, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74,
+	0x6f, 0x72, 0x2e, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65,
+	0x3a, 0x02, 0x38, 0x01, 0x22, 0x93, 0x01, 0x0a, 0x12, 0x47, 0x65, 0x74, 0x57, 0x69, 0x6e, 0x52,
+	0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x42, 0x0a, 0x06, 0x72,
+	0x65, 0x73, 0x75, 0x6c, 0x74, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x2a, 0x2e, 0x63, 0x61,
 	0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x57, 0x69, 0x6e, 0x52,
-	0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x43, 0x61, 0x72, 0x64, 0x52,
-	0x05, 0x43, 0x61, 0x72, 0x64, 0x32, 0x1a, 0x60, 0x0a, 0x0c, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72,
-	0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x3a, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75,
-	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x24, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c,
-	0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x57, 0x69, 0x6e, 0x52, 0x61, 0x74, 0x65, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x52, 0x05, 0x76,
-	0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0x93, 0x01, 0x0a, 0x12, 0x47, 0x65, 0x74,
-	0x57, 0x69, 0x6e, 0x52, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
-	0x42, 0x0a, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32,
-	0x2a, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74,
-	0x57, 0x69, 0x6e, 0x52, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e,
-	0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x06, 0x72, 0x65, 0x73,
-	0x75, 0x6c, 0x74, 0x1a, 0x39, 0x0a, 0x0b, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x45, 0x6e, 0x74,
-	0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x01, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x32, 0x62,
-	0x0a, 0x11, 0x47, 0x65, 0x74, 0x57, 0x69, 0x6e, 0x52, 0x61, 0x74, 0x65, 0x53, 0x65, 0x72, 0x76,
-	0x69, 0x63, 0x65, 0x12, 0x4d, 0x0a, 0x0a, 0x47, 0x65, 0x74, 0x57, 0x69, 0x6e, 0x52, 0x61, 0x74,
-	0x65, 0x12, 0x1d, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47,
-	0x65, 0x74, 0x57, 0x69, 0x6e, 0x52, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x1a, 0x1e, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65,
-	0x74, 0x57, 0x69, 0x6e, 0x52, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x00, 0x42, 0x08, 0x5a, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x62, 0x06, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x33,
+	0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x52, 0x65, 0x73, 0x75,
+	0x6c, 0x74, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x1a,
+	0x39, 0x0a, 0x0b, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10,
+	0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79,
+	0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x01, 0x52,
+	0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0x46, 0x0a, 0x0c, 0x4c, 0x6f,
+	0x67, 0x69, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73,
+	0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73,
+	0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x70, 0x61, 0x73, 0x73, 0x77, 0x6f,
+	0x72, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x70, 0x61, 0x73, 0x73, 0x77, 0x6f,
+	0x72, 0x64, 0x22, 0x25, 0x0a, 0x0d, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0x43, 0x0a, 0x11, 0x49, 0x6e, 0x73,
+	0x65, 0x72, 0x74, 0x48, 0x61, 0x6e, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12,
+	0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x64, 0x61,
+	0x74, 0x61, 0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x66,
+	0x0a, 0x0e, 0x47, 0x65, 0x74, 0x48, 0x61, 0x6e, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x12, 0x10, 0x0a, 0x03, 0x6e, 0x75, 0x6d, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6e,
+	0x75, 0x6d, 0x12, 0x12, 0x0a, 0x04, 0x67, 0x61, 0x69, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x04, 0x67, 0x61, 0x69, 0x6e, 0x12, 0x12, 0x0a, 0x04, 0x73, 0x65, 0x61, 0x74, 0x18, 0x03,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x73, 0x65, 0x61, 0x74, 0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73,
+	0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73,
+	0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0xd0, 0x02, 0x0a, 0x0f, 0x47, 0x65, 0x74, 0x48, 0x61,
+	0x6e, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x37, 0x0a, 0x05, 0x74, 0x61,
+	0x62, 0x6c, 0x65, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x21, 0x2e, 0x63, 0x61, 0x6c, 0x63,
+	0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x48, 0x61, 0x6e, 0x64, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x54, 0x61, 0x62, 0x6c, 0x65, 0x52, 0x05, 0x74, 0x61,
+	0x62, 0x6c, 0x65, 0x1a, 0x83, 0x02, 0x0a, 0x05, 0x54, 0x61, 0x62, 0x6c, 0x65, 0x12, 0x0e, 0x0a,
+	0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x02, 0x69, 0x64, 0x12, 0x2e, 0x0a,
+	0x04, 0x74, 0x69, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f,
+	0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69,
+	0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x04, 0x74, 0x69, 0x6d, 0x65, 0x12, 0x45, 0x0a,
+	0x06, 0x70, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x2d, 0x2e,
+	0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x48, 0x61,
+	0x6e, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x54, 0x61, 0x62, 0x6c, 0x65,
+	0x2e, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x06, 0x70, 0x6c,
+	0x61, 0x79, 0x65, 0x72, 0x12, 0x24, 0x0a, 0x04, 0x63, 0x61, 0x72, 0x64, 0x18, 0x04, 0x20, 0x03,
+	0x28, 0x0b, 0x32, 0x10, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e,
+	0x43, 0x61, 0x72, 0x64, 0x52, 0x04, 0x63, 0x61, 0x72, 0x64, 0x1a, 0x4d, 0x0a, 0x0b, 0x50, 0x6c,
+	0x61, 0x79, 0x65, 0x72, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x28, 0x0a, 0x05, 0x76,
+	0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x12, 0x2e, 0x63, 0x61, 0x6c,
+	0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x52, 0x05,
+	0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x32, 0x62, 0x0a, 0x11, 0x47, 0x65, 0x74,
+	0x57, 0x69, 0x6e, 0x52, 0x61, 0x74, 0x65, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x4d,
+	0x0a, 0x0a, 0x47, 0x65, 0x74, 0x57, 0x69, 0x6e, 0x52, 0x61, 0x74, 0x65, 0x12, 0x1d, 0x2e, 0x63,
+	0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x57, 0x69, 0x6e,
+	0x52, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x63, 0x61,
+	0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x57, 0x69, 0x6e, 0x52,
+	0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x32, 0x4e, 0x0a,
+	0x0c, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x3e, 0x0a,
+	0x05, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x12, 0x18, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61,
+	0x74, 0x6f, 0x72, 0x2e, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x19, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x4c, 0x6f,
+	0x67, 0x69, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x32, 0x4c, 0x0a,
+	0x0f, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
+	0x12, 0x39, 0x0a, 0x08, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x12, 0x18, 0x2e, 0x63,
+	0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x11, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61,
+	0x74, 0x6f, 0x72, 0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x00, 0x32, 0x55, 0x0a, 0x11, 0x49,
+	0x6e, 0x73, 0x65, 0x72, 0x74, 0x48, 0x61, 0x6e, 0x64, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
+	0x12, 0x40, 0x0a, 0x0a, 0x49, 0x6e, 0x73, 0x65, 0x72, 0x74, 0x48, 0x61, 0x6e, 0x64, 0x12, 0x1d,
+	0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x49, 0x6e, 0x73, 0x65,
+	0x72, 0x74, 0x48, 0x61, 0x6e, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x11, 0x2e,
+	0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79,
+	0x22, 0x00, 0x32, 0x56, 0x0a, 0x0e, 0x47, 0x65, 0x74, 0x48, 0x61, 0x6e, 0x64, 0x53, 0x65, 0x72,
+	0x76, 0x69, 0x63, 0x65, 0x12, 0x44, 0x0a, 0x07, 0x47, 0x65, 0x74, 0x48, 0x61, 0x6e, 0x64, 0x12,
+	0x1a, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74,
+	0x48, 0x61, 0x6e, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1b, 0x2e, 0x63, 0x61,
+	0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x48, 0x61, 0x6e, 0x64,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x08, 0x5a, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -298,28 +897,53 @@ func file_poker_proto_rawDescGZIP() []byte {
 	return file_poker_proto_rawDescData
 }
 
-var file_poker_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_poker_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_poker_proto_goTypes = []interface{}{
-	(*GetWinRateRequest)(nil),        // 0: calculator.GetWinRateRequest
-	(*GetWinRateResponse)(nil),       // 1: calculator.GetWinRateResponse
-	(*GetWinRateRequest_Card)(nil),   // 2: calculator.GetWinRateRequest.Card
-	(*GetWinRateRequest_Player)(nil), // 3: calculator.GetWinRateRequest.Player
-	nil,                              // 4: calculator.GetWinRateRequest.PlayersEntry
-	nil,                              // 5: calculator.GetWinRateResponse.ResultEntry
+	(*Error)(nil),                 // 0: calculator.Error
+	(*Empty)(nil),                 // 1: calculator.Empty
+	(*Card)(nil),                  // 2: calculator.Card
+	(*Player)(nil),                // 3: calculator.Player
+	(*GetWinRateRequest)(nil),     // 4: calculator.GetWinRateRequest
+	(*GetWinRateResponse)(nil),    // 5: calculator.GetWinRateResponse
+	(*LoginRequest)(nil),          // 6: calculator.LoginRequest
+	(*LoginResponse)(nil),         // 7: calculator.LoginResponse
+	(*InsertHandRequest)(nil),     // 8: calculator.InsertHandRequest
+	(*GetHandRequest)(nil),        // 9: calculator.GetHandRequest
+	(*GetHandResponse)(nil),       // 10: calculator.GetHandResponse
+	(*Player_Action)(nil),         // 11: calculator.Player.Action
+	nil,                           // 12: calculator.GetWinRateRequest.PlayerEntry
+	nil,                           // 13: calculator.GetWinRateResponse.ResultEntry
+	(*GetHandResponse_Table)(nil), // 14: calculator.GetHandResponse.Table
+	nil,                           // 15: calculator.GetHandResponse.Table.PlayerEntry
+	(*timestamppb.Timestamp)(nil), // 16: google.protobuf.Timestamp
 }
 var file_poker_proto_depIdxs = []int32{
-	4, // 0: calculator.GetWinRateRequest.Players:type_name -> calculator.GetWinRateRequest.PlayersEntry
-	5, // 1: calculator.GetWinRateResponse.result:type_name -> calculator.GetWinRateResponse.ResultEntry
-	2, // 2: calculator.GetWinRateRequest.Player.Card1:type_name -> calculator.GetWinRateRequest.Card
-	2, // 3: calculator.GetWinRateRequest.Player.Card2:type_name -> calculator.GetWinRateRequest.Card
-	3, // 4: calculator.GetWinRateRequest.PlayersEntry.value:type_name -> calculator.GetWinRateRequest.Player
-	0, // 5: calculator.GetWinRateService.GetWinRate:input_type -> calculator.GetWinRateRequest
-	1, // 6: calculator.GetWinRateService.GetWinRate:output_type -> calculator.GetWinRateResponse
-	6, // [6:7] is the sub-list for method output_type
-	5, // [5:6] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	2,  // 0: calculator.Player.card1:type_name -> calculator.Card
+	2,  // 1: calculator.Player.card2:type_name -> calculator.Card
+	11, // 2: calculator.Player.action:type_name -> calculator.Player.Action
+	12, // 3: calculator.GetWinRateRequest.player:type_name -> calculator.GetWinRateRequest.PlayerEntry
+	13, // 4: calculator.GetWinRateResponse.result:type_name -> calculator.GetWinRateResponse.ResultEntry
+	14, // 5: calculator.GetHandResponse.table:type_name -> calculator.GetHandResponse.Table
+	3,  // 6: calculator.GetWinRateRequest.PlayerEntry.value:type_name -> calculator.Player
+	16, // 7: calculator.GetHandResponse.Table.time:type_name -> google.protobuf.Timestamp
+	15, // 8: calculator.GetHandResponse.Table.player:type_name -> calculator.GetHandResponse.Table.PlayerEntry
+	2,  // 9: calculator.GetHandResponse.Table.card:type_name -> calculator.Card
+	3,  // 10: calculator.GetHandResponse.Table.PlayerEntry.value:type_name -> calculator.Player
+	4,  // 11: calculator.GetWinRateService.GetWinRate:input_type -> calculator.GetWinRateRequest
+	6,  // 12: calculator.LoginService.Login:input_type -> calculator.LoginRequest
+	6,  // 13: calculator.RegisterService.Register:input_type -> calculator.LoginRequest
+	8,  // 14: calculator.InsertHandService.InsertHand:input_type -> calculator.InsertHandRequest
+	9,  // 15: calculator.GetHandService.GetHand:input_type -> calculator.GetHandRequest
+	5,  // 16: calculator.GetWinRateService.GetWinRate:output_type -> calculator.GetWinRateResponse
+	7,  // 17: calculator.LoginService.Login:output_type -> calculator.LoginResponse
+	0,  // 18: calculator.RegisterService.Register:output_type -> calculator.Error
+	1,  // 19: calculator.InsertHandService.InsertHand:output_type -> calculator.Empty
+	10, // 20: calculator.GetHandService.GetHand:output_type -> calculator.GetHandResponse
+	16, // [16:21] is the sub-list for method output_type
+	11, // [11:16] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_poker_proto_init() }
@@ -329,7 +953,7 @@ func file_poker_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_poker_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetWinRateRequest); i {
+			switch v := v.(*Error); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -341,7 +965,7 @@ func file_poker_proto_init() {
 			}
 		}
 		file_poker_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetWinRateResponse); i {
+			switch v := v.(*Empty); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -353,7 +977,7 @@ func file_poker_proto_init() {
 			}
 		}
 		file_poker_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetWinRateRequest_Card); i {
+			switch v := v.(*Card); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -365,7 +989,115 @@ func file_poker_proto_init() {
 			}
 		}
 		file_poker_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetWinRateRequest_Player); i {
+			switch v := v.(*Player); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_poker_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetWinRateRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_poker_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetWinRateResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_poker_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*LoginRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_poker_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*LoginResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_poker_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*InsertHandRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_poker_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetHandRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_poker_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetHandResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_poker_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Player_Action); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_poker_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetHandResponse_Table); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -383,9 +1115,9 @@ func file_poker_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_poker_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   16,
 			NumExtensions: 0,
-			NumServices:   1,
+			NumServices:   5,
 		},
 		GoTypes:           file_poker_proto_goTypes,
 		DependencyIndexes: file_poker_proto_depIdxs,
@@ -471,6 +1203,294 @@ var _GetWinRateService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetWinRate",
 			Handler:    _GetWinRateService_GetWinRate_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "poker.proto",
+}
+
+// LoginServiceClient is the client API for LoginService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type LoginServiceClient interface {
+	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
+}
+
+type loginServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewLoginServiceClient(cc grpc.ClientConnInterface) LoginServiceClient {
+	return &loginServiceClient{cc}
+}
+
+func (c *loginServiceClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
+	out := new(LoginResponse)
+	err := c.cc.Invoke(ctx, "/calculator.LoginService/Login", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// LoginServiceServer is the server API for LoginService service.
+type LoginServiceServer interface {
+	Login(context.Context, *LoginRequest) (*LoginResponse, error)
+}
+
+// UnimplementedLoginServiceServer can be embedded to have forward compatible implementations.
+type UnimplementedLoginServiceServer struct {
+}
+
+func (*UnimplementedLoginServiceServer) Login(context.Context, *LoginRequest) (*LoginResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
+}
+
+func RegisterLoginServiceServer(s *grpc.Server, srv LoginServiceServer) {
+	s.RegisterService(&_LoginService_serviceDesc, srv)
+}
+
+func _LoginService_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LoginServiceServer).Login(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/calculator.LoginService/Login",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LoginServiceServer).Login(ctx, req.(*LoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _LoginService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "calculator.LoginService",
+	HandlerType: (*LoginServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Login",
+			Handler:    _LoginService_Login_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "poker.proto",
+}
+
+// RegisterServiceClient is the client API for RegisterService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type RegisterServiceClient interface {
+	Register(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*Error, error)
+}
+
+type registerServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewRegisterServiceClient(cc grpc.ClientConnInterface) RegisterServiceClient {
+	return &registerServiceClient{cc}
+}
+
+func (c *registerServiceClient) Register(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*Error, error) {
+	out := new(Error)
+	err := c.cc.Invoke(ctx, "/calculator.RegisterService/Register", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// RegisterServiceServer is the server API for RegisterService service.
+type RegisterServiceServer interface {
+	Register(context.Context, *LoginRequest) (*Error, error)
+}
+
+// UnimplementedRegisterServiceServer can be embedded to have forward compatible implementations.
+type UnimplementedRegisterServiceServer struct {
+}
+
+func (*UnimplementedRegisterServiceServer) Register(context.Context, *LoginRequest) (*Error, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
+}
+
+func RegisterRegisterServiceServer(s *grpc.Server, srv RegisterServiceServer) {
+	s.RegisterService(&_RegisterService_serviceDesc, srv)
+}
+
+func _RegisterService_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RegisterServiceServer).Register(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/calculator.RegisterService/Register",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RegisterServiceServer).Register(ctx, req.(*LoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _RegisterService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "calculator.RegisterService",
+	HandlerType: (*RegisterServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Register",
+			Handler:    _RegisterService_Register_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "poker.proto",
+}
+
+// InsertHandServiceClient is the client API for InsertHandService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type InsertHandServiceClient interface {
+	InsertHand(ctx context.Context, in *InsertHandRequest, opts ...grpc.CallOption) (*Empty, error)
+}
+
+type insertHandServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewInsertHandServiceClient(cc grpc.ClientConnInterface) InsertHandServiceClient {
+	return &insertHandServiceClient{cc}
+}
+
+func (c *insertHandServiceClient) InsertHand(ctx context.Context, in *InsertHandRequest, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/calculator.InsertHandService/InsertHand", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// InsertHandServiceServer is the server API for InsertHandService service.
+type InsertHandServiceServer interface {
+	InsertHand(context.Context, *InsertHandRequest) (*Empty, error)
+}
+
+// UnimplementedInsertHandServiceServer can be embedded to have forward compatible implementations.
+type UnimplementedInsertHandServiceServer struct {
+}
+
+func (*UnimplementedInsertHandServiceServer) InsertHand(context.Context, *InsertHandRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method InsertHand not implemented")
+}
+
+func RegisterInsertHandServiceServer(s *grpc.Server, srv InsertHandServiceServer) {
+	s.RegisterService(&_InsertHandService_serviceDesc, srv)
+}
+
+func _InsertHandService_InsertHand_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(InsertHandRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(InsertHandServiceServer).InsertHand(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/calculator.InsertHandService/InsertHand",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(InsertHandServiceServer).InsertHand(ctx, req.(*InsertHandRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _InsertHandService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "calculator.InsertHandService",
+	HandlerType: (*InsertHandServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "InsertHand",
+			Handler:    _InsertHandService_InsertHand_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "poker.proto",
+}
+
+// GetHandServiceClient is the client API for GetHandService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type GetHandServiceClient interface {
+	GetHand(ctx context.Context, in *GetHandRequest, opts ...grpc.CallOption) (*GetHandResponse, error)
+}
+
+type getHandServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewGetHandServiceClient(cc grpc.ClientConnInterface) GetHandServiceClient {
+	return &getHandServiceClient{cc}
+}
+
+func (c *getHandServiceClient) GetHand(ctx context.Context, in *GetHandRequest, opts ...grpc.CallOption) (*GetHandResponse, error) {
+	out := new(GetHandResponse)
+	err := c.cc.Invoke(ctx, "/calculator.GetHandService/GetHand", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// GetHandServiceServer is the server API for GetHandService service.
+type GetHandServiceServer interface {
+	GetHand(context.Context, *GetHandRequest) (*GetHandResponse, error)
+}
+
+// UnimplementedGetHandServiceServer can be embedded to have forward compatible implementations.
+type UnimplementedGetHandServiceServer struct {
+}
+
+func (*UnimplementedGetHandServiceServer) GetHand(context.Context, *GetHandRequest) (*GetHandResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetHand not implemented")
+}
+
+func RegisterGetHandServiceServer(s *grpc.Server, srv GetHandServiceServer) {
+	s.RegisterService(&_GetHandService_serviceDesc, srv)
+}
+
+func _GetHandService_GetHand_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetHandRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GetHandServiceServer).GetHand(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/calculator.GetHandService/GetHand",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GetHandServiceServer).GetHand(ctx, req.(*GetHandRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _GetHandService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "calculator.GetHandService",
+	HandlerType: (*GetHandServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetHand",
+			Handler:    _GetHandService_GetHand_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

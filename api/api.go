@@ -7,7 +7,6 @@ import (
 	"net/http"
 
 	pb "poker/api/grpc"
-	"poker/api/kafka"
 	"poker/api/model"
 	"poker/api/oauth"
 	"poker/api/token"
@@ -16,132 +15,168 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
-var Tokens map[string]bool
+func initGrpc() *grpc.ClientConn {
+	conn, err := grpc.Dial("127.0.0.1:81", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+	return conn
+}
 
 func getWinRate(c *gin.Context) {
 
 	// Set up a connection to the server.
-	conn, err := grpc.Dial("127.0.0.1:81", grpc.WithInsecure(), grpc.WithBlock())
-	if err != nil {
-		log.Fatalf("did not connect: %v", err)
-	}
+	conn := initGrpc()
 	defer conn.Close()
 	client := pb.NewGetWinRateServiceClient(conn)
-	/*
-		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-		defer cancel()
-	*/
 
 	players := map[string]poker.Player{}
 	c.Bind(&players)
 
-	body := pb.GetWinRateRequest{}
-	body.Players = make(map[string]*pb.GetWinRateRequest_Player)
+	request := pb.GetWinRateRequest{}
+	request.Player = make(map[string]*pb.Player)
 
 	for key, value := range players {
-		body.Players[key] = &pb.GetWinRateRequest_Player{Name: key}
-		body.Players[key].Card1 = &pb.GetWinRateRequest_Card{Num: int32(value.Card[0].Num), Suit: value.Card[0].Suit}
-		body.Players[key].Card2 = &pb.GetWinRateRequest_Card{Num: int32(value.Card[1].Num), Suit: value.Card[1].Suit}
+		request.Player[key] = &pb.Player{Name: key}
+		request.Player[key].Card1 = &pb.Card{Num: int32(value.Card[0].Num), Suit: value.Card[0].Suit}
+		request.Player[key].Card2 = &pb.Card{Num: int32(value.Card[1].Num), Suit: value.Card[1].Suit}
 	}
 
-	response, err := client.GetWinRate(context.Background(), &body)
+	response, err := client.GetWinRate(context.Background(), &request)
 
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
 
-	/*
-		t := poker.Table{}
-		c.Bind(&t.Player)
-		result := poker.GetWinRate([]poker.Player{t.Player["player1"], t.Player["player2"]}, 10000)
-	*/
 	c.JSON(http.StatusOK, response.GetResult())
 }
 
 func getHand(c *gin.Context) {
 
-	result := model.GetHandRedis(c.Query("num"), c.Query("gain"), c.Query("seat"), c.GetString("username"))
+	conn := initGrpc()
+	defer conn.Close()
+	client := pb.NewGetHandServiceClient(conn)
+
+	request := pb.GetHandRequest{
+		Num:      c.Query("num"),
+		Gain:     c.Query("gain"),
+		Seat:     c.Query("seat"),
+		Username: c.GetString("username"),
+	}
+
+	response, err := client.GetHand(context.Background(), &request)
 	tables := []poker.Table{}
+	for _, res := range response.GetTable() {
+		table := poker.Table{
+			ID:   int(res.GetId()),
+			Time: res.GetTime().AsTime(),
+		}
 
-	for _, r := range result {
-		table := poker.Table{}
-
-		table.Time = r.Time
-		if r.TableCard1.ID != 0 {
-			table.Card = append(table.Card, poker.Card{})
-			table.Card[0].Num = r.TableCard1.Num
-			table.Card[0].Suit = r.TableCard1.Suit
-		}
-		if r.TableCard2.ID != 0 {
-			table.Card = append(table.Card, poker.Card{})
-			table.Card[1].Num = r.TableCard2.Num
-			table.Card[1].Suit = r.TableCard2.Suit
-		}
-		if r.TableCard3.ID != 0 {
-			table.Card = append(table.Card, poker.Card{})
-			table.Card[2].Num = r.TableCard3.Num
-			table.Card[2].Suit = r.TableCard3.Suit
-		}
-		if r.TableCard4.ID != 0 {
-			table.Card = append(table.Card, poker.Card{})
-			table.Card[3].Num = r.TableCard4.Num
-			table.Card[3].Suit = r.TableCard4.Suit
-		}
-		if r.TableCard5.ID != 0 {
-			table.Card = append(table.Card, poker.Card{})
-			table.Card[4].Num = r.TableCard5.Num
-			table.Card[4].Suit = r.TableCard5.Suit
-		}
-		player := poker.Player{}
-
-		player.Card = append(player.Card, poker.Card{})
-		player.Card[0].Num = r.HeroCard1.Num
-		player.Card[0].Suit = r.HeroCard1.Suit
-		player.Card = append(player.Card, poker.Card{})
-		player.Card[1].Num = r.HeroCard2.Num
-		player.Card[1].Suit = r.HeroCard2.Suit
-		player.Gain = r.Gain
-		player.Seat = r.Seat.Seat
-		player.Name = r.Player.Playername
-
-		player.Action.Preflop = r.Preflop.Action
-		player.Action.Flop = r.Flop.Action
-		player.Action.Turn = r.Turn.Action
-		player.Action.River = r.River.Action
 		table.Player = make(map[string]poker.Player)
-		table.Player[c.GetString("username")] = player
+		for key, value := range res.GetPlayer() {
+			player := poker.Player{
+				Name: value.GetName(),
+				Seat: value.GetSeat(),
+				Gain: value.GetGain(),
+				Action: struct {
+					Preflop string
+					Flop    string
+					Turn    string
+					River   string
+				}{
+					Preflop: value.Action.GetPreflop(),
+					Flop:    value.GetAction().Flop,
+					Turn:    value.Action.GetTurn(),
+					River:   value.Action.River,
+				},
+				Card: []poker.Card{
+					{Num: int(value.GetCard1().GetNum()), Suit: value.GetCard2().GetSuit()},
+					{Num: int(value.GetCard2().GetNum()), Suit: value.GetCard2().GetSuit()},
+				},
+			}
+			table.Player[key] = player
+		}
 		tables = append(tables, table)
+	}
+
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
 	}
 
 	c.JSON(http.StatusOK, tables)
 }
 
 func insertHand(c *gin.Context) {
+
+	conn := initGrpc()
+	defer conn.Close()
+	client := pb.NewInsertHandServiceClient(conn)
+
 	dataByte, _ := ioutil.ReadAll(c.Request.Body)
 	username := c.GetString("username")
-	kafka.KafkaWrite(dataByte, []byte(username))
+
+	request := pb.InsertHandRequest{
+		Data:     string(dataByte),
+		Username: username,
+	}
+
+	_, err := client.InsertHand(context.Background(), &request)
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+
 	c.JSON(http.StatusOK, nil)
 }
 
 func login(c *gin.Context) {
-	var request model.User
-	c.BindJSON(&request)
-	user := model.GetUserDB(request.Username)
-	if user.Password == request.Password {
-		tk := token.GenerateToken(user.Username)
-		c.JSON(http.StatusOK, tk)
+
+	conn := initGrpc()
+	defer conn.Close()
+	client := pb.NewLoginServiceClient(conn)
+
+	var user model.User
+	c.BindJSON(&user)
+
+	request := pb.LoginRequest{
+		Username: user.Username,
+		Password: user.Password,
+	}
+
+	response, err := client.Login(context.Background(), &request)
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+
+	token := response.GetToken()
+	if token != "" {
+		c.JSON(http.StatusOK, token)
 	} else {
 		c.AbortWithStatus(http.StatusForbidden)
 	}
 }
 
 func register(c *gin.Context) {
-	var request model.User
-	c.BindJSON(&request)
-	err := model.InsertUserDB(request.Username, request.Password)
+	conn := initGrpc()
+	defer conn.Close()
+	client := pb.NewRegisterServiceClient(conn)
+
+	var user model.User
+	c.BindJSON(&user)
+
+	request := pb.LoginRequest{
+		Username: user.Username,
+		Password: user.Password,
+	}
+
+	response, err := client.Register(context.Background(), &request)
 	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+
+	if response.GetError() != "" {
 		c.JSON(http.StatusForbidden, nil)
 	} else {
 		c.JSON(http.StatusOK, nil)
@@ -149,8 +184,6 @@ func register(c *gin.Context) {
 }
 
 func logout(c *gin.Context) {
-	token := c.Request.Header.Get("Authorization")
-	delete(Tokens, token)
 	c.JSON(http.StatusOK, nil)
 }
 
