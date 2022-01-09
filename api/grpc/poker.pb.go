@@ -623,6 +623,469 @@ func (x *GetHandResponse) GetTable() []*GetHandResponse_Table {
 	return nil
 }
 
+type GetOauthCodeResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+}
+
+func (x *GetOauthCodeResponse) Reset() {
+	*x = GetOauthCodeResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_poker_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetOauthCodeResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetOauthCodeResponse) ProtoMessage() {}
+
+func (x *GetOauthCodeResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_poker_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetOauthCodeResponse.ProtoReflect.Descriptor instead.
+func (*GetOauthCodeResponse) Descriptor() ([]byte, []int) {
+	return file_poker_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *GetOauthCodeResponse) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
+type GetOauthTokenRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Code string `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"`
+}
+
+func (x *GetOauthTokenRequest) Reset() {
+	*x = GetOauthTokenRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_poker_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetOauthTokenRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetOauthTokenRequest) ProtoMessage() {}
+
+func (x *GetOauthTokenRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_poker_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetOauthTokenRequest.ProtoReflect.Descriptor instead.
+func (*GetOauthTokenRequest) Descriptor() ([]byte, []int) {
+	return file_poker_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *GetOauthTokenRequest) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+type GetOauthTokenResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Token string `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+}
+
+func (x *GetOauthTokenResponse) Reset() {
+	*x = GetOauthTokenResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_poker_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetOauthTokenResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetOauthTokenResponse) ProtoMessage() {}
+
+func (x *GetOauthTokenResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_poker_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetOauthTokenResponse.ProtoReflect.Descriptor instead.
+func (*GetOauthTokenResponse) Descriptor() ([]byte, []int) {
+	return file_poker_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *GetOauthTokenResponse) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
+type CheckOauthTokenResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Result string `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
+}
+
+func (x *CheckOauthTokenResponse) Reset() {
+	*x = CheckOauthTokenResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_poker_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CheckOauthTokenResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CheckOauthTokenResponse) ProtoMessage() {}
+
+func (x *CheckOauthTokenResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_poker_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CheckOauthTokenResponse.ProtoReflect.Descriptor instead.
+func (*CheckOauthTokenResponse) Descriptor() ([]byte, []int) {
+	return file_poker_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *CheckOauthTokenResponse) GetResult() string {
+	if x != nil {
+		return x.Result
+	}
+	return ""
+}
+
+type GetAnalysisRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Username string `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+	Player   string `protobuf:"bytes,2,opt,name=player,proto3" json:"player,omitempty"`
+}
+
+func (x *GetAnalysisRequest) Reset() {
+	*x = GetAnalysisRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_poker_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetAnalysisRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAnalysisRequest) ProtoMessage() {}
+
+func (x *GetAnalysisRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_poker_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAnalysisRequest.ProtoReflect.Descriptor instead.
+func (*GetAnalysisRequest) Descriptor() ([]byte, []int) {
+	return file_poker_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *GetAnalysisRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *GetAnalysisRequest) GetPlayer() string {
+	if x != nil {
+		return x.Player
+	}
+	return ""
+}
+
+type GetProfitResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Result []*GetProfitResponse_Result `protobuf:"bytes,1,rep,name=result,proto3" json:"result,omitempty"`
+}
+
+func (x *GetProfitResponse) Reset() {
+	*x = GetProfitResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_poker_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetProfitResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetProfitResponse) ProtoMessage() {}
+
+func (x *GetProfitResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_poker_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetProfitResponse.ProtoReflect.Descriptor instead.
+func (*GetProfitResponse) Descriptor() ([]byte, []int) {
+	return file_poker_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *GetProfitResponse) GetResult() []*GetProfitResponse_Result {
+	if x != nil {
+		return x.Result
+	}
+	return nil
+}
+
+type GetLineResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Raise string `protobuf:"bytes,1,opt,name=raise,proto3" json:"raise,omitempty"`
+	Call  string `protobuf:"bytes,2,opt,name=call,proto3" json:"call,omitempty"`
+	Fold  string `protobuf:"bytes,3,opt,name=fold,proto3" json:"fold,omitempty"`
+	Check string `protobuf:"bytes,4,opt,name=check,proto3" json:"check,omitempty"`
+	Bet   string `protobuf:"bytes,5,opt,name=bet,proto3" json:"bet,omitempty"`
+}
+
+func (x *GetLineResponse) Reset() {
+	*x = GetLineResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_poker_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetLineResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetLineResponse) ProtoMessage() {}
+
+func (x *GetLineResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_poker_proto_msgTypes[17]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetLineResponse.ProtoReflect.Descriptor instead.
+func (*GetLineResponse) Descriptor() ([]byte, []int) {
+	return file_poker_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *GetLineResponse) GetRaise() string {
+	if x != nil {
+		return x.Raise
+	}
+	return ""
+}
+
+func (x *GetLineResponse) GetCall() string {
+	if x != nil {
+		return x.Call
+	}
+	return ""
+}
+
+func (x *GetLineResponse) GetFold() string {
+	if x != nil {
+		return x.Fold
+	}
+	return ""
+}
+
+func (x *GetLineResponse) GetCheck() string {
+	if x != nil {
+		return x.Check
+	}
+	return ""
+}
+
+func (x *GetLineResponse) GetBet() string {
+	if x != nil {
+		return x.Bet
+	}
+	return ""
+}
+
+type GetPlayerRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Username string `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+}
+
+func (x *GetPlayerRequest) Reset() {
+	*x = GetPlayerRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_poker_proto_msgTypes[18]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetPlayerRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetPlayerRequest) ProtoMessage() {}
+
+func (x *GetPlayerRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_poker_proto_msgTypes[18]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetPlayerRequest.ProtoReflect.Descriptor instead.
+func (*GetPlayerRequest) Descriptor() ([]byte, []int) {
+	return file_poker_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *GetPlayerRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+type GetPlayerResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Result []string `protobuf:"bytes,1,rep,name=result,proto3" json:"result,omitempty"`
+}
+
+func (x *GetPlayerResponse) Reset() {
+	*x = GetPlayerResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_poker_proto_msgTypes[19]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetPlayerResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetPlayerResponse) ProtoMessage() {}
+
+func (x *GetPlayerResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_poker_proto_msgTypes[19]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetPlayerResponse.ProtoReflect.Descriptor instead.
+func (*GetPlayerResponse) Descriptor() ([]byte, []int) {
+	return file_poker_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *GetPlayerResponse) GetResult() []string {
+	if x != nil {
+		return x.Result
+	}
+	return nil
+}
+
 type Player_Action struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -637,7 +1100,7 @@ type Player_Action struct {
 func (x *Player_Action) Reset() {
 	*x = Player_Action{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_poker_proto_msgTypes[11]
+		mi := &file_poker_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -650,7 +1113,7 @@ func (x *Player_Action) String() string {
 func (*Player_Action) ProtoMessage() {}
 
 func (x *Player_Action) ProtoReflect() protoreflect.Message {
-	mi := &file_poker_proto_msgTypes[11]
+	mi := &file_poker_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -708,7 +1171,7 @@ type GetHandResponse_Table struct {
 func (x *GetHandResponse_Table) Reset() {
 	*x = GetHandResponse_Table{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_poker_proto_msgTypes[14]
+		mi := &file_poker_proto_msgTypes[23]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -721,7 +1184,7 @@ func (x *GetHandResponse_Table) String() string {
 func (*GetHandResponse_Table) ProtoMessage() {}
 
 func (x *GetHandResponse_Table) ProtoReflect() protoreflect.Message {
-	mi := &file_poker_proto_msgTypes[14]
+	mi := &file_poker_proto_msgTypes[23]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -763,6 +1226,61 @@ func (x *GetHandResponse_Table) GetCard() []*Card {
 		return x.Card
 	}
 	return nil
+}
+
+type GetProfitResponse_Result struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Hand int32   `protobuf:"varint,1,opt,name=hand,proto3" json:"hand,omitempty"`
+	Gain float64 `protobuf:"fixed64,2,opt,name=gain,proto3" json:"gain,omitempty"`
+}
+
+func (x *GetProfitResponse_Result) Reset() {
+	*x = GetProfitResponse_Result{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_poker_proto_msgTypes[25]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetProfitResponse_Result) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetProfitResponse_Result) ProtoMessage() {}
+
+func (x *GetProfitResponse_Result) ProtoReflect() protoreflect.Message {
+	mi := &file_poker_proto_msgTypes[25]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetProfitResponse_Result.ProtoReflect.Descriptor instead.
+func (*GetProfitResponse_Result) Descriptor() ([]byte, []int) {
+	return file_poker_proto_rawDescGZIP(), []int{16, 0}
+}
+
+func (x *GetProfitResponse_Result) GetHand() int32 {
+	if x != nil {
+		return x.Hand
+	}
+	return 0
+}
+
+func (x *GetProfitResponse_Result) GetGain() float64 {
+	if x != nil {
+		return x.Gain
+	}
+	return 0
 }
 
 var File_poker_proto protoreflect.FileDescriptor
@@ -854,35 +1372,123 @@ var file_poker_proto_rawDesc = []byte{
 	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x28, 0x0a, 0x05, 0x76,
 	0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x12, 0x2e, 0x63, 0x61, 0x6c,
 	0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x52, 0x05,
-	0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x32, 0x62, 0x0a, 0x11, 0x47, 0x65, 0x74,
-	0x57, 0x69, 0x6e, 0x52, 0x61, 0x74, 0x65, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x4d,
-	0x0a, 0x0a, 0x47, 0x65, 0x74, 0x57, 0x69, 0x6e, 0x52, 0x61, 0x74, 0x65, 0x12, 0x1d, 0x2e, 0x63,
-	0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x57, 0x69, 0x6e,
-	0x52, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x63, 0x61,
-	0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x57, 0x69, 0x6e, 0x52,
-	0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x32, 0x4e, 0x0a,
-	0x0c, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x3e, 0x0a,
-	0x05, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x12, 0x18, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61,
-	0x74, 0x6f, 0x72, 0x2e, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x1a, 0x19, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x4c, 0x6f,
-	0x67, 0x69, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x32, 0x4c, 0x0a,
-	0x0f, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
-	0x12, 0x39, 0x0a, 0x08, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x12, 0x18, 0x2e, 0x63,
-	0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x11, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61,
-	0x74, 0x6f, 0x72, 0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x00, 0x32, 0x55, 0x0a, 0x11, 0x49,
-	0x6e, 0x73, 0x65, 0x72, 0x74, 0x48, 0x61, 0x6e, 0x64, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
-	0x12, 0x40, 0x0a, 0x0a, 0x49, 0x6e, 0x73, 0x65, 0x72, 0x74, 0x48, 0x61, 0x6e, 0x64, 0x12, 0x1d,
-	0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x49, 0x6e, 0x73, 0x65,
-	0x72, 0x74, 0x48, 0x61, 0x6e, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x11, 0x2e,
-	0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79,
-	0x22, 0x00, 0x32, 0x56, 0x0a, 0x0e, 0x47, 0x65, 0x74, 0x48, 0x61, 0x6e, 0x64, 0x53, 0x65, 0x72,
-	0x76, 0x69, 0x63, 0x65, 0x12, 0x44, 0x0a, 0x07, 0x47, 0x65, 0x74, 0x48, 0x61, 0x6e, 0x64, 0x12,
-	0x1a, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74,
-	0x48, 0x61, 0x6e, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1b, 0x2e, 0x63, 0x61,
-	0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x48, 0x61, 0x6e, 0x64,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x08, 0x5a, 0x06, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0x28, 0x0a, 0x14, 0x47, 0x65, 0x74,
+	0x4f, 0x61, 0x75, 0x74, 0x68, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x10, 0x0a, 0x03, 0x75, 0x72, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03,
+	0x75, 0x72, 0x6c, 0x22, 0x2a, 0x0a, 0x14, 0x47, 0x65, 0x74, 0x4f, 0x61, 0x75, 0x74, 0x68, 0x54,
+	0x6f, 0x6b, 0x65, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x63,
+	0x6f, 0x64, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x22,
+	0x2d, 0x0a, 0x15, 0x47, 0x65, 0x74, 0x4f, 0x61, 0x75, 0x74, 0x68, 0x54, 0x6f, 0x6b, 0x65, 0x6e,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65,
+	0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0x31,
+	0x0a, 0x17, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x4f, 0x61, 0x75, 0x74, 0x68, 0x54, 0x6f, 0x6b, 0x65,
+	0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x72, 0x65, 0x73,
+	0x75, 0x6c, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c,
+	0x74, 0x22, 0x48, 0x0a, 0x12, 0x47, 0x65, 0x74, 0x41, 0x6e, 0x61, 0x6c, 0x79, 0x73, 0x69, 0x73,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e,
+	0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e,
+	0x61, 0x6d, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x70, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x06, 0x70, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x22, 0x83, 0x01, 0x0a, 0x11,
+	0x47, 0x65, 0x74, 0x50, 0x72, 0x6f, 0x66, 0x69, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x3c, 0x0a, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x18, 0x01, 0x20, 0x03, 0x28,
+	0x0b, 0x32, 0x24, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47,
+	0x65, 0x74, 0x50, 0x72, 0x6f, 0x66, 0x69, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x2e, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x1a,
+	0x30, 0x0a, 0x06, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x68, 0x61, 0x6e,
+	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x68, 0x61, 0x6e, 0x64, 0x12, 0x12, 0x0a,
+	0x04, 0x67, 0x61, 0x69, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x01, 0x52, 0x04, 0x67, 0x61, 0x69,
+	0x6e, 0x22, 0x77, 0x0a, 0x0f, 0x47, 0x65, 0x74, 0x4c, 0x69, 0x6e, 0x65, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x72, 0x61, 0x69, 0x73, 0x65, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x05, 0x72, 0x61, 0x69, 0x73, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x61,
+	0x6c, 0x6c, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x63, 0x61, 0x6c, 0x6c, 0x12, 0x12,
+	0x0a, 0x04, 0x66, 0x6f, 0x6c, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x66, 0x6f,
+	0x6c, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x63, 0x68, 0x65, 0x63, 0x6b, 0x18, 0x04, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x05, 0x63, 0x68, 0x65, 0x63, 0x6b, 0x12, 0x10, 0x0a, 0x03, 0x62, 0x65, 0x74, 0x18,
+	0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x62, 0x65, 0x74, 0x22, 0x2e, 0x0a, 0x10, 0x47, 0x65,
+	0x74, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1a,
+	0x0a, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x2b, 0x0a, 0x11, 0x47, 0x65,
+	0x74, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x16, 0x0a, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52,
+	0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x32, 0x62, 0x0a, 0x11, 0x47, 0x65, 0x74, 0x57, 0x69,
+	0x6e, 0x52, 0x61, 0x74, 0x65, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x4d, 0x0a, 0x0a,
+	0x47, 0x65, 0x74, 0x57, 0x69, 0x6e, 0x52, 0x61, 0x74, 0x65, 0x12, 0x1d, 0x2e, 0x63, 0x61, 0x6c,
+	0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x57, 0x69, 0x6e, 0x52, 0x61,
+	0x74, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x63, 0x61, 0x6c, 0x63,
+	0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x57, 0x69, 0x6e, 0x52, 0x61, 0x74,
+	0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x32, 0x4e, 0x0a, 0x0c, 0x4c,
+	0x6f, 0x67, 0x69, 0x6e, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x3e, 0x0a, 0x05, 0x4c,
+	0x6f, 0x67, 0x69, 0x6e, 0x12, 0x18, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f,
+	0x72, 0x2e, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x19,
+	0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x4c, 0x6f, 0x67, 0x69,
+	0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x32, 0x4c, 0x0a, 0x0f, 0x52,
+	0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x39,
+	0x0a, 0x08, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x12, 0x18, 0x2e, 0x63, 0x61, 0x6c,
+	0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x11, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f,
+	0x72, 0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x00, 0x32, 0x55, 0x0a, 0x11, 0x49, 0x6e, 0x73,
+	0x65, 0x72, 0x74, 0x48, 0x61, 0x6e, 0x64, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x40,
+	0x0a, 0x0a, 0x49, 0x6e, 0x73, 0x65, 0x72, 0x74, 0x48, 0x61, 0x6e, 0x64, 0x12, 0x1d, 0x2e, 0x63,
+	0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x49, 0x6e, 0x73, 0x65, 0x72, 0x74,
+	0x48, 0x61, 0x6e, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x11, 0x2e, 0x63, 0x61,
+	0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x22, 0x00,
+	0x32, 0x56, 0x0a, 0x0e, 0x47, 0x65, 0x74, 0x48, 0x61, 0x6e, 0x64, 0x53, 0x65, 0x72, 0x76, 0x69,
+	0x63, 0x65, 0x12, 0x44, 0x0a, 0x07, 0x47, 0x65, 0x74, 0x48, 0x61, 0x6e, 0x64, 0x12, 0x1a, 0x2e,
+	0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x48, 0x61,
+	0x6e, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1b, 0x2e, 0x63, 0x61, 0x6c, 0x63,
+	0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x48, 0x61, 0x6e, 0x64, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x32, 0x55, 0x0a, 0x0c, 0x47, 0x65, 0x74, 0x4f,
+	0x61, 0x75, 0x74, 0x68, 0x43, 0x6f, 0x64, 0x65, 0x12, 0x45, 0x0a, 0x0c, 0x47, 0x65, 0x74, 0x4f,
+	0x61, 0x75, 0x74, 0x68, 0x43, 0x6f, 0x64, 0x65, 0x12, 0x11, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75,
+	0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x20, 0x2e, 0x63, 0x61,
+	0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x4f, 0x61, 0x75, 0x74,
+	0x68, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x32,
+	0x57, 0x0a, 0x0d, 0x47, 0x65, 0x74, 0x4f, 0x61, 0x75, 0x74, 0x68, 0x54, 0x6f, 0x6b, 0x65, 0x6e,
+	0x12, 0x46, 0x0a, 0x0d, 0x47, 0x65, 0x74, 0x4f, 0x61, 0x75, 0x74, 0x68, 0x54, 0x6f, 0x6b, 0x65,
+	0x6e, 0x12, 0x20, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47,
+	0x65, 0x74, 0x4f, 0x61, 0x75, 0x74, 0x68, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x11, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72,
+	0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x22, 0x00, 0x32, 0x5e, 0x0a, 0x0f, 0x43, 0x68, 0x65, 0x63,
+	0x6b, 0x4f, 0x61, 0x75, 0x74, 0x68, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x4b, 0x0a, 0x0f, 0x43,
+	0x68, 0x65, 0x63, 0x6b, 0x4f, 0x61, 0x75, 0x74, 0x68, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x11,
+	0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x45, 0x6d, 0x70, 0x74,
+	0x79, 0x1a, 0x23, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x43,
+	0x68, 0x65, 0x63, 0x6b, 0x4f, 0x61, 0x75, 0x74, 0x68, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x32, 0x59, 0x0a, 0x09, 0x47, 0x65, 0x74, 0x50,
+	0x72, 0x6f, 0x66, 0x69, 0x74, 0x12, 0x4c, 0x0a, 0x09, 0x47, 0x65, 0x74, 0x50, 0x72, 0x6f, 0x66,
+	0x69, 0x74, 0x12, 0x1e, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e,
+	0x47, 0x65, 0x74, 0x41, 0x6e, 0x61, 0x6c, 0x79, 0x73, 0x69, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x1d, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e,
+	0x47, 0x65, 0x74, 0x50, 0x72, 0x6f, 0x66, 0x69, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x00, 0x32, 0x59, 0x0a, 0x0a, 0x47, 0x65, 0x74, 0x50, 0x72, 0x65, 0x66, 0x6c, 0x6f,
+	0x70, 0x12, 0x4b, 0x0a, 0x0a, 0x47, 0x65, 0x74, 0x50, 0x72, 0x65, 0x66, 0x6c, 0x6f, 0x70, 0x12,
+	0x1e, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74,
+	0x41, 0x6e, 0x61, 0x6c, 0x79, 0x73, 0x69, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
+	0x1b, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74,
+	0x4c, 0x69, 0x6e, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x32, 0x53,
+	0x0a, 0x07, 0x47, 0x65, 0x74, 0x46, 0x6c, 0x6f, 0x70, 0x12, 0x48, 0x0a, 0x07, 0x47, 0x65, 0x74,
+	0x46, 0x6c, 0x6f, 0x70, 0x12, 0x1e, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f,
+	0x72, 0x2e, 0x47, 0x65, 0x74, 0x41, 0x6e, 0x61, 0x6c, 0x79, 0x73, 0x69, 0x73, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x1b, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f,
+	0x72, 0x2e, 0x47, 0x65, 0x74, 0x4c, 0x69, 0x6e, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x00, 0x32, 0x53, 0x0a, 0x07, 0x47, 0x65, 0x74, 0x54, 0x75, 0x72, 0x6e, 0x12, 0x48,
+	0x0a, 0x07, 0x47, 0x65, 0x74, 0x54, 0x75, 0x72, 0x6e, 0x12, 0x1e, 0x2e, 0x63, 0x61, 0x6c, 0x63,
+	0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x41, 0x6e, 0x61, 0x6c, 0x79, 0x73,
+	0x69, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1b, 0x2e, 0x63, 0x61, 0x6c, 0x63,
+	0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x4c, 0x69, 0x6e, 0x65, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x32, 0x55, 0x0a, 0x08, 0x47, 0x65, 0x74, 0x52,
+	0x69, 0x76, 0x65, 0x72, 0x12, 0x49, 0x0a, 0x08, 0x47, 0x65, 0x74, 0x52, 0x69, 0x76, 0x65, 0x72,
+	0x12, 0x1e, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65,
+	0x74, 0x41, 0x6e, 0x61, 0x6c, 0x79, 0x73, 0x69, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x1b, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65,
+	0x74, 0x4c, 0x69, 0x6e, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x32,
+	0x57, 0x0a, 0x09, 0x47, 0x65, 0x74, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x12, 0x4a, 0x0a, 0x09,
+	0x47, 0x65, 0x74, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x12, 0x1c, 0x2e, 0x63, 0x61, 0x6c, 0x63,
+	0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1d, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c,
+	0x61, 0x74, 0x6f, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x08, 0x5a, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -897,53 +1503,82 @@ func file_poker_proto_rawDescGZIP() []byte {
 	return file_poker_proto_rawDescData
 }
 
-var file_poker_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
+var file_poker_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
 var file_poker_proto_goTypes = []interface{}{
-	(*Error)(nil),                 // 0: calculator.Error
-	(*Empty)(nil),                 // 1: calculator.Empty
-	(*Card)(nil),                  // 2: calculator.Card
-	(*Player)(nil),                // 3: calculator.Player
-	(*GetWinRateRequest)(nil),     // 4: calculator.GetWinRateRequest
-	(*GetWinRateResponse)(nil),    // 5: calculator.GetWinRateResponse
-	(*LoginRequest)(nil),          // 6: calculator.LoginRequest
-	(*LoginResponse)(nil),         // 7: calculator.LoginResponse
-	(*InsertHandRequest)(nil),     // 8: calculator.InsertHandRequest
-	(*GetHandRequest)(nil),        // 9: calculator.GetHandRequest
-	(*GetHandResponse)(nil),       // 10: calculator.GetHandResponse
-	(*Player_Action)(nil),         // 11: calculator.Player.Action
-	nil,                           // 12: calculator.GetWinRateRequest.PlayerEntry
-	nil,                           // 13: calculator.GetWinRateResponse.ResultEntry
-	(*GetHandResponse_Table)(nil), // 14: calculator.GetHandResponse.Table
-	nil,                           // 15: calculator.GetHandResponse.Table.PlayerEntry
-	(*timestamppb.Timestamp)(nil), // 16: google.protobuf.Timestamp
+	(*Error)(nil),                    // 0: calculator.Error
+	(*Empty)(nil),                    // 1: calculator.Empty
+	(*Card)(nil),                     // 2: calculator.Card
+	(*Player)(nil),                   // 3: calculator.Player
+	(*GetWinRateRequest)(nil),        // 4: calculator.GetWinRateRequest
+	(*GetWinRateResponse)(nil),       // 5: calculator.GetWinRateResponse
+	(*LoginRequest)(nil),             // 6: calculator.LoginRequest
+	(*LoginResponse)(nil),            // 7: calculator.LoginResponse
+	(*InsertHandRequest)(nil),        // 8: calculator.InsertHandRequest
+	(*GetHandRequest)(nil),           // 9: calculator.GetHandRequest
+	(*GetHandResponse)(nil),          // 10: calculator.GetHandResponse
+	(*GetOauthCodeResponse)(nil),     // 11: calculator.GetOauthCodeResponse
+	(*GetOauthTokenRequest)(nil),     // 12: calculator.GetOauthTokenRequest
+	(*GetOauthTokenResponse)(nil),    // 13: calculator.GetOauthTokenResponse
+	(*CheckOauthTokenResponse)(nil),  // 14: calculator.CheckOauthTokenResponse
+	(*GetAnalysisRequest)(nil),       // 15: calculator.GetAnalysisRequest
+	(*GetProfitResponse)(nil),        // 16: calculator.GetProfitResponse
+	(*GetLineResponse)(nil),          // 17: calculator.GetLineResponse
+	(*GetPlayerRequest)(nil),         // 18: calculator.GetPlayerRequest
+	(*GetPlayerResponse)(nil),        // 19: calculator.GetPlayerResponse
+	(*Player_Action)(nil),            // 20: calculator.Player.Action
+	nil,                              // 21: calculator.GetWinRateRequest.PlayerEntry
+	nil,                              // 22: calculator.GetWinRateResponse.ResultEntry
+	(*GetHandResponse_Table)(nil),    // 23: calculator.GetHandResponse.Table
+	nil,                              // 24: calculator.GetHandResponse.Table.PlayerEntry
+	(*GetProfitResponse_Result)(nil), // 25: calculator.GetProfitResponse.Result
+	(*timestamppb.Timestamp)(nil),    // 26: google.protobuf.Timestamp
 }
 var file_poker_proto_depIdxs = []int32{
 	2,  // 0: calculator.Player.card1:type_name -> calculator.Card
 	2,  // 1: calculator.Player.card2:type_name -> calculator.Card
-	11, // 2: calculator.Player.action:type_name -> calculator.Player.Action
-	12, // 3: calculator.GetWinRateRequest.player:type_name -> calculator.GetWinRateRequest.PlayerEntry
-	13, // 4: calculator.GetWinRateResponse.result:type_name -> calculator.GetWinRateResponse.ResultEntry
-	14, // 5: calculator.GetHandResponse.table:type_name -> calculator.GetHandResponse.Table
-	3,  // 6: calculator.GetWinRateRequest.PlayerEntry.value:type_name -> calculator.Player
-	16, // 7: calculator.GetHandResponse.Table.time:type_name -> google.protobuf.Timestamp
-	15, // 8: calculator.GetHandResponse.Table.player:type_name -> calculator.GetHandResponse.Table.PlayerEntry
-	2,  // 9: calculator.GetHandResponse.Table.card:type_name -> calculator.Card
-	3,  // 10: calculator.GetHandResponse.Table.PlayerEntry.value:type_name -> calculator.Player
-	4,  // 11: calculator.GetWinRateService.GetWinRate:input_type -> calculator.GetWinRateRequest
-	6,  // 12: calculator.LoginService.Login:input_type -> calculator.LoginRequest
-	6,  // 13: calculator.RegisterService.Register:input_type -> calculator.LoginRequest
-	8,  // 14: calculator.InsertHandService.InsertHand:input_type -> calculator.InsertHandRequest
-	9,  // 15: calculator.GetHandService.GetHand:input_type -> calculator.GetHandRequest
-	5,  // 16: calculator.GetWinRateService.GetWinRate:output_type -> calculator.GetWinRateResponse
-	7,  // 17: calculator.LoginService.Login:output_type -> calculator.LoginResponse
-	0,  // 18: calculator.RegisterService.Register:output_type -> calculator.Error
-	1,  // 19: calculator.InsertHandService.InsertHand:output_type -> calculator.Empty
-	10, // 20: calculator.GetHandService.GetHand:output_type -> calculator.GetHandResponse
-	16, // [16:21] is the sub-list for method output_type
-	11, // [11:16] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	20, // 2: calculator.Player.action:type_name -> calculator.Player.Action
+	21, // 3: calculator.GetWinRateRequest.player:type_name -> calculator.GetWinRateRequest.PlayerEntry
+	22, // 4: calculator.GetWinRateResponse.result:type_name -> calculator.GetWinRateResponse.ResultEntry
+	23, // 5: calculator.GetHandResponse.table:type_name -> calculator.GetHandResponse.Table
+	25, // 6: calculator.GetProfitResponse.result:type_name -> calculator.GetProfitResponse.Result
+	3,  // 7: calculator.GetWinRateRequest.PlayerEntry.value:type_name -> calculator.Player
+	26, // 8: calculator.GetHandResponse.Table.time:type_name -> google.protobuf.Timestamp
+	24, // 9: calculator.GetHandResponse.Table.player:type_name -> calculator.GetHandResponse.Table.PlayerEntry
+	2,  // 10: calculator.GetHandResponse.Table.card:type_name -> calculator.Card
+	3,  // 11: calculator.GetHandResponse.Table.PlayerEntry.value:type_name -> calculator.Player
+	4,  // 12: calculator.GetWinRateService.GetWinRate:input_type -> calculator.GetWinRateRequest
+	6,  // 13: calculator.LoginService.Login:input_type -> calculator.LoginRequest
+	6,  // 14: calculator.RegisterService.Register:input_type -> calculator.LoginRequest
+	8,  // 15: calculator.InsertHandService.InsertHand:input_type -> calculator.InsertHandRequest
+	9,  // 16: calculator.GetHandService.GetHand:input_type -> calculator.GetHandRequest
+	1,  // 17: calculator.GetOauthCode.GetOauthCode:input_type -> calculator.Empty
+	12, // 18: calculator.GetOauthToken.GetOauthToken:input_type -> calculator.GetOauthTokenRequest
+	1,  // 19: calculator.CheckOauthToken.CheckOauthToken:input_type -> calculator.Empty
+	15, // 20: calculator.GetProfit.GetProfit:input_type -> calculator.GetAnalysisRequest
+	15, // 21: calculator.GetPreflop.GetPreflop:input_type -> calculator.GetAnalysisRequest
+	15, // 22: calculator.GetFlop.GetFlop:input_type -> calculator.GetAnalysisRequest
+	15, // 23: calculator.GetTurn.GetTurn:input_type -> calculator.GetAnalysisRequest
+	15, // 24: calculator.GetRiver.GetRiver:input_type -> calculator.GetAnalysisRequest
+	18, // 25: calculator.GetPlayer.GetPlayer:input_type -> calculator.GetPlayerRequest
+	5,  // 26: calculator.GetWinRateService.GetWinRate:output_type -> calculator.GetWinRateResponse
+	7,  // 27: calculator.LoginService.Login:output_type -> calculator.LoginResponse
+	0,  // 28: calculator.RegisterService.Register:output_type -> calculator.Error
+	1,  // 29: calculator.InsertHandService.InsertHand:output_type -> calculator.Empty
+	10, // 30: calculator.GetHandService.GetHand:output_type -> calculator.GetHandResponse
+	11, // 31: calculator.GetOauthCode.GetOauthCode:output_type -> calculator.GetOauthCodeResponse
+	1,  // 32: calculator.GetOauthToken.GetOauthToken:output_type -> calculator.Empty
+	14, // 33: calculator.CheckOauthToken.CheckOauthToken:output_type -> calculator.CheckOauthTokenResponse
+	16, // 34: calculator.GetProfit.GetProfit:output_type -> calculator.GetProfitResponse
+	17, // 35: calculator.GetPreflop.GetPreflop:output_type -> calculator.GetLineResponse
+	17, // 36: calculator.GetFlop.GetFlop:output_type -> calculator.GetLineResponse
+	17, // 37: calculator.GetTurn.GetTurn:output_type -> calculator.GetLineResponse
+	17, // 38: calculator.GetRiver.GetRiver:output_type -> calculator.GetLineResponse
+	19, // 39: calculator.GetPlayer.GetPlayer:output_type -> calculator.GetPlayerResponse
+	26, // [26:40] is the sub-list for method output_type
+	12, // [12:26] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_poker_proto_init() }
@@ -1085,7 +1720,31 @@ func file_poker_proto_init() {
 			}
 		}
 		file_poker_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Player_Action); i {
+			switch v := v.(*GetOauthCodeResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_poker_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetOauthTokenRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_poker_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetOauthTokenResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1097,7 +1756,103 @@ func file_poker_proto_init() {
 			}
 		}
 		file_poker_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CheckOauthTokenResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_poker_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetAnalysisRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_poker_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetProfitResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_poker_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetLineResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_poker_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetPlayerRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_poker_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetPlayerResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_poker_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Player_Action); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_poker_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetHandResponse_Table); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_poker_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetProfitResponse_Result); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1115,9 +1870,9 @@ func file_poker_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_poker_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   16,
+			NumMessages:   26,
 			NumExtensions: 0,
-			NumServices:   5,
+			NumServices:   14,
 		},
 		GoTypes:           file_poker_proto_goTypes,
 		DependencyIndexes: file_poker_proto_depIdxs,
@@ -1491,6 +2246,654 @@ var _GetHandService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetHand",
 			Handler:    _GetHandService_GetHand_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "poker.proto",
+}
+
+// GetOauthCodeClient is the client API for GetOauthCode service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type GetOauthCodeClient interface {
+	GetOauthCode(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetOauthCodeResponse, error)
+}
+
+type getOauthCodeClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewGetOauthCodeClient(cc grpc.ClientConnInterface) GetOauthCodeClient {
+	return &getOauthCodeClient{cc}
+}
+
+func (c *getOauthCodeClient) GetOauthCode(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetOauthCodeResponse, error) {
+	out := new(GetOauthCodeResponse)
+	err := c.cc.Invoke(ctx, "/calculator.GetOauthCode/GetOauthCode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// GetOauthCodeServer is the server API for GetOauthCode service.
+type GetOauthCodeServer interface {
+	GetOauthCode(context.Context, *Empty) (*GetOauthCodeResponse, error)
+}
+
+// UnimplementedGetOauthCodeServer can be embedded to have forward compatible implementations.
+type UnimplementedGetOauthCodeServer struct {
+}
+
+func (*UnimplementedGetOauthCodeServer) GetOauthCode(context.Context, *Empty) (*GetOauthCodeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOauthCode not implemented")
+}
+
+func RegisterGetOauthCodeServer(s *grpc.Server, srv GetOauthCodeServer) {
+	s.RegisterService(&_GetOauthCode_serviceDesc, srv)
+}
+
+func _GetOauthCode_GetOauthCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GetOauthCodeServer).GetOauthCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/calculator.GetOauthCode/GetOauthCode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GetOauthCodeServer).GetOauthCode(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _GetOauthCode_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "calculator.GetOauthCode",
+	HandlerType: (*GetOauthCodeServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetOauthCode",
+			Handler:    _GetOauthCode_GetOauthCode_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "poker.proto",
+}
+
+// GetOauthTokenClient is the client API for GetOauthToken service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type GetOauthTokenClient interface {
+	GetOauthToken(ctx context.Context, in *GetOauthTokenRequest, opts ...grpc.CallOption) (*Empty, error)
+}
+
+type getOauthTokenClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewGetOauthTokenClient(cc grpc.ClientConnInterface) GetOauthTokenClient {
+	return &getOauthTokenClient{cc}
+}
+
+func (c *getOauthTokenClient) GetOauthToken(ctx context.Context, in *GetOauthTokenRequest, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/calculator.GetOauthToken/GetOauthToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// GetOauthTokenServer is the server API for GetOauthToken service.
+type GetOauthTokenServer interface {
+	GetOauthToken(context.Context, *GetOauthTokenRequest) (*Empty, error)
+}
+
+// UnimplementedGetOauthTokenServer can be embedded to have forward compatible implementations.
+type UnimplementedGetOauthTokenServer struct {
+}
+
+func (*UnimplementedGetOauthTokenServer) GetOauthToken(context.Context, *GetOauthTokenRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOauthToken not implemented")
+}
+
+func RegisterGetOauthTokenServer(s *grpc.Server, srv GetOauthTokenServer) {
+	s.RegisterService(&_GetOauthToken_serviceDesc, srv)
+}
+
+func _GetOauthToken_GetOauthToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOauthTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GetOauthTokenServer).GetOauthToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/calculator.GetOauthToken/GetOauthToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GetOauthTokenServer).GetOauthToken(ctx, req.(*GetOauthTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _GetOauthToken_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "calculator.GetOauthToken",
+	HandlerType: (*GetOauthTokenServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetOauthToken",
+			Handler:    _GetOauthToken_GetOauthToken_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "poker.proto",
+}
+
+// CheckOauthTokenClient is the client API for CheckOauthToken service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type CheckOauthTokenClient interface {
+	CheckOauthToken(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*CheckOauthTokenResponse, error)
+}
+
+type checkOauthTokenClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewCheckOauthTokenClient(cc grpc.ClientConnInterface) CheckOauthTokenClient {
+	return &checkOauthTokenClient{cc}
+}
+
+func (c *checkOauthTokenClient) CheckOauthToken(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*CheckOauthTokenResponse, error) {
+	out := new(CheckOauthTokenResponse)
+	err := c.cc.Invoke(ctx, "/calculator.CheckOauthToken/CheckOauthToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// CheckOauthTokenServer is the server API for CheckOauthToken service.
+type CheckOauthTokenServer interface {
+	CheckOauthToken(context.Context, *Empty) (*CheckOauthTokenResponse, error)
+}
+
+// UnimplementedCheckOauthTokenServer can be embedded to have forward compatible implementations.
+type UnimplementedCheckOauthTokenServer struct {
+}
+
+func (*UnimplementedCheckOauthTokenServer) CheckOauthToken(context.Context, *Empty) (*CheckOauthTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckOauthToken not implemented")
+}
+
+func RegisterCheckOauthTokenServer(s *grpc.Server, srv CheckOauthTokenServer) {
+	s.RegisterService(&_CheckOauthToken_serviceDesc, srv)
+}
+
+func _CheckOauthToken_CheckOauthToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CheckOauthTokenServer).CheckOauthToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/calculator.CheckOauthToken/CheckOauthToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CheckOauthTokenServer).CheckOauthToken(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _CheckOauthToken_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "calculator.CheckOauthToken",
+	HandlerType: (*CheckOauthTokenServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CheckOauthToken",
+			Handler:    _CheckOauthToken_CheckOauthToken_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "poker.proto",
+}
+
+// GetProfitClient is the client API for GetProfit service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type GetProfitClient interface {
+	GetProfit(ctx context.Context, in *GetAnalysisRequest, opts ...grpc.CallOption) (*GetProfitResponse, error)
+}
+
+type getProfitClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewGetProfitClient(cc grpc.ClientConnInterface) GetProfitClient {
+	return &getProfitClient{cc}
+}
+
+func (c *getProfitClient) GetProfit(ctx context.Context, in *GetAnalysisRequest, opts ...grpc.CallOption) (*GetProfitResponse, error) {
+	out := new(GetProfitResponse)
+	err := c.cc.Invoke(ctx, "/calculator.GetProfit/GetProfit", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// GetProfitServer is the server API for GetProfit service.
+type GetProfitServer interface {
+	GetProfit(context.Context, *GetAnalysisRequest) (*GetProfitResponse, error)
+}
+
+// UnimplementedGetProfitServer can be embedded to have forward compatible implementations.
+type UnimplementedGetProfitServer struct {
+}
+
+func (*UnimplementedGetProfitServer) GetProfit(context.Context, *GetAnalysisRequest) (*GetProfitResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetProfit not implemented")
+}
+
+func RegisterGetProfitServer(s *grpc.Server, srv GetProfitServer) {
+	s.RegisterService(&_GetProfit_serviceDesc, srv)
+}
+
+func _GetProfit_GetProfit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAnalysisRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GetProfitServer).GetProfit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/calculator.GetProfit/GetProfit",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GetProfitServer).GetProfit(ctx, req.(*GetAnalysisRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _GetProfit_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "calculator.GetProfit",
+	HandlerType: (*GetProfitServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetProfit",
+			Handler:    _GetProfit_GetProfit_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "poker.proto",
+}
+
+// GetPreflopClient is the client API for GetPreflop service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type GetPreflopClient interface {
+	GetPreflop(ctx context.Context, in *GetAnalysisRequest, opts ...grpc.CallOption) (*GetLineResponse, error)
+}
+
+type getPreflopClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewGetPreflopClient(cc grpc.ClientConnInterface) GetPreflopClient {
+	return &getPreflopClient{cc}
+}
+
+func (c *getPreflopClient) GetPreflop(ctx context.Context, in *GetAnalysisRequest, opts ...grpc.CallOption) (*GetLineResponse, error) {
+	out := new(GetLineResponse)
+	err := c.cc.Invoke(ctx, "/calculator.GetPreflop/GetPreflop", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// GetPreflopServer is the server API for GetPreflop service.
+type GetPreflopServer interface {
+	GetPreflop(context.Context, *GetAnalysisRequest) (*GetLineResponse, error)
+}
+
+// UnimplementedGetPreflopServer can be embedded to have forward compatible implementations.
+type UnimplementedGetPreflopServer struct {
+}
+
+func (*UnimplementedGetPreflopServer) GetPreflop(context.Context, *GetAnalysisRequest) (*GetLineResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPreflop not implemented")
+}
+
+func RegisterGetPreflopServer(s *grpc.Server, srv GetPreflopServer) {
+	s.RegisterService(&_GetPreflop_serviceDesc, srv)
+}
+
+func _GetPreflop_GetPreflop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAnalysisRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GetPreflopServer).GetPreflop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/calculator.GetPreflop/GetPreflop",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GetPreflopServer).GetPreflop(ctx, req.(*GetAnalysisRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _GetPreflop_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "calculator.GetPreflop",
+	HandlerType: (*GetPreflopServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetPreflop",
+			Handler:    _GetPreflop_GetPreflop_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "poker.proto",
+}
+
+// GetFlopClient is the client API for GetFlop service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type GetFlopClient interface {
+	GetFlop(ctx context.Context, in *GetAnalysisRequest, opts ...grpc.CallOption) (*GetLineResponse, error)
+}
+
+type getFlopClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewGetFlopClient(cc grpc.ClientConnInterface) GetFlopClient {
+	return &getFlopClient{cc}
+}
+
+func (c *getFlopClient) GetFlop(ctx context.Context, in *GetAnalysisRequest, opts ...grpc.CallOption) (*GetLineResponse, error) {
+	out := new(GetLineResponse)
+	err := c.cc.Invoke(ctx, "/calculator.GetFlop/GetFlop", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// GetFlopServer is the server API for GetFlop service.
+type GetFlopServer interface {
+	GetFlop(context.Context, *GetAnalysisRequest) (*GetLineResponse, error)
+}
+
+// UnimplementedGetFlopServer can be embedded to have forward compatible implementations.
+type UnimplementedGetFlopServer struct {
+}
+
+func (*UnimplementedGetFlopServer) GetFlop(context.Context, *GetAnalysisRequest) (*GetLineResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetFlop not implemented")
+}
+
+func RegisterGetFlopServer(s *grpc.Server, srv GetFlopServer) {
+	s.RegisterService(&_GetFlop_serviceDesc, srv)
+}
+
+func _GetFlop_GetFlop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAnalysisRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GetFlopServer).GetFlop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/calculator.GetFlop/GetFlop",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GetFlopServer).GetFlop(ctx, req.(*GetAnalysisRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _GetFlop_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "calculator.GetFlop",
+	HandlerType: (*GetFlopServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetFlop",
+			Handler:    _GetFlop_GetFlop_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "poker.proto",
+}
+
+// GetTurnClient is the client API for GetTurn service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type GetTurnClient interface {
+	GetTurn(ctx context.Context, in *GetAnalysisRequest, opts ...grpc.CallOption) (*GetLineResponse, error)
+}
+
+type getTurnClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewGetTurnClient(cc grpc.ClientConnInterface) GetTurnClient {
+	return &getTurnClient{cc}
+}
+
+func (c *getTurnClient) GetTurn(ctx context.Context, in *GetAnalysisRequest, opts ...grpc.CallOption) (*GetLineResponse, error) {
+	out := new(GetLineResponse)
+	err := c.cc.Invoke(ctx, "/calculator.GetTurn/GetTurn", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// GetTurnServer is the server API for GetTurn service.
+type GetTurnServer interface {
+	GetTurn(context.Context, *GetAnalysisRequest) (*GetLineResponse, error)
+}
+
+// UnimplementedGetTurnServer can be embedded to have forward compatible implementations.
+type UnimplementedGetTurnServer struct {
+}
+
+func (*UnimplementedGetTurnServer) GetTurn(context.Context, *GetAnalysisRequest) (*GetLineResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTurn not implemented")
+}
+
+func RegisterGetTurnServer(s *grpc.Server, srv GetTurnServer) {
+	s.RegisterService(&_GetTurn_serviceDesc, srv)
+}
+
+func _GetTurn_GetTurn_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAnalysisRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GetTurnServer).GetTurn(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/calculator.GetTurn/GetTurn",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GetTurnServer).GetTurn(ctx, req.(*GetAnalysisRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _GetTurn_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "calculator.GetTurn",
+	HandlerType: (*GetTurnServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetTurn",
+			Handler:    _GetTurn_GetTurn_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "poker.proto",
+}
+
+// GetRiverClient is the client API for GetRiver service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type GetRiverClient interface {
+	GetRiver(ctx context.Context, in *GetAnalysisRequest, opts ...grpc.CallOption) (*GetLineResponse, error)
+}
+
+type getRiverClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewGetRiverClient(cc grpc.ClientConnInterface) GetRiverClient {
+	return &getRiverClient{cc}
+}
+
+func (c *getRiverClient) GetRiver(ctx context.Context, in *GetAnalysisRequest, opts ...grpc.CallOption) (*GetLineResponse, error) {
+	out := new(GetLineResponse)
+	err := c.cc.Invoke(ctx, "/calculator.GetRiver/GetRiver", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// GetRiverServer is the server API for GetRiver service.
+type GetRiverServer interface {
+	GetRiver(context.Context, *GetAnalysisRequest) (*GetLineResponse, error)
+}
+
+// UnimplementedGetRiverServer can be embedded to have forward compatible implementations.
+type UnimplementedGetRiverServer struct {
+}
+
+func (*UnimplementedGetRiverServer) GetRiver(context.Context, *GetAnalysisRequest) (*GetLineResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRiver not implemented")
+}
+
+func RegisterGetRiverServer(s *grpc.Server, srv GetRiverServer) {
+	s.RegisterService(&_GetRiver_serviceDesc, srv)
+}
+
+func _GetRiver_GetRiver_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAnalysisRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GetRiverServer).GetRiver(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/calculator.GetRiver/GetRiver",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GetRiverServer).GetRiver(ctx, req.(*GetAnalysisRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _GetRiver_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "calculator.GetRiver",
+	HandlerType: (*GetRiverServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetRiver",
+			Handler:    _GetRiver_GetRiver_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "poker.proto",
+}
+
+// GetPlayerClient is the client API for GetPlayer service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type GetPlayerClient interface {
+	GetPlayer(ctx context.Context, in *GetPlayerRequest, opts ...grpc.CallOption) (*GetPlayerResponse, error)
+}
+
+type getPlayerClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewGetPlayerClient(cc grpc.ClientConnInterface) GetPlayerClient {
+	return &getPlayerClient{cc}
+}
+
+func (c *getPlayerClient) GetPlayer(ctx context.Context, in *GetPlayerRequest, opts ...grpc.CallOption) (*GetPlayerResponse, error) {
+	out := new(GetPlayerResponse)
+	err := c.cc.Invoke(ctx, "/calculator.GetPlayer/GetPlayer", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// GetPlayerServer is the server API for GetPlayer service.
+type GetPlayerServer interface {
+	GetPlayer(context.Context, *GetPlayerRequest) (*GetPlayerResponse, error)
+}
+
+// UnimplementedGetPlayerServer can be embedded to have forward compatible implementations.
+type UnimplementedGetPlayerServer struct {
+}
+
+func (*UnimplementedGetPlayerServer) GetPlayer(context.Context, *GetPlayerRequest) (*GetPlayerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPlayer not implemented")
+}
+
+func RegisterGetPlayerServer(s *grpc.Server, srv GetPlayerServer) {
+	s.RegisterService(&_GetPlayer_serviceDesc, srv)
+}
+
+func _GetPlayer_GetPlayer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPlayerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GetPlayerServer).GetPlayer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/calculator.GetPlayer/GetPlayer",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GetPlayerServer).GetPlayer(ctx, req.(*GetPlayerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _GetPlayer_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "calculator.GetPlayer",
+	HandlerType: (*GetPlayerServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetPlayer",
+			Handler:    _GetPlayer_GetPlayer_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

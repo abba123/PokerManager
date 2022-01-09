@@ -8,10 +8,8 @@ import (
 
 	pb "poker/api/grpc"
 	"poker/api/model"
-	"poker/api/oauth"
 	"poker/api/token"
 	"poker/poker"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
@@ -199,48 +197,99 @@ func middlewaree(c *gin.Context) {
 }
 
 func oauthGetCode(c *gin.Context) {
-	url := oauth.GenerateCodeURL()
-	c.JSON(http.StatusOK, url)
+	conn := initGrpc()
+	defer conn.Close()
+	client := pb.NewGetOauthCodeClient(conn)
+
+	request := pb.Empty{}
+
+	response, err := client.GetOauthCode(context.Background(), &request)
+
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+
+	c.JSON(http.StatusOK, response.GetUrl())
 }
 
 func oauthGetToken(c *gin.Context) {
-	code := c.Query("code")
-	oauthToken := oauth.GenerateTokenURL(code)
-	username := oauth.GetUser(oauthToken)
-	token := token.GenerateToken(username)
-	oauth.OAuthChan <- token
+	conn := initGrpc()
+	defer conn.Close()
+	client := pb.NewGetOauthTokenClient(conn)
+
+	request := pb.GetOauthTokenRequest{
+		Code: c.Query("code"),
+	}
+
+	_, err := client.GetOauthToken(context.Background(), &request)
+
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	c.JSON(http.StatusOK, nil)
 }
 
 func oauthCheckToken(c *gin.Context) {
-	if len(oauth.OAuthChan) > 0 {
-		result := <-oauth.OAuthChan
-		c.JSON(http.StatusOK, result)
+	conn := initGrpc()
+	defer conn.Close()
+	client := pb.NewCheckOauthTokenClient(conn)
+
+	request := pb.Empty{}
+
+	response, err := client.CheckOauthToken(context.Background(), &request)
+
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
 	}
+	c.JSON(http.StatusOK, response.GetResult())
 }
 
-func getPorfit(c *gin.Context) {
+func getProfit(c *gin.Context) {
 
-	profits := model.GetProfitRedis(c.GetString("username"), c.Query("player"))
+	conn := initGrpc()
+	defer conn.Close()
+	client := pb.NewGetProfitClient(conn)
 
-	result := []struct {
+	request := pb.GetAnalysisRequest{
+		Username: c.GetString("username"),
+		Player: c.Query("player"),
+	}
+
+	response, err := client.GetProfit(context.Background(), &request)
+
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+
+	results := []struct {
 		Hand int
 		Gain float64
 	}{}
-	total := 0.0
-	for count, profit := range profits {
-		num, _ := strconv.ParseFloat(profit, 64)
-		total += num
-		result = append(result, struct {
+
+	for _, result := range response.GetResult() {
+		results = append(results, struct {
 			Hand int
 			Gain float64
-		}{Hand: count, Gain: total})
+		}{Hand: int(result.GetHand()), Gain: result.GetGain()})
 	}
-	c.JSON(http.StatusOK, result)
+	c.JSON(http.StatusOK, results)
 }
 
 func getPreflop(c *gin.Context) {
-	username := c.GetString("username")
-	player := c.Query("player")
+	conn := initGrpc()
+	defer conn.Close()
+	client := pb.NewGetPreflopClient(conn)
+
+	request := pb.GetAnalysisRequest{
+		Username: c.GetString("username"),
+		Player: c.Query("player"),
+	}
+
+	response, err := client.GetPreflop(context.Background(), &request)
+
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
 
 	result := struct {
 		Raise string
@@ -249,19 +298,31 @@ func getPreflop(c *gin.Context) {
 		Check string
 		Bet   string
 	}{
-		Raise: model.GetActionRedis("pre_flop", "R", username, player),
-		Call:  model.GetActionRedis("pre_flop", "C", username, player),
-		Fold:  model.GetActionRedis("pre_flop", "F", username, player),
-		Check: model.GetActionRedis("pre_flop", "X", username, player),
-		Bet:   model.GetActionRedis("pre_flop", "B", username, player),
+		Raise: response.GetRaise(),
+		Call:  response.GetCall(),
+		Fold:  response.GetFold(),
+		Check: response.GetCheck(),
+		Bet:   response.GetBet(),
 	}
 
 	c.JSON(http.StatusOK, result)
 }
 
 func getFlop(c *gin.Context) {
-	username := c.GetString("username")
-	player := c.Query("player")
+	conn := initGrpc()
+	defer conn.Close()
+	client := pb.NewGetFlopClient(conn)
+
+	request := pb.GetAnalysisRequest{
+		Username: c.GetString("username"),
+		Player: c.Query("player"),
+	}
+
+	response, err := client.GetFlop(context.Background(), &request)
+
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
 
 	result := struct {
 		Raise string
@@ -270,19 +331,31 @@ func getFlop(c *gin.Context) {
 		Check string
 		Bet   string
 	}{
-		Raise: model.GetActionRedis("flop", "R", username, player),
-		Call:  model.GetActionRedis("flop", "C", username, player),
-		Fold:  model.GetActionRedis("flop", "F", username, player),
-		Check: model.GetActionRedis("flop", "X", username, player),
-		Bet:   model.GetActionRedis("flop", "B", username, player),
+		Raise: response.GetRaise(),
+		Call:  response.GetCall(),
+		Fold:  response.GetFold(),
+		Check: response.GetCheck(),
+		Bet:   response.GetBet(),
 	}
 
 	c.JSON(http.StatusOK, result)
 }
 
 func getTurn(c *gin.Context) {
-	username := c.GetString("username")
-	player := c.Query("player")
+	conn := initGrpc()
+	defer conn.Close()
+	client := pb.NewGetTurnClient(conn)
+
+	request := pb.GetAnalysisRequest{
+		Username: c.GetString("username"),
+		Player: c.Query("player"),
+	}
+
+	response, err := client.GetTurn(context.Background(), &request)
+
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
 
 	result := struct {
 		Raise string
@@ -291,19 +364,31 @@ func getTurn(c *gin.Context) {
 		Check string
 		Bet   string
 	}{
-		Raise: model.GetActionRedis("turn", "R", username, player),
-		Call:  model.GetActionRedis("turn", "C", username, player),
-		Fold:  model.GetActionRedis("turn", "F", username, player),
-		Check: model.GetActionRedis("turn", "X", username, player),
-		Bet:   model.GetActionRedis("turn", "B", username, player),
+		Raise: response.GetRaise(),
+		Call:  response.GetCall(),
+		Fold:  response.GetFold(),
+		Check: response.GetCheck(),
+		Bet:   response.GetBet(),
 	}
 
 	c.JSON(http.StatusOK, result)
 }
 
 func getRiver(c *gin.Context) {
-	username := c.GetString("username")
-	player := c.Query("player")
+	conn := initGrpc()
+	defer conn.Close()
+	client := pb.NewGetRiverClient(conn)
+
+	request := pb.GetAnalysisRequest{
+		Username: c.GetString("username"),
+		Player: c.Query("player"),
+	}
+
+	response, err := client.GetRiver(context.Background(), &request)
+
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
 
 	result := struct {
 		Raise string
@@ -312,20 +397,32 @@ func getRiver(c *gin.Context) {
 		Check string
 		Bet   string
 	}{
-		Raise: model.GetActionRedis("river", "R", username, player),
-		Call:  model.GetActionRedis("river", "C", username, player),
-		Fold:  model.GetActionRedis("river", "F", username, player),
-		Check: model.GetActionRedis("river", "X", username, player),
-		Bet:   model.GetActionRedis("river", "B", username, player),
+		Raise: response.GetRaise(),
+		Call:  response.GetCall(),
+		Fold:  response.GetFold(),
+		Check: response.GetCheck(),
+		Bet:   response.GetBet(),
 	}
 
 	c.JSON(http.StatusOK, result)
 }
 
 func getPlayer(c *gin.Context) {
-	username := c.GetString("username")
+	conn := initGrpc()
+	defer conn.Close()
+	client := pb.NewGetPlayerClient(conn)
 
-	result := model.GetPlayerRedis(username)
+	request := pb.GetPlayerRequest{
+		Username: c.GetString("username"),
+	}
+
+	response, err := client.GetPlayer(context.Background(), &request)
+
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+
+	result := response.GetResult()
 
 	c.JSON(http.StatusOK, result)
 }

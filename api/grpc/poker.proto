@@ -2,25 +2,41 @@
 
 syntax = "proto3";
 
+import "google/protobuf/timestamp.proto";
+
 package calculator;
 option go_package = "proto/";
 
+message Error{
+  string error = 1;
+}
 
+message Empty{
+
+}
+
+message Card {
+  int32 num  = 1;
+  string suit = 2;
+}
+
+message Player{
+  message Action{
+    string preflop = 1;
+    string flop = 2;
+    string turn = 3;
+    string river = 4;
+  }
+  string name = 1;
+  string seat = 2;
+  double gain = 3;
+  Card card1 = 4;
+  Card card2 = 5;
+  Action action = 6;
+}
 
 message GetWinRateRequest{
-  message Card {
-    int32 Num  = 1;
-    string Suit = 2;
-  }
-
-  message Player{
-    string Name = 1;
-    Card Card1 = 2;
-    Card Card2 = 3;
-  }
-
-  map<string, Player> Players = 1;
-
+  map<string, Player> player = 1;
 }
 
 message GetWinRateResponse {
@@ -29,4 +45,134 @@ message GetWinRateResponse {
 
 service GetWinRateService {
   rpc GetWinRate(GetWinRateRequest) returns (GetWinRateResponse) {};
+}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginResponse{
+  string token = 1;
+}
+
+service LoginService{
+  rpc Login(LoginRequest) returns (LoginResponse) {};
+}
+
+service RegisterService{
+  rpc Register(LoginRequest) returns (Error){};
+}
+
+message InsertHandRequest{
+  string data = 1;
+  string username = 2;
+}
+
+service InsertHandService{
+  rpc InsertHand(InsertHandRequest) returns (Empty){};
+}
+
+message GetHandRequest{
+  string num = 1;
+  string gain = 2;
+  string seat = 3;
+  string username = 4;
+}
+
+message GetHandResponse{
+  message Table{
+    int32 id = 1;
+    google.protobuf.Timestamp time = 2;
+    map<string, Player> player = 3;
+    repeated Card card = 4;
+  }
+
+  repeated Table table = 1;
+}
+
+service GetHandService{
+  rpc GetHand(GetHandRequest) returns (GetHandResponse){};
+}
+
+message GetOauthCodeResponse{
+  string url = 1;
+}
+
+service GetOauthCode{
+  rpc GetOauthCode(Empty) returns (GetOauthCodeResponse){};
+}
+
+message GetOauthTokenRequest{
+  string code = 1;
+}
+
+message GetOauthTokenResponse{
+  string token = 1;
+}
+
+service GetOauthToken{
+  rpc GetOauthToken(GetOauthTokenRequest) returns (Empty){};
+}
+
+message CheckOauthTokenResponse{
+  string result = 1;
+}
+
+service CheckOauthToken{
+  rpc CheckOauthToken(Empty) returns (CheckOauthTokenResponse){};
+}
+
+message GetAnalysisRequest{
+  string username = 1;
+  string player = 2;
+}
+
+message GetProfitResponse{
+  message Result{
+    int32 hand = 1;
+    double gain = 2;
+  } 
+
+  repeated Result result = 1;
+}
+
+service GetProfit{
+  rpc GetProfit(GetAnalysisRequest) returns (GetProfitResponse){};
+}
+
+message GetLineResponse{
+  string raise = 1;
+  string call  = 2;
+  string fold = 3;
+  string check = 4;
+  string bet = 5;
+}
+
+service GetPreflop{
+  rpc GetPreflop(GetAnalysisRequest) returns (GetLineResponse){};
+}
+
+service GetFlop{
+  rpc GetFlop(GetAnalysisRequest) returns (GetLineResponse){};
+}
+
+service GetTurn{
+  rpc GetTurn(GetAnalysisRequest) returns (GetLineResponse){};
+}
+
+service GetRiver{
+  rpc GetRiver(GetAnalysisRequest) returns (GetLineResponse){};
+}
+
+message GetPlayerRequest{
+  string username = 1;
+}
+
+message GetPlayerResponse{
+  repeated string result = 1; 
+}
+
+service GetPlayer{
+  rpc GetPlayer(GetPlayerRequest) returns (GetPlayerResponse){};
 }

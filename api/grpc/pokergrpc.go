@@ -7,8 +7,10 @@ import (
 	"net"
 	"poker/api/kafka"
 	"poker/api/model"
+	"poker/api/oauth"
 	"poker/api/token"
 	"poker/poker"
+	"strconv"
 
 	"google.golang.org/grpc"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -31,6 +33,15 @@ func RunGrpcSetver() {
 	RegisterRegisterServiceServer(grpcServer, &Server{})
 	RegisterInsertHandServiceServer(grpcServer, &Server{})
 	RegisterGetHandServiceServer(grpcServer, &Server{})
+	RegisterGetOauthCodeServer(grpcServer, &Server{})
+	RegisterGetOauthTokenServer(grpcServer, &Server{})
+	RegisterCheckOauthTokenServer(grpcServer, &Server{})
+	RegisterGetProfitServer(grpcServer, &Server{})
+	RegisterGetPreflopServer(grpcServer, &Server{})
+	RegisterGetFlopServer(grpcServer, &Server{})
+	RegisterGetTurnServer(grpcServer, &Server{})
+	RegisterGetRiverServer(grpcServer, &Server{})
+	RegisterGetPlayerServer(grpcServer, &Server{})
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v \n", err)
@@ -50,11 +61,11 @@ func (*Server) GetWinRate(ctx context.Context, req *GetWinRateRequest) (*GetWinR
 
 	result := poker.GetWinRate(players, 10000)
 
-	res := &GetWinRateResponse{
+	response := &GetWinRateResponse{
 		Result: result,
 	}
 
-	return res, nil
+	return response, nil
 }
 func (*Server) Login(ctx context.Context, req *LoginRequest) (*LoginResponse, error) {
 	user := model.GetUserDB(req.GetUsername())
@@ -63,38 +74,38 @@ func (*Server) Login(ctx context.Context, req *LoginRequest) (*LoginResponse, er
 		tk = token.GenerateToken(user.Username)
 	}
 
-	res := &LoginResponse{
+	response := &LoginResponse{
 		Token: tk,
 	}
 	fmt.Println("GRPC LOGIN")
-	return res, nil
+	return response, nil
 }
 
 func (*Server) Register(ctx context.Context, req *LoginRequest) (*Error, error) {
 	err := model.InsertUserDB(req.GetUsername(), req.GetPassword())
 
-	res := &Error{}
+	response := &Error{}
 
 	if err != nil {
-		res.Error = err.Error()
+		response.Error = err.Error()
 	}
 
-	return res, nil
+	return response, nil
 }
 
 func (*Server) InsertHand(ctx context.Context, req *InsertHandRequest) (*Empty, error) {
 
 	kafka.KafkaWrite([]byte(req.GetData()), []byte(req.GetUsername()))
 
-	res := &Empty{}
+	response := &Empty{}
 
-	return res, nil
+	return response, nil
 }
 
 func (*Server) GetHand(ctx context.Context, req *GetHandRequest) (*GetHandResponse, error) {
 
 	results := model.GetHandRedis(req.GetNum(), req.GetGain(), req.GetSeat(), req.GetUsername())
-	res := &GetHandResponse{}
+	response := &GetHandResponse{}
 	for _, result := range results {
 		table := &GetHandResponse_Table{}
 		table.Id = int32(result.ID)
@@ -139,8 +150,131 @@ func (*Server) GetHand(ctx context.Context, req *GetHandRequest) (*GetHandRespon
 			table.Card[4].Suit = result.TableCard5.Suit
 		}
 
-		res.Table = append(res.Table, table)
+		response.Table = append(response.Table, table)
 	}
 
-	return res, nil
+	return response, nil
+}
+
+func (*Server) GetOauthCode(ctx context.Context, req *Empty) (*GetOauthCodeResponse, error) {
+
+	response := &GetOauthCodeResponse{
+		Url: oauth.GenerateCodeURL(),
+	}
+
+	return response, nil
+}
+
+func (*Server) GetOauthToken(ctx context.Context, req *GetOauthTokenRequest) (*Empty, error) {
+
+	code := req.GetCode()
+	oauthToken := oauth.GenerateTokenURL(code)
+	username := oauth.GetUser(oauthToken)
+	token := token.GenerateToken(username)
+	oauth.OAuthChan <- token
+
+	response := &Empty{}
+
+	return response, nil
+}
+
+func (*Server) CheckOauthToken(ctx context.Context, req *Empty) (*CheckOauthTokenResponse, error) {
+
+	response := &CheckOauthTokenResponse{}
+
+	if len(oauth.OAuthChan) > 0 {
+		response.Result = <-oauth.OAuthChan
+	}
+
+	return response, nil
+}
+
+func (*Server) GetProfit(ctx context.Context, req *GetAnalysisRequest) (*GetProfitResponse, error) {
+	response := &GetProfitResponse{}
+
+	profits := model.GetProfitRedis(req.GetUsername(), req.GetPlayer())
+	fmt.Println(req)
+	fmt.Println(profits)
+	total := 0.0
+	for count, profit := range profits {
+		num, _ := strconv.ParseFloat(profit, 64)
+		total += num
+		response.Result = append(response.Result, &GetProfitResponse_Result{
+			Hand: int32(count),
+			Gain: total,
+		})
+	}
+
+	return response, nil
+}
+
+func (*Server) GetPreflop(ctx context.Context, req *GetAnalysisRequest) (*GetLineResponse, error) {
+
+	username := req.GetUsername()
+	player := req.GetPlayer()
+
+	response := &GetLineResponse{
+		Raise: model.GetActionRedis("pre_flop", "R", username, player),
+		Call:  model.GetActionRedis("pre_flop", "C", username, player),
+		Fold:  model.GetActionRedis("pre_flop", "F", username, player),
+		Check: model.GetActionRedis("pre_flop", "X", username, player),
+		Bet:   model.GetActionRedis("pre_flop", "B", username, player),
+	}
+
+	return response, nil
+}
+
+func (*Server) GetFlop(ctx context.Context, req *GetAnalysisRequest) (*GetLineResponse, error) {
+	username := req.GetUsername()
+	player := req.GetPlayer()
+
+	response := &GetLineResponse{
+		Raise: model.GetActionRedis("flop", "R", username, player),
+		Call:  model.GetActionRedis("flop", "C", username, player),
+		Fold:  model.GetActionRedis("flop", "F", username, player),
+		Check: model.GetActionRedis("flop", "X", username, player),
+		Bet:   model.GetActionRedis("flop", "B", username, player),
+	}
+
+	return response, nil
+}
+
+func (*Server) GetTurn(ctx context.Context, req *GetAnalysisRequest) (*GetLineResponse, error) {
+	username := req.GetUsername()
+	player := req.GetPlayer()
+
+	response := &GetLineResponse{
+		Raise: model.GetActionRedis("turn", "R", username, player),
+		Call:  model.GetActionRedis("turn", "C", username, player),
+		Fold:  model.GetActionRedis("turn", "F", username, player),
+		Check: model.GetActionRedis("turn", "X", username, player),
+		Bet:   model.GetActionRedis("turn", "B", username, player),
+	}
+
+	return response, nil
+}
+
+func (*Server) GetRiver(ctx context.Context, req *GetAnalysisRequest) (*GetLineResponse, error) {
+	username := req.GetUsername()
+	player := req.GetPlayer()
+
+	response := &GetLineResponse{
+		Raise: model.GetActionRedis("river", "R", username, player),
+		Call:  model.GetActionRedis("river", "C", username, player),
+		Fold:  model.GetActionRedis("river", "F", username, player),
+		Check: model.GetActionRedis("river", "X", username, player),
+		Bet:   model.GetActionRedis("river", "B", username, player),
+	}
+
+	return response, nil
+}
+
+func (*Server) GetPlayer(ctx context.Context, req *GetPlayerRequest) (*GetPlayerResponse, error) {
+	username := req.GetUsername()
+
+	response := &GetPlayerResponse{
+		Result: model.GetPlayerRedis(username),
+	}
+
+	return response, nil
 }

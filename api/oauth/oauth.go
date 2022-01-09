@@ -10,8 +10,8 @@ import (
 	"github.com/spf13/viper"
 )
 
-const clientID string = "2cab12bd0bcae1f150d0"
-const clientSecret string = "8517b74a34215561a21abae585cfb2ac4f0fa1be"
+const clientID string = "e0157b12f50fcc3b9b58"
+const clientSecret string = "debdfae9b04bd9b2537249e53e3a1778650a19ad "
 const scopes string = "user:email"
 
 var OAuthChan chan string

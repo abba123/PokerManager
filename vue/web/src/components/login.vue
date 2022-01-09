@@ -98,7 +98,7 @@ export default {
         })
     },
     checkOAuth(){
-      if (this.timecount < 10){
+      if (this.timecount < 5){
         this.timecount += 1
         this.$http
           .get('http://'+this.$root.backIP+'/oauth/check')
@@ -108,6 +108,7 @@ export default {
              this.$http.defaults.headers.common['Authorization'] = this.$root.token
               clearInterval(this.timeInterval);
               this.loginModalShow = true
+              this.loginModalMsg = "login success"
             }
           })
       }else{
