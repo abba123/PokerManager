@@ -12,6 +12,7 @@ import (
 	"poker/poker"
 	"strconv"
 
+	"github.com/shopspring/decimal"
 	"google.golang.org/grpc"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -193,12 +194,10 @@ func (*Server) GetProfit(ctx context.Context, req *GetAnalysisRequest) (*GetProf
 	response := &GetProfitResponse{}
 
 	profits := model.GetProfitRedis(req.GetUsername(), req.GetPlayer())
-	fmt.Println(req)
-	fmt.Println(profits)
 	total := 0.0
 	for count, profit := range profits {
 		num, _ := strconv.ParseFloat(profit, 64)
-		total += num
+		total,_ = decimal.NewFromFloat(total).Add(decimal.NewFromFloat(num)).Float64()
 		response.Result = append(response.Result, &GetProfitResponse_Result{
 			Hand: int32(count),
 			Gain: total,

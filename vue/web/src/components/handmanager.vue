@@ -32,7 +32,7 @@
     </b-form>
     <table >
       <tr>
-        <td>Time</td>
+        <td width = "200px">Time</td>
         <td>Seat</td>
         <td>Gain</td>
         <td>Card</td>
@@ -112,8 +112,12 @@ h1{
 }
 table{
     table-layout : fixed;
+    width: 800px;
     margin:auto;
     margin-top: 30px;
+}
+td{
+   border-bottom:1px solid #915957;
 }
 img{
   width: 30px;

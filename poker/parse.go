@@ -4,6 +4,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/shopspring/decimal"
 )
 
 func Parsefile(data string) []Table {
@@ -63,7 +65,7 @@ func ParseShowdown(data []string, line *int, table *Table) {
 	playerName := s[0]
 	player := table.Player[playerName]
 	pay, _ = strconv.ParseFloat(s[2][1:], 64)
-	player.Gain += pay
+	player.Gain,_ = decimal.NewFromFloat(player.Gain).Add(decimal.NewFromFloat(pay)).Float64()
 	table.Player[playerName] = player
 }
 
@@ -176,8 +178,8 @@ func GetPay(data []string, line *int, nextState string, table *Table) {
 			playerName = s[len(s)-1]
 			player := table.Player[playerName]
 			tmp, _ := strconv.ParseFloat(s[2][2:len(s[2])-1], 64)
-			pay += tmp
-			player.Gain += pay
+			pay, _ = decimal.NewFromFloat(pay).Add(decimal.NewFromFloat(tmp)).Float64()
+			player.Gain, _ = decimal.NewFromFloat(player.Gain).Add(decimal.NewFromFloat(pay)).Float64()
 			table.Player[playerName] = player
 		} else {
 			playerName = s[0][:len(s[0])-1]
@@ -213,7 +215,7 @@ func GetPay(data []string, line *int, nextState string, table *Table) {
 					player.Action.Preflop += act
 				}
 			}
-			player.Gain += pay
+			player.Gain, _ = decimal.NewFromFloat(player.Gain).Add(decimal.NewFromFloat(pay)).Float64()
 			table.Player[playerName] = player
 		}
 	}
