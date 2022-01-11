@@ -47,7 +47,6 @@ export default {
         .post('http://'+this.$root.backIP+'/login', {
           username: this.username,
           password: this.password,
-          
         })
         .then( (response) => {
           if (response.data){
@@ -58,7 +57,7 @@ export default {
             this.loginModalMsg = "login success"
           }
         })
-        .catch(function (error) { // 请求失败处理
+        .catch( (error) =>{ // 请求失败处理
           this.loginModalShow = true
           this.loginModalMsg = "login fail"
         })
@@ -73,9 +72,9 @@ export default {
           this.registerModalShow = true
           this.registerModalMsg = "register success"
         })
-        .catch(function (error) {
+        .catch( (error) => {
           this.registerModalShow = true
-          this.registerModalMsg = "register fail"
+          this.registerModalMsg = "register fail : same user name"
         })
     },
     logout(){

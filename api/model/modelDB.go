@@ -32,11 +32,11 @@ func InitDB() error {
 	defer sqldb.Close()
 	//產生table
 	var err error
-	err = db.Debug().AutoMigrate(&Game{})
+	err = db.AutoMigrate(&Game{})
 	if err != nil {
 		return err
 	}
-	err = db.Debug().AutoMigrate(&User{})
+	err = db.AutoMigrate(&User{})
 	if err != nil {
 		return err
 	}
@@ -51,7 +51,7 @@ func InsertUserDB(username string, password string) error {
 	defer sqldb.Close()
 
 	user := User{Username: username, Password: password}
-	err := db.Clauses(clause.OnConflict{DoNothing: true}).Create(&user).Error
+	err := db.Create(&user).Error
 	return err
 }
 

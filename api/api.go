@@ -2,6 +2,7 @@ package api
 
 import (
 	"context"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -149,6 +150,7 @@ func login(c *gin.Context) {
 	}
 
 	token := response.GetToken()
+	fmt.Println(token)
 	if token != "" {
 		c.JSON(http.StatusOK, token)
 	} else {
