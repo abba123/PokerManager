@@ -24,7 +24,7 @@ create the pod (all for one)
   
 expose the port
 
-    sudo kubectl port-forward my-pod 80:80 8000:8000 3306:3306 6379:6379 9092:9092
+    sudo kubectl port-forward my-pod 80:80 8000:8000
   
 connect the web
 
