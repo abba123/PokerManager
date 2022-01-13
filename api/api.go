@@ -227,6 +227,7 @@ func oauthGetToken(c *gin.Context) {
 
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
+		c.JSON(http.StatusForbidden,nil)
 	}
 	c.JSON(http.StatusOK, nil)
 }
@@ -242,8 +243,11 @@ func oauthCheckToken(c *gin.Context) {
 
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
+		c.JSON(http.StatusForbidden, nil)
+	}else{
+		c.JSON(http.StatusOK, response.GetResult())
 	}
-	c.JSON(http.StatusOK, response.GetResult())
+
 }
 
 func getProfit(c *gin.Context) {

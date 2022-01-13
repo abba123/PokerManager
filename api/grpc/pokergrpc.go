@@ -104,7 +104,7 @@ func (*Server) InsertHand(ctx context.Context, req *InsertHandRequest) (*Empty, 
 }
 
 func (*Server) GetHand(ctx context.Context, req *GetHandRequest) (*GetHandResponse, error) {
-
+	fmt.Println((req.GetUsername()))
 	results := model.GetHandRedis(req.GetNum(), req.GetGain(), req.GetSeat(), req.GetUsername())
 	response := &GetHandResponse{}
 	for _, result := range results {
@@ -171,9 +171,11 @@ func (*Server) GetOauthToken(ctx context.Context, req *GetOauthTokenRequest) (*E
 	code := req.GetCode()
 	oauthToken := oauth.GenerateTokenURL(code)
 	username := oauth.GetUser(oauthToken)
-	token := token.GenerateToken(username)
-	oauth.OAuthChan <- token
-
+	tk := ""
+	if username != "" {
+		tk = token.GenerateToken(username)
+		oauth.OAuthChan <- tk
+	}
 	response := &Empty{}
 
 	return response, nil
@@ -197,7 +199,7 @@ func (*Server) GetProfit(ctx context.Context, req *GetAnalysisRequest) (*GetProf
 	total := 0.0
 	for count, profit := range profits {
 		num, _ := strconv.ParseFloat(profit, 64)
-		total,_ = decimal.NewFromFloat(total).Add(decimal.NewFromFloat(num)).Float64()
+		total, _ = decimal.NewFromFloat(total).Add(decimal.NewFromFloat(num)).Float64()
 		response.Result = append(response.Result, &GetProfitResponse_Result{
 			Hand: int32(count),
 			Gain: total,

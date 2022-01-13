@@ -11,7 +11,7 @@ import (
 )
 
 const clientID string = "e0157b12f50fcc3b9b58"
-const clientSecret string = "debdfae9b04bd9b2537249e53e3a1778650a19ad "
+const clientSecret string = "debdfae9b04bd9b2537249e53e3a1778650a19ad"
 const scopes string = "user:email"
 
 var OAuthChan chan string
@@ -32,7 +32,6 @@ func GenerateTokenURL(code string) string {
 	tokenString := strings.Split(string(body), "&")[0]
 	token := strings.Split(tokenString, "=")[1]
 
-	GetUser(token)
 	return token
 }
 

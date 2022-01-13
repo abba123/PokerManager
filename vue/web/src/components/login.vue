@@ -93,16 +93,17 @@ export default {
            //console.log(this.$http.defaults.headers.common)
            //this.$http.get(response.data)
            window.open(response.data)
-           this.timeInterval = setInterval(this.checkOAuth, 5000);
+           this.timeInterval = setInterval(this.checkOAuth, 1000);
         })
     },
     checkOAuth(){
-      if (this.timecount < 5){
+      if (this.timecount < 10){
         this.timecount += 1
         this.$http
           .get('http://'+this.$root.backIP+'/oauth/check')
           .then( (response) => {
             if(response.data){
+             this.$root.user = response.data
              this.$root.token = response.data
              this.$http.defaults.headers.common['Authorization'] = this.$root.token
               clearInterval(this.timeInterval);
@@ -113,6 +114,8 @@ export default {
       }else{
         this.timecount = 0
         clearInterval(this.timeInterval);
+        this.loginModalShow = true
+        this.loginModalMsg = "login failed"
       }
       
     }
