@@ -8,8 +8,8 @@ import (
 	"poker/api/kafka"
 	"poker/api/model"
 	"poker/api/oauth"
+	"poker/api/poker"
 	"poker/api/token"
-	"poker/poker"
 	"strconv"
 
 	"github.com/shopspring/decimal"
@@ -29,25 +29,27 @@ func RunGrpcSetver() {
 
 	grpcServer := grpc.NewServer()
 
-	RegisterGetWinRateServiceServer(grpcServer, &Server{})
-	RegisterLoginServiceServer(grpcServer, &Server{})
-	RegisterRegisterServiceServer(grpcServer, &Server{})
-	RegisterInsertHandServiceServer(grpcServer, &Server{})
-	RegisterGetHandServiceServer(grpcServer, &Server{})
-	RegisterGetOauthCodeServer(grpcServer, &Server{})
-	RegisterGetOauthTokenServer(grpcServer, &Server{})
-	RegisterCheckOauthTokenServer(grpcServer, &Server{})
-	RegisterGetProfitServer(grpcServer, &Server{})
-	RegisterGetPreflopServer(grpcServer, &Server{})
-	RegisterGetFlopServer(grpcServer, &Server{})
-	RegisterGetTurnServer(grpcServer, &Server{})
-	RegisterGetRiverServer(grpcServer, &Server{})
-	RegisterGetPlayerServer(grpcServer, &Server{})
+	RegisterGetWinRateServiceServer(grpcServer, &Server{}) //poker
+	RegisterLoginServiceServer(grpcServer, &Server{})      //model
+	RegisterRegisterServiceServer(grpcServer, &Server{})   //model
+	RegisterInsertHandServiceServer(grpcServer, &Server{}) //kafka
+	RegisterGetHandServiceServer(grpcServer, &Server{})    //model
+	RegisterGetOauthCodeServer(grpcServer, &Server{})      //oauth
+	RegisterGetOauthTokenServer(grpcServer, &Server{})     //oauth
+	RegisterCheckOauthTokenServer(grpcServer, &Server{})   //oauth
+	RegisterGetProfitServer(grpcServer, &Server{})         //model
+	RegisterGetPreflopServer(grpcServer, &Server{})        //model
+	RegisterGetFlopServer(grpcServer, &Server{})           //model
+	RegisterGetTurnServer(grpcServer, &Server{})           //model
+	RegisterGetRiverServer(grpcServer, &Server{})          //model
+	RegisterGetPlayerServer(grpcServer, &Server{})         //model
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v \n", err)
 	}
 }
+
+//poker
 
 func (*Server) GetWinRate(ctx context.Context, req *GetWinRateRequest) (*GetWinRateResponse, error) {
 
@@ -68,6 +70,7 @@ func (*Server) GetWinRate(ctx context.Context, req *GetWinRateRequest) (*GetWinR
 
 	return response, nil
 }
+
 func (*Server) Login(ctx context.Context, req *LoginRequest) (*LoginResponse, error) {
 	user := model.GetUserDB(req.GetUsername())
 	tk := ""
@@ -78,7 +81,6 @@ func (*Server) Login(ctx context.Context, req *LoginRequest) (*LoginResponse, er
 	response := &LoginResponse{
 		Token: tk,
 	}
-	fmt.Println("GRPC LOGIN")
 	return response, nil
 }
 
@@ -104,7 +106,6 @@ func (*Server) InsertHand(ctx context.Context, req *InsertHandRequest) (*Empty, 
 }
 
 func (*Server) GetHand(ctx context.Context, req *GetHandRequest) (*GetHandResponse, error) {
-	fmt.Println((req.GetUsername()))
 	results := model.GetHandRedis(req.GetNum(), req.GetGain(), req.GetSeat(), req.GetUsername())
 	response := &GetHandResponse{}
 	for _, result := range results {

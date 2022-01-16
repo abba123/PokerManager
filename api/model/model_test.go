@@ -1,7 +1,7 @@
 package model
 
 import (
-	"poker/poker"
+	"poker/api/poker"
 	"testing"
 	"time"
 

@@ -2,7 +2,7 @@ package model
 
 import (
 	"fmt"
-	"poker/poker"
+	"poker/api/poker"
 	"strconv"
 
 	"github.com/spf13/viper"

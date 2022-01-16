@@ -9,8 +9,8 @@ import (
 
 	pb "poker/api/grpc"
 	"poker/api/model"
+	"poker/api/poker"
 	"poker/api/token"
-	"poker/poker"
 
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
@@ -227,7 +227,7 @@ func oauthGetToken(c *gin.Context) {
 
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
-		c.JSON(http.StatusForbidden,nil)
+		c.JSON(http.StatusForbidden, nil)
 	}
 	c.JSON(http.StatusOK, nil)
 }
@@ -244,7 +244,7 @@ func oauthCheckToken(c *gin.Context) {
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 		c.JSON(http.StatusForbidden, nil)
-	}else{
+	} else {
 		c.JSON(http.StatusOK, response.GetResult())
 	}
 
@@ -258,7 +258,7 @@ func getProfit(c *gin.Context) {
 
 	request := pb.GetAnalysisRequest{
 		Username: c.GetString("username"),
-		Player: c.Query("player"),
+		Player:   c.Query("player"),
 	}
 
 	response, err := client.GetProfit(context.Background(), &request)
@@ -288,7 +288,7 @@ func getPreflop(c *gin.Context) {
 
 	request := pb.GetAnalysisRequest{
 		Username: c.GetString("username"),
-		Player: c.Query("player"),
+		Player:   c.Query("player"),
 	}
 
 	response, err := client.GetPreflop(context.Background(), &request)
@@ -321,7 +321,7 @@ func getFlop(c *gin.Context) {
 
 	request := pb.GetAnalysisRequest{
 		Username: c.GetString("username"),
-		Player: c.Query("player"),
+		Player:   c.Query("player"),
 	}
 
 	response, err := client.GetFlop(context.Background(), &request)
@@ -354,7 +354,7 @@ func getTurn(c *gin.Context) {
 
 	request := pb.GetAnalysisRequest{
 		Username: c.GetString("username"),
-		Player: c.Query("player"),
+		Player:   c.Query("player"),
 	}
 
 	response, err := client.GetTurn(context.Background(), &request)
@@ -387,7 +387,7 @@ func getRiver(c *gin.Context) {
 
 	request := pb.GetAnalysisRequest{
 		Username: c.GetString("username"),
-		Player: c.Query("player"),
+		Player:   c.Query("player"),
 	}
 
 	response, err := client.GetRiver(context.Background(), &request)

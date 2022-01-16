@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 	"poker/api/model"
-	"poker/poker"
+	"poker/api/poker"
 
 	"github.com/segmentio/kafka-go"
 	"github.com/spf13/viper"
