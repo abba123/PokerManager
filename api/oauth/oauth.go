@@ -14,7 +14,7 @@ const clientID string = "e0157b12f50fcc3b9b58"
 const clientSecret string = "debdfae9b04bd9b2537249e53e3a1778650a19ad"
 const scopes string = "user:email"
 
-var OAuthChan chan string
+var tokens map[string]string
 
 func GenerateCodeURL() string {
 	viper.AutomaticEnv()
@@ -54,4 +54,18 @@ func GetUser(token string) string {
 	json.Unmarshal(r, &body)
 
 	return body.Username
+}
+
+func StoreToken(username string, token string) {
+	tokens[username] = token
+}
+
+func CheckToken(username string) string {
+	token, exist := tokens[username]
+
+	if exist {
+		return token
+	}else{
+		return ""
+	}
 }

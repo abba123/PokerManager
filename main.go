@@ -31,7 +31,6 @@ func main() {
 
 	go proto.RunGrpcSetver()
 	go kafka.KafkaRead()
-	oauth.OAuthChan = make(chan string, 1)
 	model.InitDB()
 	api.RunRestServer()
 

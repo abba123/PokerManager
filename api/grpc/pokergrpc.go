@@ -30,19 +30,19 @@ func RunGrpcSetver() {
 	grpcServer := grpc.NewServer()
 
 	RegisterGetWinRateServiceServer(grpcServer, &Server{}) //poker
+	RegisterInsertHandServiceServer(grpcServer, &Server{}) //kafka
 	RegisterLoginServiceServer(grpcServer, &Server{})      //model
 	RegisterRegisterServiceServer(grpcServer, &Server{})   //model
-	RegisterInsertHandServiceServer(grpcServer, &Server{}) //kafka
 	RegisterGetHandServiceServer(grpcServer, &Server{})    //model
-	RegisterGetOauthCodeServer(grpcServer, &Server{})      //oauth
-	RegisterGetOauthTokenServer(grpcServer, &Server{})     //oauth
-	RegisterCheckOauthTokenServer(grpcServer, &Server{})   //oauth
 	RegisterGetProfitServer(grpcServer, &Server{})         //model
 	RegisterGetPreflopServer(grpcServer, &Server{})        //model
 	RegisterGetFlopServer(grpcServer, &Server{})           //model
 	RegisterGetTurnServer(grpcServer, &Server{})           //model
 	RegisterGetRiverServer(grpcServer, &Server{})          //model
 	RegisterGetPlayerServer(grpcServer, &Server{})         //model
+	RegisterGetOauthCodeServer(grpcServer, &Server{})      //oauth
+	RegisterGetOauthTokenServer(grpcServer, &Server{})     //oauth
+	RegisterCheckOauthTokenServer(grpcServer, &Server{})   //oauth
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v \n", err)
@@ -71,6 +71,19 @@ func (*Server) GetWinRate(ctx context.Context, req *GetWinRateRequest) (*GetWinR
 	return response, nil
 }
 
+//kafka
+
+func (*Server) InsertHand(ctx context.Context, req *InsertHandRequest) (*Empty, error) {
+
+	kafka.KafkaWrite([]byte(req.GetData()), []byte(req.GetUsername()))
+
+	response := &Empty{}
+
+	return response, nil
+}
+
+//model
+
 func (*Server) Login(ctx context.Context, req *LoginRequest) (*LoginResponse, error) {
 	user := model.GetUserDB(req.GetUsername())
 	tk := ""
@@ -92,15 +105,6 @@ func (*Server) Register(ctx context.Context, req *LoginRequest) (*Error, error) 
 	if err != nil {
 		response.Error = err.Error()
 	}
-
-	return response, nil
-}
-
-func (*Server) InsertHand(ctx context.Context, req *InsertHandRequest) (*Empty, error) {
-
-	kafka.KafkaWrite([]byte(req.GetData()), []byte(req.GetUsername()))
-
-	response := &Empty{}
 
 	return response, nil
 }
@@ -153,41 +157,6 @@ func (*Server) GetHand(ctx context.Context, req *GetHandRequest) (*GetHandRespon
 		}
 
 		response.Table = append(response.Table, table)
-	}
-
-	return response, nil
-}
-
-func (*Server) GetOauthCode(ctx context.Context, req *Empty) (*GetOauthCodeResponse, error) {
-
-	response := &GetOauthCodeResponse{
-		Url: oauth.GenerateCodeURL(),
-	}
-
-	return response, nil
-}
-
-func (*Server) GetOauthToken(ctx context.Context, req *GetOauthTokenRequest) (*Empty, error) {
-
-	code := req.GetCode()
-	oauthToken := oauth.GenerateTokenURL(code)
-	username := oauth.GetUser(oauthToken)
-	tk := ""
-	if username != "" {
-		tk = token.GenerateToken(username)
-		oauth.OAuthChan <- tk
-	}
-	response := &Empty{}
-
-	return response, nil
-}
-
-func (*Server) CheckOauthToken(ctx context.Context, req *Empty) (*CheckOauthTokenResponse, error) {
-
-	response := &CheckOauthTokenResponse{}
-
-	if len(oauth.OAuthChan) > 0 {
-		response.Result = <-oauth.OAuthChan
 	}
 
 	return response, nil
@@ -276,6 +245,42 @@ func (*Server) GetPlayer(ctx context.Context, req *GetPlayerRequest) (*GetPlayer
 
 	response := &GetPlayerResponse{
 		Result: model.GetPlayerRedis(username),
+	}
+
+	return response, nil
+}
+
+//oauth
+
+func (*Server) GetOauthCode(ctx context.Context, req *Empty) (*GetOauthCodeResponse, error) {
+
+	response := &GetOauthCodeResponse{
+		Url: oauth.GenerateCodeURL(),
+	}
+
+	return response, nil
+}
+
+func (*Server) GetOauthToken(ctx context.Context, req *GetOauthTokenRequest) (*Empty, error) {
+
+	code := req.GetCode()
+	oauthToken := oauth.GenerateTokenURL(code)
+	username := oauth.GetUser(oauthToken)
+	if username != "" {
+		tk := token.GenerateToken(username)
+		oauth.StoreToken(username,tk)
+	}
+	response := &Empty{}
+
+	return response, nil
+}
+
+func (*Server) CheckOauthToken(ctx context.Context, req *Empty) (*CheckOauthTokenResponse, error) {
+
+	response := &CheckOauthTokenResponse{}
+
+	if len(oauth.OAuthChan) > 0 {
+		response.Result = <-oauth.OAuthChan
 	}
 
 	return response, nil
