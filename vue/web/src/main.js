@@ -31,7 +31,7 @@ new Vue({
       token: "",
       user: "",
       //backIP: "ec2-3-17-179-45.us-east-2.compute.amazonaws.com:8000",
-      backIP: "localhost:8000",
+      backIP: "127.0.0.1:8000",
     }
   }
 })

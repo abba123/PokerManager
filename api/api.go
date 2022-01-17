@@ -221,6 +221,7 @@ func oauthGetToken(c *gin.Context) {
 
 	request := pb.GetOauthTokenRequest{
 		Code: c.Query("code"),
+		IP: c.ClientIP(),
 	}
 
 	_, err := client.GetOauthToken(context.Background(), &request)
@@ -237,12 +238,13 @@ func oauthCheckToken(c *gin.Context) {
 	defer conn.Close()
 	client := pb.NewCheckOauthTokenClient(conn)
 
-	request := pb.Empty{}
+	request := pb.LoginRequest{
+		IP: c.ClientIP(),
+	}
 
 	response, err := client.CheckOauthToken(context.Background(), &request)
 
-	if err != nil {
-		log.Fatalf("could not greet: %v", err)
+	if err != nil || response.GetResult() == ""{
 		c.JSON(http.StatusForbidden, nil)
 	} else {
 		c.JSON(http.StatusOK, response.GetResult())

@@ -28,7 +28,7 @@ func main() {
 	if viper.GetString("DBNAME") == "" {
 		viper.Set("DBNAME", "pokerdb")
 	}
-
+	oauth.Tokens = make(map[string]string)
 	go proto.RunGrpcSetver()
 	go kafka.KafkaRead()
 	model.InitDB()

@@ -268,20 +268,17 @@ func (*Server) GetOauthToken(ctx context.Context, req *GetOauthTokenRequest) (*E
 	username := oauth.GetUser(oauthToken)
 	if username != "" {
 		tk := token.GenerateToken(username)
-		oauth.StoreToken(username,tk)
+		oauth.StoreToken(req.GetIP(), tk)
 	}
 	response := &Empty{}
 
 	return response, nil
 }
 
-func (*Server) CheckOauthToken(ctx context.Context, req *Empty) (*CheckOauthTokenResponse, error) {
+func (*Server) CheckOauthToken(ctx context.Context, req *LoginRequest) (*CheckOauthTokenResponse, error) {
 
 	response := &CheckOauthTokenResponse{}
-
-	if len(oauth.OAuthChan) > 0 {
-		response.Result = <-oauth.OAuthChan
-	}
+	response.Result = oauth.CheckToken(req.GetIP())
 
 	return response, nil
 }
